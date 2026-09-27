@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Reference source files copied from the live Django site for porting —
+    // not our code, shouldn't be linted.
+    "reference/**",
   ]),
 ]);
 

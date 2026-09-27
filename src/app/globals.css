@@ -1,18 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  /* Angan Baari brand palette — placeholder-close to the main Django site's
-     CSS variables (--forest/--moss/--gold/--cream/--mist); refine exact hex
-     values once compared side by side. */
+  /* Kept for the not-yet-rebuilt shop/product pages (Tailwind utility
+     classes like bg-cream/text-forest/font-display) — these values match
+     the real site's own tokens in src/styles/site.css. Not otherwise used
+     now that site.css owns body/heading styling directly. */
   --forest: #1a2f1e;
   --moss: #4a7c59;
   --gold: #c9a84c;
   --cream: #f7f2ea;
   --mist: #e4e0d6;
   --text-muted: #6b6a5f;
-
-  --background: var(--cream);
-  --foreground: var(--forest);
 }
 
 @theme inline {
@@ -23,19 +21,10 @@
   --color-mist: var(--mist);
   --color-text-muted: var(--text-muted);
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --font-display: var(--font-cormorant);
-  --font-body: var(--font-dm-sans);
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-body), sans-serif;
-}
-
-h1, h2, h3, h4 {
-  font-family: var(--font-display), serif;
+  /* Literal values, not next/font variables — next/font was removed in
+     favor of loading these fonts the same way the real site does (a plain
+     Google Fonts <link> in layout.tsx), so .font-display/.font-body keep
+     working on the untouched Tailwind pages without depending on it. */
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "DM Sans", sans-serif;
 }

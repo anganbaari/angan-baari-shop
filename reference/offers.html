@@ -1,0 +1,1400 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival Offers — Angan Baari | आँगन बारी</title>
+    <meta id="pageMetaDesc" name="description" content="Exclusive festival offers on fresh organic farm products from Angan Baari — honey, fruits, vegetables and more.">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f7f2ea;
+            color: #1a2f1e;
+        }
+
+        /* ══════════════════════════════════════════
+           FESTIVAL HERO BANNER
+           Text and countdown are populated by the Festival
+           Engine script near the closing </body> — this CSS
+           only styles the shell, so it never needs touching
+           when the active festival changes.
+        ══════════════════════════════════════════ */
+        .festival-hero {
+            background: linear-gradient(160deg, #1a2f1e 0%, #234a2c 55%, #2d5a3d 130%);
+            padding: 64px 20px 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 64px;
+            isolation: isolate;
+        }
+        .festival-hero::before {
+            content: '';
+            position: absolute;
+            width: 340px; height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.16) 0%, transparent 72%);
+            top: -120px; right: -80px;
+            z-index: -2;
+        }
+        .festival-hero::after {
+            content: '';
+            position: absolute;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(123,169,138,0.14) 0%, transparent 72%);
+            bottom: -80px; left: -70px;
+            z-index: -2;
+        }
+        .festival-hero-texture {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(201,168,76,0.10) 1px, transparent 1px);
+            background-size: 26px 26px;
+            -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 15%, #000 0%, transparent 75%);
+            mask-image: radial-gradient(ellipse 65% 55% at 50% 15%, #000 0%, transparent 75%);
+            z-index: -1;
+        }
+
+        .hero-icon-badge {
+            width: 52px; height: 52px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(201,168,76,0.12);
+            border: 1px solid rgba(201,168,76,0.35);
+            box-shadow: 0 0 0 6px rgba(201,168,76,0.05);
+            font-size: 1.45rem;
+        }
+
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .hero-eyebrow-line {
+            width: 26px; height: 1px;
+            background: linear-gradient(to right, transparent, #c9a84c);
+        }
+        .hero-eyebrow-line.right { background: linear-gradient(to left, transparent, #c9a84c); }
+        .hero-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.66rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: #e0c068;
+            white-space: nowrap;
+        }
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.1rem, 5.6vw, 3.4rem);
+            color: #f7f2ea;
+            font-weight: 500;
+            line-height: 1.16;
+            margin-bottom: 14px;
+        }
+        .hero-title span {
+            color: #e0c068;
+            font-style: italic;
+            font-weight: 600;
+        }
+        .hero-subtitle {
+            font-size: 0.95rem;
+            color: #a9c4ae;
+            max-width: 440px;
+            margin: 0 auto 30px;
+            line-height: 1.65;
+        }
+
+        .countdown-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(201,168,76,0.28);
+            border-radius: 16px;
+            padding: 16px 8px;
+            margin-bottom: 24px;
+        }
+        .countdown-block { text-align: center; min-width: 52px; padding: 0 10px; }
+        .countdown-num {
+            font-family: 'Cinzel', serif;
+            font-size: 1.55rem;
+            font-weight: 600;
+            color: #e0c068;
+            line-height: 1;
+            display: block;
+            font-variant-numeric: tabular-nums;
+        }
+        .countdown-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #9ab89e;
+            margin-top: 5px;
+        }
+        .countdown-sep {
+            width: 1px;
+            height: 34px;
+            background: rgba(201,168,76,0.25);
+        }
+        .countdown-live {
+            color: #e0c068;
+            font-family: 'Cinzel', serif;
+            font-size: 0.92rem;
+            letter-spacing: 0.06em;
+            padding: 4px 8px;
+            display: inline-block;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
+            border: 1px solid rgba(201,168,76,0.4);
+            color: #f0dfa8;
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 7px 16px;
+            border-radius: 50px;
+            letter-spacing: 0.03em;
+        }
+        .hero-badge i { font-size: 0.7rem; }
+
+        .offers-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 14px 0;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .section-head-line {
+            flex: 1;
+            height: 1.5px;
+            background: linear-gradient(to right, #c9a84c, transparent);
+        }
+        .section-head-line.right {
+            background: linear-gradient(to left, #c9a84c, transparent);
+        }
+        .section-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #c9a84c;
+            white-space: nowrap;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: #1a2f1e;
+            margin-bottom: 4px;
+        }
+        .section-sub {
+            font-size: 0.82rem;
+            color: #8a9e8e;
+            margin-bottom: 20px;
+        }
+
+        .discount-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .offer-card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #e8e2d8;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.25s, box-shadow 0.25s;
+            cursor: pointer;
+        }
+        .offer-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(26,47,30,0.13);
+            border-color: #c9a84c;
+        }
+
+        .discount-ribbon {
+            position: absolute;
+            top: 12px;
+            left: -2px;
+            background: #c0392b;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px 4px 10px;
+            border-radius: 0 6px 6px 0;
+            z-index: 2;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+            letter-spacing: 0.04em;
+        }
+        .discount-ribbon::before {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -4px;
+            border: 4px solid transparent;
+            border-top-color: #8b1a0c;
+            border-right-color: #8b1a0c;
+        }
+
+        .offer-card-img {
+            height: 150px;
+            overflow: hidden;
+            background: #f3efe8;
+            position: relative;
+        }
+        .offer-card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .offer-card:hover .offer-card-img img { transform: scale(1.06); }
+
+        .offer-card-img .no-img {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 6px; color: #9ab8a0;
+        }
+        .offer-card-img .no-img i { font-size: 2.2rem; }
+        .offer-card-img .no-img span { font-size: 0.7rem; }
+
+        .offer-card-body { padding: 12px 12px 14px; flex: 1; display: flex; flex-direction: column; }
+        .offer-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #1a2f1e;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .offer-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+        .offer-price-new {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #c0392b;
+        }
+        .offer-price-old {
+            font-size: 0.78rem;
+            color: #b0b8b0;
+            text-decoration: line-through;
+        }
+        .offer-unit { font-size: 0.7rem; color: #8a9e8e; margin-bottom: 10px; }
+        .offer-saving {
+            font-size: 0.7rem;
+            color: #4a7c59;
+            background: rgba(74,124,89,0.1);
+            padding: 2px 8px;
+            border-radius: 50px;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+        .offer-card-actions { display: flex; gap: 6px; margin-top: auto; }
+        .btn-offer-detail {
+            flex: 1;
+            padding: 7px 6px;
+            border: 1.5px solid #ddd8ce;
+            border-radius: 7px;
+            background: #fff;
+            color: #1a2f1e;
+            font-size: 0.74rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: flex; align-items: center; justify-content: center; gap: 4px;
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .btn-offer-detail:hover { border-color: #4a7c59; color: #4a7c59; }
+        .btn-offer-add {
+            flex: 1;
+            padding: 7px 6px;
+            border: none;
+            border-radius: 7px;
+            background: #1a2f1e;
+            color: #fff;
+            font-size: 0.74rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 4px;
+            font-family: 'DM Sans', sans-serif;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-offer-add:hover { background: #2d5a3d; }
+
+        .offer-price-tbd {
+            font-size: 0.8rem;
+            color: #8a9e8e;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .bundle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .bundle-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1.5px solid #c9a84c;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .bundle-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(201,168,76,0.18);
+        }
+        .bundle-badge {
+            position: absolute;
+            top: -12px; left: 20px;
+            background: #c9a84c;
+            color: #1a2f1e;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 50px;
+        }
+        .bundle-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #1a2f1e;
+            margin-bottom: 4px;
+            margin-top: 4px;
+        }
+        .bundle-subtitle {
+            font-size: 0.78rem;
+            color: #8a9e8e;
+            margin-bottom: 14px;
+        }
+        .bundle-items { margin-bottom: 16px; }
+        .bundle-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e8e2d8;
+            font-size: 0.85rem;
+            color: #3a5040;
+        }
+        .bundle-item:last-child { border-bottom: none; }
+        .bundle-item i { color: #4a7c59; width: 14px; text-align: center; }
+        .bundle-item-name { flex: 1; }
+        .bundle-item-qty {
+            font-size: 0.74rem;
+            background: #f0f7f2;
+            color: #4a7c59;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .bundle-pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .bundle-price-new {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #c0392b;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .bundle-price-old {
+            font-size: 0.9rem;
+            color: #b0b8b0;
+            text-decoration: line-through;
+        }
+        .bundle-saving-tag {
+            font-size: 0.72rem;
+            background: rgba(192,57,43,0.1);
+            color: #c0392b;
+            padding: 2px 9px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .btn-bundle-order {
+            width: 100%;
+            padding: 11px;
+            background: linear-gradient(135deg, #c9a84c, #e0c068);
+            color: #1a2f1e;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .btn-bundle-order:hover { opacity: 0.9; transform: scale(1.01); }
+
+        .coupon-strip {
+            background: linear-gradient(135deg, #1a2f1e, #2d5a3d);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .coupon-icon { font-size: 2rem; }
+        .coupon-text { flex: 1; }
+        .coupon-text h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #f7f2ea;
+            margin-bottom: 3px;
+        }
+        .coupon-text p { font-size: 0.8rem; color: #9ab89e; }
+        .coupon-code-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .coupon-code {
+            background: rgba(201,168,76,0.15);
+            border: 1.5px dashed #c9a84c;
+            color: #c9a84c;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            padding: 8px 18px;
+            border-radius: 8px;
+        }
+        .btn-copy-code {
+            background: #c9a84c;
+            color: #1a2f1e;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center; gap: 5px;
+            transition: opacity 0.2s;
+        }
+        .btn-copy-code:hover { opacity: 0.85; }
+
+        .how-it-works {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e8e2d8;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .step {
+            text-align: center;
+            padding: 16px 10px;
+        }
+        .step-icon {
+            width: 48px; height: 48px;
+            background: #f0f7f2;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.2rem;
+            color: #4a7c59;
+        }
+        .step-title { font-size: 0.85rem; font-weight: 600; color: #1a2f1e; margin-bottom: 4px; }
+        .step-desc { font-size: 0.74rem; color: #8a9e8e; line-height: 1.4; }
+        .step-connector {
+            display: flex; align-items: center; justify-content: center;
+            color: #c9a84c; font-size: 1rem; padding-top: 18px;
+        }
+
+        .empty-offers {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8a9e8e;
+        }
+        .empty-offers i { font-size: 2.5rem; color: #c5d0c7; margin-bottom: 12px; display: block; }
+
+        @media (max-width: 760px) {
+            .offers-wrapper { margin-bottom: 90px; }
+        }
+
+        @media (max-width: 600px) {
+            .discount-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .bundle-grid { grid-template-columns: 1fr; }
+            .coupon-strip { flex-direction: column; text-align: center; }
+            .coupon-code-box { justify-content: center; }
+            .steps-grid { grid-template-columns: 1fr 1fr; }
+            .festival-hero { padding: 44px 16px 44px; margin-top: 56px; }
+            .hero-icon-badge { width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 14px; }
+            .countdown-wrapper { gap: 2px; padding: 14px 4px; }
+            .countdown-block { min-width: 42px; padding: 0 6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar scrolled navbar-app" id="navbar" data-nav-mode="solid">
+        <div class="navbar-inner">
+            <a href="/" class="brand" aria-label="Angan Baari Home">
+                <span class="brand-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="" width="84" height="84" loading="eager"></span>
+                <div class="brand-text">
+                    <span class="brand-name">आँगन बारी</span>
+                    <span class="brand-tagline">Angan Baari</span>
+                    <span class="brand-subtag">Organic Farm</span>
+                </div>
+                <span class="brand-flag" aria-hidden="true">
+                    <canvas id="navNepalFlag" class="nav-nepal-flag" width="450" height="600"></canvas>
+                </span>
+            </a>
+            <nav class="desktop-nav" aria-label="Main Navigation">
+                <div class="hc-scale-box hc-scale-box--app5">
+                  <div class="hc-strip hc-strip--cells5">
+                    <div class="hc-strip-bg" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+
+                    <ul class="hc-nav" id="hcNavApp">
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'shop' %}" data-target="shop-cell">
+                        <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                        <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'cart' %}" data-target="cart-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.4l2.1 11.2a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 7H6.2"/></svg>
+                        <span class="hc-label">Cart</span><span class="hc-ping"></span>
+                        {% with total_qty=request.session.cart.values|length %}
+                        {% if total_qty > 0 %}<span class="hc-cart-badge">{{ total_qty }}</span>{% endif %}
+                        {% endwith %}
+                      </a></li>
+
+                      <li class="hc-cell hc-cell--offer"><a class="hc-link active" href="{% url 'offers' %}" data-target="offers-cell">
+                        <svg class="offer-flame" viewBox="0 0 24 24"><path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z"/></svg>
+                        <span class="hc-label">Offers</span><span class="hc-ping"></span></a></li>
+
+                      {% if user.is_authenticated %}
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'profile' %}" data-target="profile-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                        <span class="hc-label">{{ user.first_name }}</span><span class="hc-ping"></span></a></li>
+                      {% else %}
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'login' %}" data-target="login-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                        <span class="hc-label">Login</span><span class="hc-ping"></span></a></li>
+                      {% endif %}
+
+                      <li class="hc-cell"><a class="hc-link" href="/" data-target="website-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></svg>
+                        <span class="hc-label">Website</span><span class="hc-ping"></span></a></li>
+                    </ul>
+                  </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="festival-hero">
+        <div class="festival-hero-texture" aria-hidden="true"></div>
+
+        <div class="hero-icon-badge" aria-hidden="true"><span id="heroIcon">🌿</span></div>
+
+        <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line" aria-hidden="true"></span>
+            <span class="hero-label" id="heroLabel">Farm Fresh · ताजा उपज</span>
+            <span class="hero-eyebrow-line right" aria-hidden="true"></span>
+        </div>
+
+        <h1 class="hero-title">
+            Big Savings for<br>
+            <span id="heroAccent">Fresh Farm Products</span>
+        </h1>
+        <p class="hero-subtitle" id="heroSubtitle">Fresh, organic produce from Bhulka Danda — delivered to your door 🌿</p>
+
+        <div class="countdown-wrapper" id="countdown" aria-live="polite">
+            <div class="countdown-block">
+                <span class="countdown-num" id="cd-days">00</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-sep" aria-hidden="true"></div>
+            <div class="countdown-block">
+                <span class="countdown-num" id="cd-hours">00</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-sep" aria-hidden="true"></div>
+            <div class="countdown-block">
+                <span class="countdown-num" id="cd-mins">00</span>
+                <span class="countdown-label">Mins</span>
+            </div>
+            <div class="countdown-sep" aria-hidden="true"></div>
+            <div class="countdown-block">
+                <span class="countdown-num" id="cd-secs">00</span>
+                <span class="countdown-label">Secs</span>
+            </div>
+        </div>
+        <br>
+        <span class="hero-badge"><i class="fas fa-leaf"></i> <span id="heroBadgeText">Fresh Organic Offers — New Deals Every Season</span></span>
+    </section>
+
+    <div class="offers-wrapper">
+
+        {% if live_coupons %}
+        {% for coupon in live_coupons %}
+        <div class="coupon-strip">
+            <div class="coupon-icon">🎁</div>
+            <div class="coupon-text">
+                <h3>{{ coupon.festival_name|default:"Special" }} Coupon Code</h3>
+                <p>{{ coupon.description|default:"Use this code at checkout to get an extra discount on your order" }}</p>
+            </div>
+            <div class="coupon-code-box">
+                <div class="coupon-code" data-code="{{ coupon.code }}">{{ coupon.code }}</div>
+                <button class="btn-copy-code" onclick="copyCoupon(this)">
+                    <i class="fas fa-copy copy-icon"></i>
+                    <span class="copy-text">Copy</span>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="section-head">
+            <div class="section-head-line"></div>
+            <span class="section-label" id="discountSectionLabel">🏷️ Seasonal Discounts</span>
+            <div class="section-head-line right"></div>
+        </div>
+        <h2 class="section-title">Special Price Offers</h2>
+        <p class="section-sub" id="discountSectionSub">Fresh from our farm — limited-time pricing on selected products</p>
+
+        {% if discount_offers %}
+        <div class="discount-grid">
+            {% for offer in discount_offers %}
+            <div class="offer-card" onclick="window.location='{% url 'product_detail' offer.slug %}'">
+                <div class="discount-ribbon">-{{ offer.discount_percent }}%</div>
+                <div class="offer-card-img">
+                    {% if offer.main_image %}
+                    <img src="{{ offer.main_image.url }}" alt="{{ offer.name }}" loading="lazy">
+                    {% else %}
+                    <div class="no-img">
+                        <i class="fas fa-seedling"></i>
+                        <span>No image</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="offer-card-body">
+                    <div class="offer-name">{{ offer.name }}</div>
+                    <div class="offer-prices">
+                        <span class="offer-price-new">Rs. {{ offer.offer_price }}</span>
+                        <span class="offer-price-old">Rs. {{ offer.original_price }}</span>
+                    </div>
+                    <div class="offer-unit">{{ offer.price_unit }}</div>
+                    <div class="offer-saving">Save Rs. {{ offer.original_price|add:offer.offer_price }}</div>
+                    <div class="offer-card-actions" onclick="event.stopPropagation()">
+                        <a href="{% url 'product_detail' offer.slug %}" class="btn-offer-detail">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        {% if offer.is_available %}
+                        <form method="POST" action="{% url 'add_to_cart_offer' offer.id %}" style="flex:1;" onclick="event.stopPropagation()">
+                            {% csrf_token %}
+                            <input type="hidden" name="offer_price" value="{{ offer.offer_price }}">
+                            <button type="submit" class="btn-offer-add" onclick="event.stopPropagation()">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-offers">
+            <i class="fas fa-tag"></i>
+            <p>No discount offers active right now. Check back soon!</p>
+        </div>
+        {% endif %}
+
+        <div class="section-head">
+            <div class="section-head-line"></div>
+            <span class="section-label">🎁 Bundle Deals</span>
+            <div class="section-head-line right"></div>
+        </div>
+        <h2 class="section-title" id="bundleSectionTitle">Combo Packages</h2>
+        <p class="section-sub" id="bundleSectionSub">Save more when you buy together — perfect gift sets</p>
+
+        {% if bundle_deals %}
+        <div class="bundle-grid">
+            {% for bundle in bundle_deals %}
+            <div class="bundle-card">
+                <div class="bundle-badge">{{ bundle.badge_label }}</div>
+                <div class="bundle-title">{{ bundle.title }}</div>
+                <div class="bundle-subtitle">{{ bundle.subtitle }}</div>
+                <div class="bundle-items">
+                    {% for item in bundle.items %}
+                    <div class="bundle-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span class="bundle-item-name">{{ item.name }}</span>
+                        <span class="bundle-item-qty">{{ item.qty }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="bundle-pricing">
+                    <span class="bundle-price-new">Rs. {{ bundle.bundle_price }}</span>
+                    <span class="bundle-price-old">Rs. {{ bundle.original_price }}</span>
+                    <span class="bundle-saving-tag">Save {{ bundle.savings_percent }}%</span>
+                </div>
+                <a href="https://wa.me/9779821025084?text={{ bundle.whatsapp_message|urlencode }}"
+                   target="_blank" class="btn-bundle-order">
+                    <i class="fab fa-whatsapp"></i> Order This Bundle
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Placeholder bundles shown when no real combos in database yet -->
+        <div class="bundle-grid">
+            <div class="bundle-card">
+                <div class="bundle-badge">🌿 Farmer's Pick</div>
+                <div class="bundle-title">Farm Fresh Essentials</div>
+                <div class="bundle-subtitle">Everything you need for the celebration</div>
+                <div class="bundle-items">
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Pure Farm Honey</span><span class="bundle-item-qty">500g</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Fresh Vegetables Mix</span><span class="bundle-item-qty">2 kg</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Seasonal Fruits</span><span class="bundle-item-qty">1 kg</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Organic Pickle Jar</span><span class="bundle-item-qty">250g</span></div>
+                </div>
+                <div class="bundle-pricing">
+                    <span class="bundle-price-new">Contact Us</span>
+                </div>
+                <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20want%20to%20order%20the%20Farm%20Fresh%20Essentials%20Bundle." target="_blank" class="btn-bundle-order">
+                    <i class="fab fa-whatsapp"></i> Order This Bundle
+                </a>
+            </div>
+            <div class="bundle-card">
+                <div class="bundle-badge">🍯 Honey Special</div>
+                <div class="bundle-title">Sweet Honey Gift</div>
+                <div class="bundle-subtitle">A perfect gift for family & friends</div>
+                <div class="bundle-items">
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Pure Farm Honey</span><span class="bundle-item-qty">1 kg</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Seasonal Fruits</span><span class="bundle-item-qty">1 kg</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Organic Pickle Jar</span><span class="bundle-item-qty">250g</span></div>
+                </div>
+                <div class="bundle-pricing">
+                    <span class="bundle-price-new">Contact Us</span>
+                </div>
+                <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20want%20to%20order%20the%20Sweet%20Honey%20Gift%20Bundle." target="_blank" class="btn-bundle-order">
+                    <i class="fab fa-whatsapp"></i> Order This Bundle
+                </a>
+            </div>
+            <div class="bundle-card">
+                <div class="bundle-badge">🐐 Farm Special</div>
+                <div class="bundle-title">Farm Meat Package</div>
+                <div class="bundle-subtitle">Fresh, farm-raised meat for your celebration</div>
+                <div class="bundle-items">
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Farm Goat (बाख्रा)</span><span class="bundle-item-qty">Whole / Half</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Free-Range Chicken</span><span class="bundle-item-qty">2 pcs</span></div>
+                    <div class="bundle-item"><i class="fas fa-check-circle"></i><span class="bundle-item-name">Seasonal Vegetables</span><span class="bundle-item-qty">3 kg</span></div>
+                </div>
+                <div class="bundle-pricing">
+                    <span class="bundle-price-new">Contact Us</span>
+                </div>
+                <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20want%20to%20order%20the%20Farm%20Meat%20Package." target="_blank" class="btn-bundle-order">
+                    <i class="fab fa-whatsapp"></i> Order This Bundle
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="how-it-works">
+            <div class="section-head" style="margin-bottom:0;">
+                <div class="section-head-line"></div>
+                <span class="section-label">How to Order</span>
+                <div class="section-head-line right"></div>
+            </div>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-tag"></i></div>
+                    <div class="step-title">Pick Your Offer</div>
+                    <div class="step-desc">Browse discounts or bundle deals above</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-cart-plus"></i></div>
+                    <div class="step-title">Add to Cart</div>
+                    <div class="step-desc">Add products or WhatsApp for bundles</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="step-title">Enter Address</div>
+                    <div class="step-desc">We deliver to Tilottama & nearby areas</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-truck"></i></div>
+                    <div class="step-title">Fresh Delivery</div>
+                    <div class="step-desc">Receive fresh from the farm, cash on delivery</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20am%20interested%20in%20your%20offers."
+       class="float-wa" target="_blank" rel="noopener noreferrer" id="floatWa" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="float-wa-tooltip" id="floatWaTooltip">Chat With Us on WhatsApp</span>
+    </a>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="Angan Baari" width="56" height="56" loading="lazy"></span>
+                <p class="footer-name-np">आँगन बारी</p>
+                <p class="footer-name-en">Angan Baari</p>
+                <p class="footer-tagline">Fresh &middot; Organic &middot; Sustainable</p>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://www.facebook.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="fb"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="ig"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@AnganBaari" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="yt"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/anganbaari" target="_blank" rel="noopener noreferrer" aria-label="X" class="x"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.threads.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="Threads" class="threads" style="display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 6.995 4.708 16.008 7.005 25.403 6.493 12.38-.68 22.081-5.407 28.819-14.041 5.129-6.675 8.374-15.311 9.678-25.396 5.808 3.506 10.1 8.12 12.509 13.677 4.956 11.421 5.253 30.18-10.25 45.625-13.616 13.56-29.976 19.425-54.73 19.594-27.456-.19-48.24-9.02-61.777-26.24C9.52 140.88 3.114 121.88 2.857 97.024c.257-24.854 6.663-43.854 19.053-56.494C35.447 23.27 56.23 14.44 83.687 14.25c27.635.19 48.728 9.064 62.722 26.37 6.868 8.561 12.007 19.324 15.368 32.012l16.108-4.278c-4.027-14.927-10.305-27.739-18.745-38.146C141.329 10.804 116.55-.067 83.69.001 50.795.068 25.752 11.01 9.884 32.609-4.05 51.73-11.04 78.173-11.333 97.024v.192c.293 18.85 7.283 45.295 21.217 64.416C26.752 182.99 51.795 193.932 84.69 194c34.057-.083 57.805-10.67 74.473-27.252 22.02-21.956 21.463-49.435 14.18-66.327-5.177-11.944-14.8-21.437-31.806-27.433Z"/></svg></a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; Since 2015. आँगन बारी/Angan Baari &mdash; Bhulka Danda, Rupandehi, Nepal &mdash; All rights reserved.</p>
+                <p class="footer-nepal"> JAY NEPAL<img class="flag-sticker"src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Nepal National Flag" width="18" height="24"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MOBILE BOTTOM NAV — same honeycomb chain as desktop (hidden on desktop) -->
+    <nav class="mobile-hc-nav" aria-label="Mobile navigation">
+        <div class="hc-scale-box hc-scale-box--app5">
+          <div class="hc-strip hc-strip--cells5">
+            <div class="hc-strip-bg" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+
+            <ul class="hc-nav" id="hcNavAppMobile">
+              <li class="hc-cell"><a class="hc-link" href="{% url 'shop' %}" data-target="shop-cell">
+                <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+
+              <li class="hc-cell"><a class="hc-link" href="{% url 'cart' %}" data-target="cart-cell">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.4l2.1 11.2a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 7H6.2"/></svg>
+                <span class="hc-label">Cart</span><span class="hc-ping"></span>
+                {% with total_qty=request.session.cart.values|length %}
+                <span class="hc-cart-badge{% if total_qty == 0 %} badge-hidden{% endif %}">{{ total_qty }}</span>
+                {% endwith %}
+              </a></li>
+
+              <li class="hc-cell hc-cell--offer"><a class="hc-link active" href="{% url 'offers' %}" data-target="offers-cell">
+                <svg class="offer-flame" viewBox="0 0 24 24"><path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z"/></svg>
+                <span class="hc-label">Offers</span><span class="hc-ping"></span></a></li>
+
+              {% if user.is_authenticated %}
+              <li class="hc-cell"><a class="hc-link" href="{% url 'profile' %}" data-target="profile-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                <span class="hc-label">{{ user.first_name }}</span><span class="hc-ping"></span></a></li>
+              {% else %}
+              <li class="hc-cell"><a class="hc-link" href="{% url 'login' %}" data-target="login-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                <span class="hc-label">Login</span><span class="hc-ping"></span></a></li>
+              {% endif %}
+
+              <li class="hc-cell"><a class="hc-link" href="/" data-target="website-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></svg>
+                <span class="hc-label">Website</span><span class="hc-ping"></span></a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        if (navbar) navbar.classList.add('scrolled');
+
+        // Active bottom-nav state is now rendered server-side (see template),
+        // so no JS path-matching is needed here.
+
+        // ================================================================
+        // FESTIVAL ENGINE
+        // Shows whichever Nepali festival is currently active or coming
+        // up next, so this page never sits stuck on one festival after
+        // it has ended. Dates come from the Government of Nepal calendar
+        // / Hamro Patro (Bikram Sambat 2083) and are accurate through
+        // Nepali New Year 2084 (14 Apr 2027).
+        //
+        // → Once a year (around Baisakh / mid-April), add next year's
+        //   festivals to this list using https://www.hamropatro.com
+        //   (English: https://english.hamropatro.com). Nepali festival
+        //   dates are lunar and shift every year, so they can't be
+        //   calculated in plain JS — they have to be looked up.
+        //
+        // Each entry: windowStart = promo can start showing · peak =
+        // the main day the countdown counts down to · windowEnd = last
+        // day this festival stays on the page before the next one takes
+        // over automatically.
+        // ================================================================
+        const FESTIVALS = [
+            { id: 'teej', name: 'Haritalika Teej', nameNp: 'हरितालिका तीज', icon: '🌺',
+              windowStart: new Date(2026, 8, 13), peak: new Date(2026, 8, 14, 23, 59, 59), windowEnd: new Date(2026, 8, 16, 23, 59, 59),
+              peakLabel: 'Haritalika Teej', greeting: 'Happy Teej! 🌺',
+              heroLine: 'Celebrate Teej with the freshest organic treats for the dar 🌿' },
+
+            { id: 'dashain', name: 'Dashain', nameNp: 'दशैं', icon: '🪁',
+              windowStart: new Date(2026, 9, 11), peak: new Date(2026, 9, 21, 23, 59, 59), windowEnd: new Date(2026, 9, 25, 23, 59, 59),
+              peakLabel: 'Vijaya Dashami', greeting: 'Happy Vijaya Dashami! 🙏',
+              heroLine: 'Celebrate Dashain with the freshest organic produce from Bhulka Danda 🌿' },
+
+            { id: 'tihar', name: 'Tihar', nameNp: 'तिहार', icon: '🪔',
+              windowStart: new Date(2026, 10, 7), peak: new Date(2026, 10, 11, 23, 59, 59), windowEnd: new Date(2026, 10, 11, 23, 59, 59),
+              peakLabel: 'Bhai Tika', greeting: 'Happy Tihar & Bhai Tika! 🪔',
+              heroLine: 'Light up Tihar with fresh farm treats from Bhulka Danda 🌿' },
+
+            { id: 'chhath', name: 'Chhath Parva', nameNp: 'छठ पर्व', icon: '🌅',
+              windowStart: new Date(2026, 10, 13), peak: new Date(2026, 10, 15, 23, 59, 59), windowEnd: new Date(2026, 10, 16, 23, 59, 59),
+              peakLabel: 'Sandhya Arghya', greeting: 'Happy Chhath Parva! 🌅',
+              heroLine: 'Farm-fresh fruit and offerings for Chhath Parva' },
+
+            { id: 'maghe-sankranti', name: 'Maghe Sankranti', nameNp: 'माघे संक्रान्ति', icon: '🌾',
+              windowStart: new Date(2027, 0, 15), peak: new Date(2027, 0, 15, 23, 59, 59), windowEnd: new Date(2027, 0, 15, 23, 59, 59),
+              peakLabel: 'Maghe Sankranti', greeting: 'Happy Maghe Sankranti! 🌾',
+              heroLine: 'Ghee, chaku and fresh farm produce for Maghe Sankranti' },
+
+            { id: 'shivaratri', name: 'Maha Shivaratri', nameNp: 'महाशिवरात्री', icon: '🔱',
+              windowStart: new Date(2027, 2, 6), peak: new Date(2027, 2, 6, 23, 59, 59), windowEnd: new Date(2027, 2, 6, 23, 59, 59),
+              peakLabel: 'Maha Shivaratri', greeting: 'Happy Maha Shivaratri! 🔱',
+              heroLine: 'Farm-fresh fruit and essentials for your Shivaratri fast' },
+
+            { id: 'holi', name: 'Holi', nameNp: 'होली', icon: '🎨',
+              windowStart: new Date(2027, 2, 21), peak: new Date(2027, 2, 22, 23, 59, 59), windowEnd: new Date(2027, 2, 22, 23, 59, 59),
+              peakLabel: 'Holi', greeting: 'Happy Holi! 🎨',
+              heroLine: 'Sweet treats and fresh produce for a colourful Holi' },
+
+            { id: 'nepali-new-year', name: 'Nepali New Year', nameNp: 'नयाँ वर्ष', icon: '🎊',
+              windowStart: new Date(2027, 3, 14), peak: new Date(2027, 3, 14, 23, 59, 59), windowEnd: new Date(2027, 3, 14, 23, 59, 59),
+              peakLabel: 'Nepali New Year 2084', greeting: 'Happy New Year 2084! 🎊',
+              heroLine: 'Start 2084 fresh with organic produce from Bhulka Danda' },
+        ];
+
+        // Shown once every listed festival's windowEnd is in the past
+        // (i.e. this script hasn't been updated in over a year).
+        const EVERGREEN_FESTIVAL = {
+            id: 'evergreen', name: 'Seasonal', nameNp: 'मौसमी', icon: '🌿',
+            peak: null, peakLabel: null, greeting: '',
+            heroLine: 'Fresh, organic produce from Bhulka Danda — delivered to your door 🌿',
+        };
+
+        function getActiveFestival(now) {
+            for (const f of FESTIVALS) {
+                if (now <= f.windowEnd) return f;
+            }
+            return EVERGREEN_FESTIVAL;
+        }
+
+        function formatShortDate(date) {
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        function applyFestival(festival) {
+            const isEvergreen = festival.id === 'evergreen';
+
+            document.title = `${isEvergreen ? 'Farm' : festival.name} Offers — Angan Baari | आँगन बारी`;
+            const metaDesc = document.getElementById('pageMetaDesc');
+            if (metaDesc) {
+                metaDesc.setAttribute('content', isEvergreen
+                    ? 'Exclusive offers on fresh organic farm products from Angan Baari — honey, fruits, vegetables and more.'
+                    : `Exclusive ${festival.name} offers on fresh organic farm products from Angan Baari — honey, fruits, vegetables and more.`);
+            }
+
+            const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+
+            setText('heroIcon', festival.icon);
+            setText('heroLabel', isEvergreen ? 'Farm Fresh · ताजा उपज' : `${festival.name} Special · ${festival.nameNp} विशेष`);
+            setText('heroAccent', isEvergreen ? 'Fresh Farm Products' : festival.name);
+            setText('heroSubtitle', festival.heroLine);
+            setText('discountSectionLabel', isEvergreen ? '🏷️ Seasonal Discounts' : `🏷️ ${festival.name} Discounts`);
+            setText('discountSectionSub', isEvergreen
+                ? 'Fresh from our farm — limited-time pricing on selected products'
+                : `Fresh from our farm — limited ${festival.name} pricing on selected products`);
+            setText('bundleSectionTitle', isEvergreen ? 'Combo Packages' : `${festival.name} Combo Packages`);
+            setText('bundleSectionSub', isEvergreen
+                ? 'Save more when you buy together — perfect gift sets'
+                : `Save more when you buy together — perfect ${festival.name} gift sets`);
+            setText('heroBadgeText', festival.windowEnd
+                ? `Limited ${festival.name} Offers — Through ${formatShortDate(festival.windowEnd)}`
+                : 'Fresh Organic Offers — New Deals Every Season');
+
+            const waText = isEvergreen
+                ? 'Hello Angan Baari! I am interested in your offers.'
+                : `Hello Angan Baari! I am interested in your ${festival.name} offers.`;
+            const floatWa = document.getElementById('floatWa');
+            if (floatWa) floatWa.href = `https://wa.me/9779821025084?text=${encodeURIComponent(waText)}`;
+            setText('floatWaTooltip', isEvergreen ? 'Chat With Us on WhatsApp' : `${festival.name} Offers via WhatsApp`);
+        }
+
+        function updateCountdown(festival) {
+            const el = document.getElementById('countdown');
+            if (!el) return;
+
+            if (!festival.peak) {
+                el.innerHTML = '<span class="countdown-live">🌿 New offers added throughout the year!</span>';
+                return;
+            }
+
+            const diff = festival.peak - new Date();
+            if (diff <= 0) {
+                el.innerHTML = `<span class="countdown-live">${festival.icon} ${festival.name} is here! ${festival.greeting}</span>`;
+                return;
+            }
+
+            const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+            document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+        }
+
+        const activeFestival = getActiveFestival(new Date());
+        applyFestival(activeFestival);
+        updateCountdown(activeFestival);
+        setInterval(() => updateCountdown(activeFestival), 1000);
+
+        function copyCoupon(btn) {
+            const codeEl = btn.closest('.coupon-code-box').querySelector('.coupon-code');
+            const code = codeEl.getAttribute('data-code') || codeEl.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const textEl = btn.querySelector('.copy-text');
+                const iconEl = btn.querySelector('.copy-icon');
+                textEl.textContent = 'Copied!';
+                iconEl.className = 'fas fa-check copy-icon';
+                setTimeout(() => {
+                    textEl.textContent = 'Copy';
+                    iconEl.className = 'fas fa-copy copy-icon';
+                }, 2000);
+            });
+        }
+
+        // Sliding active-page pill in the top nav
+        (function () {
+            const navLinksWrap = document.querySelector('#navbar .nav-links');
+            if (!navLinksWrap) return;
+            let pill = navLinksWrap.querySelector('.nav-pill');
+            if (!pill) {
+                pill = document.createElement('span');
+                pill.className = 'nav-pill';
+                navLinksWrap.prepend(pill);
+            }
+            const pillLinks = Array.from(navLinksWrap.querySelectorAll('a:not(.offer-nav-link)'));
+            function movePill(el) {
+                if (!el) { pill.style.opacity = '0'; return; }
+                pill.style.opacity = '1';
+                pill.style.width = el.offsetWidth + 'px';
+                pill.style.transform = 'translateX(' + el.offsetLeft + 'px)';
+            }
+            function currentActive() { return pillLinks.find(a => a.classList.contains('active')); }
+            movePill(currentActive());
+            pillLinks.forEach(a => a.addEventListener('mouseenter', () => movePill(a)));
+            navLinksWrap.addEventListener('mouseleave', () => movePill(currentActive()));
+            window.addEventListener('resize', () => movePill(currentActive()));
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => movePill(currentActive()));
+        })();
+
+        // ── MOBILE BOTTOM NAV — dynamic stretched-hexagon background ──
+        (function () {
+            const bg = document.getElementById('mbavBg');
+            if (!bg) return;
+
+            function roundedHexPath(w, h, r, tail) {
+                const pts = [[tail, 0], [w - tail, 0], [w, h / 2], [w - tail, h], [tail, h], [0, h / 2]];
+                const sub = (a, b) => [b[0] - a[0], b[1] - a[1]];
+                const norm = v => { const l = Math.hypot(v[0], v[1]); return l ? [v[0] / l, v[1] / l] : [0, 0]; };
+                const add = (p, v, d) => [p[0] + v[0] * d, p[1] + v[1] * d];
+                const n = pts.length, entry = [], exitp = [];
+                for (let i = 0; i < n; i++) {
+                    const prev = pts[(i - 1 + n) % n], cur = pts[i], next = pts[(i + 1) % n];
+                    entry.push(add(cur, norm(sub(cur, prev)), r));
+                    exitp.push(add(cur, norm(sub(cur, next)), r));
+                }
+                let d = `M ${entry[0][0].toFixed(2)} ${entry[0][1].toFixed(2)} `;
+                for (let i = 0; i < n; i++) {
+                    d += `Q ${pts[i][0].toFixed(2)} ${pts[i][1].toFixed(2)} ${exitp[i][0].toFixed(2)} ${exitp[i][1].toFixed(2)} `;
+                    const ne = entry[(i + 1) % n];
+                    d += `L ${ne[0].toFixed(2)} ${ne[1].toFixed(2)} `;
+                }
+                return d + 'Z';
+            }
+
+            function fitMobileBg() {
+                const w = bg.offsetWidth;
+                const h = bg.offsetHeight;
+                if (!w || !h) return;
+                const tail = Math.min(46, w * 0.1);
+                bg.style.clipPath = `path("${roundedHexPath(w, h, 10, tail)}")`;
+            }
+            fitMobileBg();
+            window.addEventListener('resize', fitMobileBg);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMobileBg);
+        })();
+    </script>
+    <script>
+// ================================================================
+// OPMCM-STYLE WIND-BLOWN NEPAL FLAG — NAVBAR
+// Darker colors · crisp edges · sharp triangular silhouette
+// Smooth cloth folds · stable pole · stronger free-end flutter
+// ================================================================
+(function () {
+    const canvas = document.getElementById('navNepalFlag');
+    if (!canvas) return;
+
+    const WIDTH = 450;
+    const HEIGHT = 600;
+    const FLAG_W = 330;
+    const FLAG_H = 441;
+    const PAD_X = 60;
+    const PAD_Y = 78;
+
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    // Keep the raster edges crisp instead of applying soft interpolation.
+    ctx.imageSmoothingEnabled = false;
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="110" height="147" viewBox="0 0 110 147">
+        <!-- Deep, slightly darker Nepal red and blue for the OPMCM-style look -->
+        <path d="M 0.00,0.00 L 110.00,68.88 L 32.22,68.88 L 110.00,146.67 L 0.00,146.67 Z"
+              fill="#B80F2F" stroke="#001F5B" stroke-width="3.5" stroke-linejoin="round"/>
+
+        <g transform="translate(27.50,43.05)">
+            <path d="M 22.27,-4.58 L 21.52,-4.79 L 20.33,-2.42 L 15.70,3.07 L 12.48,5.11 L 11.18,4.57 L 10.86,2.96 L 12.80,1.99 L 13.23,0.48 L 10.00,-0.05 L 10.21,-1.45 L 11.93,-4.36 L 7.74,-3.72 L 7.95,-7.81 L 6.34,-7.48 L 4.18,-5.87 L 2.89,-10.06 L 0.52,-7.05 L -0.23,-7.16 L -2.17,-9.74 L -3.78,-5.98 L -6.69,-7.81 L -7.98,-7.92 L -7.33,-7.59 L -7.33,-3.72 L -9.38,-3.61 L -11.10,-4.25 L -9.81,-0.05 L -13.04,0.59 L -12.93,1.56 L -10.89,3.18 L -11.64,5.33 L -13.04,5.00 L -15.62,3.07 L -18.43,0.16 L -20.90,-3.61 L -21.55,-3.61 L -20.68,1.77 L -17.99,6.51 L -14.87,9.95 L -10.24,13.30 L -3.46,15.34 L 1.93,15.56 L 9.89,13.73 L 14.74,10.39 L 20.23,3.50 L 22.16,-2.42 Z"
+                  fill="#FFFFFF"/>
+        </g>
+
+        <path d="M 27.50,131.32 L 23.64,122.20 L 15.73,128.16 L 16.94,118.33 L 7.11,119.55 L 13.08,111.64 L 3.96,107.78 L 13.08,103.91 L 7.11,96.01 L 16.94,97.22 L 15.73,87.39 L 23.64,93.35 L 27.50,84.24 L 31.36,93.35 L 39.27,87.39 L 38.06,97.22 L 47.89,96.01 L 41.92,103.91 L 51.04,107.78 L 41.92,111.64 L 47.89,119.55 L 38.06,118.33 L 39.27,128.16 L 31.36,122.20 Z"
+              fill="#FFFFFF"/>
+    </svg>`;
+
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = WIDTH;
+    sourceCanvas.height = HEIGHT;
+    const sourceCtx = sourceCanvas.getContext('2d', { alpha: true });
+    if (!sourceCtx) return;
+    sourceCtx.imageSmoothingEnabled = false;
+
+    const img = new Image();
+    img.decoding = 'async';
+
+    img.onload = function () {
+        sourceCtx.clearRect(0, 0, WIDTH, HEIGHT);
+        sourceCtx.drawImage(img, PAD_X, PAD_Y, FLAG_W, FLAG_H);
+        startAnimation();
+    };
+
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+
+    function drawFlag(time) {
+        const t = time * 0.001;
+
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        // Transparent padding is intentionally preserved around the flag.
+        // This keeps both pointed ends completely visible while waving.
+        ctx.save();
+        ctx.translate(PAD_X, PAD_Y);
+
+        /*
+         * Draw the flag as narrow vertical fabric strips.
+         * Unlike pixel displacement, this preserves the sharp Nepal-flag
+         * silhouette and pointed edges while the strips move independently.
+         */
+        const strip = 3;
+
+        for (let x = 0; x < FLAG_W; x += strip) {
+            const u = x / FLAG_W;
+
+            // Pole remains stable; the free end becomes increasingly active.
+            const strength = Math.pow(u, 1.45);
+
+            // Large travelling cloth folds.
+            const wave1 = Math.sin(u * Math.PI * 1.55 - t * 4.0);
+            const wave2 = Math.sin(u * Math.PI * 3.10 - t * 4.0 + 1.15);
+
+            // Strong but smooth vertical displacement.
+            const yWave = strength * (wave1 * 34 + wave2 * 8);
+
+            // Forward/backward flutter of the free edge.
+            const xWave = strength * Math.sin(
+                u * Math.PI * 1.35 - t * 3.0 + 0.55
+            ) * 15;
+
+            // Local fabric tilt makes the folds look like cloth rather than water.
+            const slope =
+                Math.cos(u * Math.PI * 1.55 - t * 4.0) *
+                strength * 0.16 +
+                Math.cos(u * Math.PI * 3.10 - t * 4.0 + 1.15) *
+                strength * 0.035;
+
+            // Slightly narrower at the pole, fuller at the free edge.
+            const sourceWidth = Math.min(strip + 1, FLAG_W - x);
+
+            ctx.save();
+            ctx.translate(x + xWave, yWave);
+            ctx.transform(1, slope, 0, 1, 0, 0);
+
+            // Overlap neighbouring strips by 1px to avoid hairline gaps.
+            ctx.drawImage(
+                sourceCanvas,
+                PAD_X + x,
+                0,
+                sourceWidth,
+                HEIGHT,
+                -0.5,
+                0,
+                sourceWidth + 1,
+                HEIGHT
+            );
+
+            ctx.restore();
+        }
+
+        ctx.restore();
+
+        /*
+         * Very subtle fold shading. This is intentionally restrained so
+         * the red remains dark and solid rather than becoming glossy.
+         */
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.globalAlpha = 0.075;
+
+        const shadeGradient = ctx.createLinearGradient(
+            PAD_X, 0,
+            PAD_X + FLAG_W, 0
+        );
+        shadeGradient.addColorStop(0, 'rgba(0,0,0,0)');
+        shadeGradient.addColorStop(0.35, 'rgba(0,0,0,0.18)');
+        shadeGradient.addColorStop(0.52, 'rgba(255,255,255,0.10)');
+        shadeGradient.addColorStop(0.72, 'rgba(0,0,0,0.15)');
+        shadeGradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.fillStyle = shadeGradient;
+        ctx.fillRect(PAD_X, PAD_Y, FLAG_W, FLAG_H);
+        ctx.restore();
+    }
+
+    function startAnimation() {
+        // Respect the OS-level "reduce motion" preference: draw one
+        // static frame and never animate, instead of the CSS-only rule
+        // from before (which couldn't actually stop a JS-driven loop).
+        const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        let rafId = null;
+        let inView = true;
+
+        function renderLoop(time) {
+            drawFlag(time);
+            rafId = requestAnimationFrame(renderLoop);
+        }
+
+        function play() {
+            if (rafId !== null || reduceMotionQuery.matches) return;
+            rafId = requestAnimationFrame(renderLoop);
+        }
+
+        function pause() {
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        }
+
+        if (reduceMotionQuery.matches) {
+            drawFlag(0);
+        } else {
+            play();
+        }
+
+        // Pause the render loop whenever the flag scrolls out of view or
+        // the browser tab itself is backgrounded — a small canvas redrawn
+        // 60×/sec is wasted work (and battery) when nobody can see it.
+        const observer = new IntersectionObserver(function (entries) {
+            inView = entries[0].isIntersecting;
+            if (inView && !document.hidden) {
+                play();
+            } else {
+                pause();
+            }
+        }, { threshold: 0 });
+        observer.observe(canvas);
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                pause();
+            } else if (inView) {
+                play();
+            }
+        });
+
+        // Live-respond if the user toggles the OS reduced-motion setting
+        // while the page is already open.
+        reduceMotionQuery.addEventListener('change', function (e) {
+            if (e.matches) {
+                pause();
+                drawFlag(0);
+            } else if (inView) {
+                play();
+            }
+        });
+    }
+})();
+    </script>
+</body>
+</html>

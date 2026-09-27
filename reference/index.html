@@ -1,0 +1,2274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ============================================================
+         PRIMARY SEO META TAGS
+    ============================================================ -->
+    <title>Angan Baari · आँगन बारी — Pure. Organic. Alive.</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CKRCJP7RP8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CKRCJP7RP8');
+    </script>
+    <meta name="description" content="Angan Baari — Fresh organic produce, pure honey, fruits, vegetables and sustainable living rooted in Nepali tradition. Located at Bhulka Danda, Rupandehi, Nepal. Order via WhatsApp: +977 9821025084">
+    <meta name="keywords" content="organic farm Nepal, Angan Baari, fresh produce Rupandehi, organic honey Nepal, organic vegetables Nepal, sustainable farm Nepal, Bhulka Danda, Tilottama, Butwal organic, farm to table Nepal">
+    <meta name="author" content="Angan Baari">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#1a2f1e">
+    <link rel="canonical" href="https://anganbaari.pythonanywhere.com/">
+
+    <!-- ============================================================
+         OPEN GRAPH — Facebook, WhatsApp, LinkedIn sharing
+    ============================================================ -->
+    <meta property="og:type"         content="website">
+    <meta property="og:url"          content="https://anganbaari.pythonanywhere.com/">
+    <meta property="og:title"        content="Angan Baari · आँगन बारी — Pure. Organic. Alive.">
+    <meta property="og:description"  content="Fresh organic produce, pure honey, fruits and vegetables straight from our farm at Bhulka Danda, Rupandehi, Nepal. Order now via WhatsApp!">
+    <meta property="og:image"        content="https://anganbaari.pythonanywhere.com/static/images/honey9.jpg">
+    <meta property="og:image:width"  content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt"    content="Pure Angan Baari Gold Honey from Angan Baari">
+    <meta property="og:site_name"    content="Angan Baari">
+    <meta property="og:locale"       content="en_US">
+
+    <!-- ============================================================
+         TWITTER / X CARD — How link looks when shared on X
+    ============================================================ -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:site"        content="@anganbaari">
+    <meta name="twitter:creator"     content="@anganbaari">
+    <meta name="twitter:title"       content="Angan Baari · आँगन बारी — Pure. Organic. Alive.">
+    <meta name="twitter:description" content="Fresh organic produce, pure honey, fruits and vegetables from our farm at Bhulka Danda, Rupandehi, Nepal. Order via WhatsApp!">
+    <meta name="twitter:image"       content="https://anganbaari.pythonanywhere.com/static/images/honey9.jpg">
+    <meta name="twitter:image:alt"   content="Pure Angan Baari Gold Honey from Angan Baari">
+
+    <!-- ============================================================
+         GEO & LOCAL BUSINESS — Helps Google Maps & local search
+    ============================================================ -->
+    <meta name="geo.region"    content="NP-4">
+    <meta name="geo.placename" content="Bhulka Danda, Rupandehi, Nepal">
+    <meta name="geo.position"  content="27.629498;83.5330688">
+    <meta name="ICBM"          content="27.629498, 83.5330688">
+
+    <!-- ============================================================
+         STRUCTURED DATA — Helps Google show rich results
+    ============================================================ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Angan Baari",
+        "description": "Fresh organic produce, pure honey, fruits and vegetables from our sustainable farm at Bhulka Danda, Rupandehi, Nepal.",
+        "url": "https://anganbaari.pythonanywhere.com/",
+        "telephone": "+9779821025084",
+        "email": "anganbaari@gmail.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Bhulka Danda, Tilottama-11",
+            "addressLocality": "Rupandehi",
+            "addressCountry": "NP"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 27.629498,
+            "longitude": 83.5330688
+        },
+        "openingHours": "Mo-Su 07:00-20:00",
+        "image": "https://anganbaari.pythonanywhere.com/static/images/honey1.jpg",
+        "sameAs": [
+            "https://www.facebook.com/anganbaari/",
+            "https://www.instagram.com/anganbaari/",
+            "https://www.youtube.com/@AnganBaari",
+            "https://x.com/anganbaari",
+            "https://www.tiktok.com/@anganbaari",
+            "https://www.threads.com/@anganbaari"
+        ]
+    }
+    </script>
+
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'favicon.ico' %}">
+ 
+    <!-- ============================================================
+         PERFORMANCE — Preload & DNS hints for faster loading
+    ============================================================ -->
+
+    <!-- Preload first hero image — loads instantly, no flash -->
+    <link rel="preload" href="https://ik.imagekit.io/anganbaari/angan-baari/site-images/mango3_eTjzEsA8l.jpg" as="image" fetchpriority="high">
+
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <!-- Fonts: Cormorant Garamond (cinematic serif) + DM Sans (clean body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- font-display=swap means text shows immediately in fallback font while custom font loads -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap&font-display=swap" rel="stylesheet">
+
+    <!-- Font Awesome — load async so it doesn't block page render -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></noscript>
+
+    <!-- AOS Animations — load async -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"></noscript>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=2">
+
+<style>
+.btn-shop-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    color: var(--gold);
+    border-radius: 50%;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1.5px solid var(--gold);
+}
+.btn-shop-icon:hover {
+    background: var(--gold);
+    color: var(--forest);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(201,168,76,0.3);
+}
+.btn-details {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    color: var(--moss);
+    border-radius: 50%;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1.5px solid var(--moss);
+}
+.btn-details:hover {
+    background: var(--moss);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74,124,89,0.25);
+}
+.btn-details i { font-size: 0.95rem; }
+
+.shop-hint {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: var(--mist);
+    padding: 10px 20px;
+    border-radius: 50px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+.shop-hint i { color: var(--moss); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+         SCROLL PROGRESS VINE — animates while scrolling through
+         the Offerings-to-Location journey (desktop only)
+    ============================================================ -->
+    <div class="scroll-vine" id="scrollVine" aria-hidden="true">
+        <div class="scroll-vine-track">
+            <div class="scroll-vine-fill" id="scrollVineFill"></div>
+            <div class="scroll-vine-leaf" id="scrollVineLeaf"><i class="fas fa-leaf"></i></div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         LOADING SCREEN
+    ============================================================ -->
+    <div id="loader">
+        <div class="loader-inner">
+            <div class="loader-leaf">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <p class="loader-text">Angan Baari</p>
+            <div class="loader-bar"><span></span></div>
+        </div>
+    </div>
+ 
+    <!-- ============================================================
+         STICKY GLASSMORPHISM NAVBAR
+    ============================================================ -->
+    <header class="navbar" id="navbar" data-nav-mode="solid">
+        <div class="navbar-inner">
+            <a href="#" class="brand" aria-label="Angan Baari Home">
+                <span class="brand-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="" width="84" height="84" loading="eager"></span>
+                <div class="brand-text">
+                    <span class="brand-name">आँगन बारी</span>
+                    <span class="brand-tagline">Angan Baari</span>
+                    <span class="brand-subtag">Organic Farm</span>
+                </div>
+                <span class="brand-flag" aria-hidden="true">
+                    <canvas id="navNepalFlag" class="nav-nepal-flag" width="450" height="600"></canvas>
+                </span>
+            </a>
+ 
+            <!-- Desktop Nav — Honeycomb -->
+            <nav aria-label="Main Navigation" class="desktop-nav">
+                <div class="hc-scale-box">
+                  <div class="hc-strip">
+                    <div class="hc-strip-bg" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:636px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:768px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:900px" aria-hidden="true"></div>
+
+                    <ul class="hc-nav" id="hcNav">
+                      <li class="hc-cell"><a class="hc-link" href="#about" data-target="about">
+                        <svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16" cy="9" r="2.4"/><path d="M2.5 20c0-3.3 2.7-5.8 6-5.8s6 2.5 6 5.8"/><path d="M13.2 15.3c2.7.2 4.8 2.4 4.8 5.1"/></svg>
+                        <span class="hc-label">About</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#services" data-target="services">
+                        <svg viewBox="0 0 24 24"><path d="M20 4c-8 0-14 4-14 12 0 1.5.3 2.7.8 3.7"/><path d="M20 4c0 8-4 14-12 14-1.5 0-2.7-.3-3.7-.8"/><path d="M8 20L19 5"/></svg>
+                        <span class="hc-label">Offerings</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#products" data-target="products">
+                        <svg viewBox="0 0 24 24"><path d="M12 9c-3.3 0-5.5 2.4-5.5 6 0 3 2 6 5.5 6s5.5-3 5.5-6c0-3.6-2.2-6-5.5-6z"/><path d="M12 9V6"/><path d="M12 6c.8-1.3 2.5-1.6 3.5-1"/></svg>
+                        <span class="hc-label">Produce</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#delivery" data-target="delivery">
+                        <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                        <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#gallery" data-target="gallery">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="14" rx="1.2"/><circle cx="8.2" cy="9.5" r="1.6"/><path d="M4 16.5l4.5-4.5 3.3 3.2 4.7-5.4 4.5 5.7"/></svg>
+                        <span class="hc-label">Gallery</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#news-updates" data-target="news-updates">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M7 9h6M7 12.2h6M7 15.4h4"/><path d="M17 9v6.4"/></svg>
+                        <span class="hc-label">News</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#contact" data-target="contact">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.2"/><path d="M3.3 6l8.7 6.8L20.7 6"/></svg>
+                        <span class="hc-label">Contact</span><span class="hc-ping"></span></a></li>
+                      <li class="hc-cell"><a class="hc-link" href="#location" data-target="location">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.5s7-7.2 7-12.2a7 7 0 10-14 0c0 5 7 12.2 7 12.2z"/><circle cx="12" cy="9.3" r="2.4"/></svg>
+                        <span class="hc-label">Location</span><span class="hc-ping"></span></a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="hc-connector-solo" aria-hidden="true"></div>
+                <div class="hc-cta-box"><a href="{% url 'shop' %}" class="hc-cta"><i class="fas fa-leaf"></i><span>Order</span><span>Now</span></a></div>
+            </nav>
+ 
+            <!-- Hamburger Button (mobile only) -->
+            <button class="hamburger" id="mobile-menu" aria-label="Open navigation menu" aria-expanded="false">
+                <span class="ham-line ham-top"></span>
+                <span class="ham-line ham-mid"></span>
+                <span class="ham-line ham-bot"></span>
+            </button>
+        </div>
+    </header>
+ 
+    <!-- ============================================================
+         SIDE DRAWER MENU
+    ============================================================ -->
+    <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+ 
+    <aside class="side-drawer" id="sideDrawer" aria-label="Mobile Navigation" aria-hidden="true">
+ 
+        <!-- Drawer Header -->
+        <div class="drawer-header">
+            <div class="drawer-brand">
+                <span class="drawer-brand-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="" width="72" height="72" loading="eager"></span>
+                <div>
+                    <p class="drawer-brand-name">आँगन बारी</p>
+                    <p class="drawer-brand-tag">Angan Baari</p>
+                </div>
+            </div>
+            <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+ 
+        <!-- Drawer Nav Links — Vertical Honeycomb Chain -->
+        <nav class="drawer-nav" aria-label="Mobile Navigation Links">
+              <ul class="dnav-list" id="dnavList">
+                <li class="dnav-item" data-index="0"><a class="dnav-link" href="#about" data-target="about">
+                  <i class="fas fa-info-circle"></i><span class="dnav-label">About</span></a></li>
+                <li class="dnav-item" data-index="1"><a class="dnav-link" href="#services" data-target="services">
+                  <i class="fas fa-leaf"></i><span class="dnav-label">Offerings</span></a></li>
+                <li class="dnav-item" data-index="2"><a class="dnav-link" href="#products" data-target="products">
+                  <i class="fas fa-apple-alt"></i><span class="dnav-label">Produce</span></a></li>
+                <li class="dnav-item" data-index="3"><a class="dnav-link" href="#delivery" data-target="delivery">
+                  <i class="fas fa-shopping-bag"></i><span class="dnav-label">Shop</span></a></li>
+                <li class="dnav-item" data-index="4"><a class="dnav-link" href="#gallery" data-target="gallery">
+                  <i class="fas fa-images"></i><span class="dnav-label">Gallery</span></a></li>
+                <li class="dnav-item" data-index="5"><a class="dnav-link" href="#news-updates" data-target="news-updates">
+                  <i class="fas fa-newspaper"></i><span class="dnav-label">News</span></a></li>
+                <li class="dnav-item" data-index="6"><a class="dnav-link" href="#contact" data-target="contact">
+                  <i class="fas fa-envelope"></i><span class="dnav-label">Contact</span></a></li>
+                <li class="dnav-item" data-index="7"><a class="dnav-link" href="#location" data-target="location">
+                  <i class="fas fa-map-marker-alt"></i><span class="dnav-label">Location</span></a></li>
+              </ul>
+        </nav>
+ 
+        <!-- Drawer CTA -->
+        <div class="drawer-cta">
+            <a href="{% url 'shop' %}" class="drawer-order-btn">
+                <i class="fas fa-leaf"></i> Place an Order
+            </a>
+        </div>
+ 
+        <!-- Drawer Footer Info -->
+        <div class="drawer-footer">
+            <p class="drawer-tagline">Fresh &middot; Organic &middot; Sustainable</p>
+            <div class="drawer-socials">
+                <a href="https://www.facebook.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@AnganBaari" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/anganbaari" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.threads.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="Threads" style="display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 6.995 4.708 16.008 7.005 25.403 6.493 12.38-.68 22.081-5.407 28.819-14.041 5.129-6.675 8.374-15.311 9.678-25.396 5.808 3.506 10.1 8.12 12.509 13.677 4.956 11.421 5.253 30.18-10.25 45.625-13.616 13.56-29.976 19.425-54.73 19.594-27.456-.19-48.24-9.02-61.777-26.24C9.52 140.88 3.114 121.88 2.857 97.024c.257-24.854 6.663-43.854 19.053-56.494C35.447 23.27 56.23 14.44 83.687 14.25c27.635.19 48.728 9.064 62.722 26.37 6.868 8.561 12.007 19.324 15.368 32.012l16.108-4.278c-4.027-14.927-10.305-27.739-18.745-38.146C141.329 10.804 116.55-.067 83.69.001 50.795.068 25.752 11.01 9.884 32.609-4.05 51.73-11.04 78.173-11.333 97.024v.192c.293 18.85 7.283 45.295 21.217 64.416C26.752 182.99 51.795 193.932 84.69 194c34.057-.083 57.805-10.67 74.473-27.252 22.02-21.956 21.463-49.435 14.18-66.327-5.177-11.944-14.8-21.437-31.806-27.433Z"/></svg></a>
+            </div>
+            <p class="drawer-location"><i class="fas fa-map-marker-alt"></i> Bhulka Danda, Rupandehi, Nepal</p>
+        </div>
+ 
+    </aside>
+ 
+    <!-- ============================================================
+         CINEMATIC HERO CAROUSEL
+    ============================================================ -->
+    <div class="hero-carousel" id="hero">
+        <div class="carousel-slide active" data-slide="0">
+           <div class="slide-bg" style="background-image: url(https://ik.imagekit.io/anganbaari/angan-baari/site-images/mango3_eTjzEsA8l.jpg)"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="slide-eyebrow" data-delay="0">Since 2015 · Bhulka Danda, Nepal</p>
+                <h1 class="slide-heading" data-delay="1">Welcome to<br><em>आँगन बारी</em></h1>
+                <p class="slide-sub" data-delay="2">परम्पराको जगमा, मायाले हुर्काइएको।</p>
+                <div class="slide-actions" data-delay="3">
+                    <a href="#products" class="btn-hero-primary">Explore Our Produce</a>
+                    <a href="#about" class="btn-hero-ghost">Our Story</a>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="carousel-slide" data-slide="1">
+            <div class="slide-bg" style="background-image: url(https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey2_j_bEmmBF4.jpg)"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="slide-eyebrow">Farm to Table</p>
+                <h1 class="slide-heading">From Our Farm<br><em>to Your Table</em></h1>
+                <p class="slide-sub">शुद्घ, ताजा र अर्गानिक उत्पादनको फरक स्वाद लिनुहोस्।</p>
+                <div class="slide-actions">
+                    <a href="#delivery" class="btn-hero-primary">Shop Now</a>
+                    <a href="{% url 'shop' %}" class="btn-hero-ghost">Place an Order</a>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="carousel-slide" data-slide="2">
+            <div class="slide-bg" style="background-image: url(https://ik.imagekit.io/anganbaari/angan-baari/site-images/ecobags.png)"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="slide-eyebrow">Our Commitment</p>
+                <h1 class="slide-heading">Committed to<br><em>Sustainability</em></h1>
+                <p class="slide-sub">प्रत्येक फसलसँगै, धर्तीको पालनपोषण।</p>
+                <div class="slide-actions">
+                    <a href="#about" class="btn-hero-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="carousel-slide" data-slide="3">
+            <div class="slide-bg" style="background-image: url(https://ik.imagekit.io/anganbaari/angan-baari/site-images/goat6_SmAExrrs_.jpg)"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="slide-eyebrow">Ethical Animal Care</p>
+                <h1 class="slide-heading">Happy Animals,<br><em>Healthy Produce</em></h1>
+                <p class="slide-sub">हाम्रो हरेक उत्पादनमा, पशुपक्षीप्रतिको स्नेह र दायित्व झल्कन्छ।</p>
+                <div class="slide-actions">
+                    <a href="#services" class="btn-hero-primary">See Our Offerings</a>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="carousel-slide" data-slide="4">
+            <div class="slide-bg" style="background-image: url(https://ik.imagekit.io/anganbaari/angan-baari/site-images/temple1_LOxAayTGY.jpg)"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <p class="slide-eyebrow">Generations of Wisdom</p>
+                <h1 class="slide-heading">Wisdom of the Earth,<br><em>Generations of Care</em></h1>
+                <p class="slide-sub">दिगो खेती र निरन्तर फसलका लागि, परम्परागत ज्ञानको पुनर्जागरण।</p>
+                <div class="slide-actions">
+                    <a href="#about" class="btn-hero-primary">Read Our Legacy</a>
+                </div>
+            </div>
+        </div>
+ 
+        <!-- Carousel Controls -->
+        <div class="carousel-nav">
+            <button class="prev-slide" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-slide" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="carousel-dots"></div>
+ 
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"><span></span></div>
+        </div>
+    </div>
+ 
+    <!-- ============================================================
+         STATS STRIP
+    ============================================================ -->
+    <div class="stats-strip">
+        <div class="stats-inner">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="0">
+                <span class="stat-number" data-target="10">0</span><span class="stat-suffix">+</span>
+                <p>Years of Farming</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <span class="stat-number" data-target="100">0</span><span class="stat-suffix">%</span>
+                <p>Organic Certified</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <span class="stat-number" data-target="11">0</span><span class="stat-suffix">+</span>
+                <p>Fresh Produce Types</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <span class="stat-number" data-target="0">0</span><span class="stat-suffix"></span>
+                <p class="stat-zero">Synthetic Chemicals</p>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- ============================================================
+         ABOUT / VISION — CINEMATIC SPLIT LAYOUT
+    ============================================================ -->
+    <section class="section about-section" id="about">
+        <div class="about-inner">
+            <div class="about-images" data-aos="fade-right" data-aos-duration="1000">
+                <div class="about-img-primary">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/tradition1_6HaG7hFb5.jpg" alt="Traditional sustainable farming practices at our Angan Baari" loading="lazy">
+                </div>
+                <div class="about-img-secondary">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/ecobags_WDVm0fqUo.jpg" alt="Sunflowers blooming at Angan Baari" loading="lazy">
+                    <div class="about-badge">
+                        <i class="fas fa-leaf"></i>
+                        <span>Pure &amp; Organic</span>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="about-content" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="100">
+                <p class="section-eyebrow">Our Vision &amp; Principles</p>
+                <h2 class="section-heading">Cultivating a<br><em>Healthier Future</em></h2>
+                <p class="about-lead">
+                     आँगन बारी(Angan Baari) मा, हामी केवल अन्न मात्र उब्जाउँदैनौं — हामी एउटा स्वस्थ भविष्यको निर्माण गर्दैछौं।.
+                     <strong>2015</strong>साल देखि, हामी ताजा, Organic र दिगो(sustainable) खेती गर्ने हाम्रो अठोट नै हामीले गर्ने हरेक कामको मुख्य आधार हो।
+                </p>
+ 
+                <ul class="vision-pillars">
+                    <li>
+                        <div class="pillar-icon"><i class="fas fa-flask"></i></div>
+                        <div class="pillar-body">
+                            <strong>Organic Purity</strong>
+                            <span>रासायनिक र विषादी मुक्त, पूर्ण रूपमा प्राकृतिक रूपमा फलाइएका उत्पादनहरू।"</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pillar-icon"><i class="fas fa-recycle"></i></div>
+                        <div class="pillar-body">
+                            <strong>Sustainable Future</strong>
+                            <span>Compost मलको निर्माण, आकाशे पानीको संकलन, र स्रोतसाधनको उचित संरक्षण।</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pillar-icon"><i class="fas fa-heart"></i></div>
+                        <div class="pillar-body">
+                            <strong>Ethical Animal Care</strong>
+                            <span>माया र हेरचाहका साथ पालिएका खुसी बाख्राहरू र खुला चरनमा हुर्किएका कुखुराहरू।</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pillar-icon"><i class="fas fa-users"></i></div>
+                        <div class="pillar-body">
+                            <strong>Community Roots</strong>
+                            <span>स्थानीय समुदायसँग स्वस्थ उत्पादन र दिगो खेतीको ज्ञान बाँड्दै।</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pillar-icon"><i class="fas fa-smile-beam"></i></div>
+                        <div class="pillar-body">
+                            <strong>Happy Team</strong>
+                            <span>एक आत्मीय कार्यवातावरण, जहाँ हाम्रा टिमको खुसी र मेहनतले स्वस्थ खाद्यान्न फलाउँछौं।</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pillar-icon"><i class="fas fa-lightbulb"></i></div>
+                        <div class="pillar-body">
+                            <strong>Wisdom + Innovation</strong>
+                            <span>परम्परागत नेपाली मौलिकता र आधुनिक दिगो प्रविधिको मिश्रण।</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pillar-icon pillar-icon-eco"><i class="fas fa-leaf"></i></div>
+                        <div class="pillar-body">
+                            <strong>Eco-Friendly Packaging</strong>
+                            <span>हाम्रा सबै उत्पादनहरू Cornstarch Eco Plastic, Recycled Paper Bags र Eco-friendly Bags मा प्याक गरिन्छ — पृथ्वीको लागि सुरक्षित।</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- ============================================================
+         IMMERSIVE PARALLAX BANNER
+    ============================================================ -->
+    <div class="parallax-banner" style="background-image: url(https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey6_A1zwAW63V.jpg)">
+        <div class="parallax-overlay"></div>
+        <div class="parallax-content" data-aos="zoom-in" data-aos-duration="900">
+            <i class="fas fa-mountain"></i>
+            <blockquote>"We believe in farming that nourishes people, animals, and the land for generations to come."</blockquote>
+            <cite>— Angan Baari</cite>
+        </div>
+    </div>
+ 
+    <!-- ============================================================
+         SERVICES / OFFERINGS — IMMERSIVE GRID
+    ============================================================ -->
+    <section class="section services-section" id="services">
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-eyebrow">What We Offer</p>
+            <h2 class="section-heading">From the <em>Heart of Our Farm</em></h2>
+        </div>
+ 
+        <div class="offerings-image-grid">
+            <div class="offering-item" data-aos="fade-up" data-aos-delay="0">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/jackfruit3_lYaKQw9dV.jpg" alt="Fresh organic fruits: mango, papaya, litchi, jackfruit" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Seasonal</span>
+                    <h3>Our Fruits</h3>
+                    <p>हेरचाहका साथ उमारिएका Alfanso आँप, मेवा, लीची र कटहर जस्ता मौसमी फलफूलहरू।</p>
+                </div>
+            </div>
+ 
+            <div class="offering-item" data-aos="fade-up" data-aos-delay="80">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey5_kHfoWbqqv.jpg" alt="Pure golden organic honey in a jar" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Signature</span>
+                    <h3>Pure Organic Honey</h3>
+                    <p>हाम्रा Healthy मौरीहरूबाट बडो जतनका साथ निकालिएको मह, जसले उनीहरूको कल्याण र महको उत्कृष्ट मिठासलाई सुनिश्चित गर्दछ।</p>
+                </div>
+            </div>
+ 
+            <div class="offering-item" data-aos="fade-up" data-aos-delay="160">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/sustainable2_ulQfG27y4.jpg" alt="Vibrant assortment of fresh organic vegetables" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Year-round</span>
+                    <h3>Organic Vegetables</h3>
+                    <p>कुनै पनि रासायनिक मल बिना प्राकृतिक रूपमा उमारिएका, ताजा तथा मौसमी अर्गानिक तरकारीहरूको वृहत विकल्प।</p>
+                </div>
+            </div>
+ 
+            <div class="offering-item" data-aos="fade-up" data-aos-delay="0">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/rooster1_ShWF1BKjL.jpg" alt="Healthy local chickens and goats roaming freely on the farm" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Free-range</span>
+                    <h3>Farm Animals</h3>
+                    <p>ताजा अण्डाका लागि स्वस्थ स्थानीय (Local) कुखुराहरू, र गुणस्तरीय मासुका लागि दिगो रूपमा पालिएका खसी-बोकाहरू।</p>
+                </div>
+            </div>
+ 
+            <div class="offering-item" data-aos="fade-up" data-aos-delay="80">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/sustainable1_i_w1Y8_fL.jpg"alt="Hands holding a green leaf, symbolizing organic principles" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Philosophy</span>
+                    <h3>Our Organic Principles</h3>
+                    <p>रासायनिक मलमुक्त र विशुद्ध अर्गानिक पद्धति: मानव र प्रकृतिको स्वास्थ्य नै हाम्रो प्राथमिकता।</p>
+                </div>
+            </div>
+ 
+            <div class="offering-item" data-aos="fade-up" data-aos-delay="160">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/tradition1_6HaG7hFb5.jpg" alt="A farmer working in a field using traditional methods" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Heritage</span>
+                    <h3>Traditional Farming</h3>
+                    <p>पुर्खौली ज्ञान र परम्परागत सीपको सम्मान गर्दै: मौलिक, दिगो र संकट-प्रतिरोधी कृषिको निरन्तरता।</p>
+                </div>
+            </div>
+ 
+            <div class="offering-item offering-wide" data-aos="fade-up" data-aos-delay="60">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/compost2_-QuyAq90Q.jpg" alt="Rainwater harvesting and composting at our farm" loading="lazy">
+                <div class="overlay">
+                    <span class="offering-tag">Eco Practice</span>
+                    <h3>Sustainable Practices</h3>
+                    <p>उन्नत Compost प्रविधि र Rainwater Harvesting प्रणालीद्वारा प्राकृतिक स्रोतहरूको संरक्षण: आगामी पुस्ताप्रतिको हाम्रो जिम्मेवारी।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- ============================================================
+         PRODUCTS — PREMIUM CARDS
+    ============================================================ -->
+    <section class="section products-section" id="products">
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-eyebrow">Fresh &amp; Organic</p>
+            <h2 class="section-heading">Our <em>Fresh Produce</em></h2>
+            <p class="section-sub">हिमाली आकाशमुनि फलेका र पूर्ण रूपमा परिपक्व भएपछि मात्र सङ्कलन गरिएका उत्कृष्ट उत्पादनहरू।</p>
+        </div>
+ 
+        <!-- Category Filter Tabs -->
+        <div class="shop-tabs" data-aos="fade-up" data-aos-delay="80">
+            <button class="shop-tab active" data-cat="fruits">
+                <i class="fas fa-apple-alt"></i><span>Fruits</span>
+            </button>
+            <button class="shop-tab" data-cat="vegetables">
+                <i class="fas fa-carrot"></i><span>Vegetables</span>
+            </button>
+            <button class="shop-tab" data-cat="honey">
+                <i class="fas fa-jar"></i><span>Honey</span>
+            </button>
+            <button class="shop-tab" data-cat="animals">
+                <i class="fas fa-paw"></i><span>Animals</span>
+            </button>
+            <button class="shop-tab" data-cat="pickles">
+                <i class="fas fa-pepper-hot"></i><span>Pickles</span>
+            </button>
+            <button class="shop-tab" data-cat="all">
+                <i class="fas fa-border-all"></i><span>All</span>
+            </button>
+        </div>
+ 
+        <!-- Product Count -->
+        <p class="shop-count" id="shopCount" data-aos="fade-up" data-aos-delay="100">
+            Showing <span id="shopVisible">11</span> of <span id="shopTotal">11</span> products
+        </p>
+ 
+        <!-- Product Grid -->
+        <p class="shop-hint" data-aos="fade-up">
+            <i class="fas fa-hand-pointer"></i>
+            Click on any product card to learn more details about it!
+        </p>
+
+        <!-- Product Grid -->
+        <div class="shop-grid" id="shopGrid">
+            
+            <!-- ── HONEY ── -->
+            <div class="shop-card shop-card-featured hidden" data-cat="honey" data-aos="fade-right" data-aos-delay="0">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey9_68vqyAqhx.jpg" alt="Jar of pure golden organic honey" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-jar"></i> Honey &middot; Signature</div>
+                    <h3>Pure Angan Baari Gold Honey</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>हाम्रो आफ्नै मौरीको घारबाट प्राकृतिक रूपमा निकालिएको काँचो मह — स्वादिलो र पोषक तत्वले भरिपूर्ण।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Pure%20Tilottama%20Gold%20Honey*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/honey/" class="btn-details" aria-label="View Honey details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/honey/" class="shop-card-link" aria-label="View Pure Angan Baari Gold Honey details"></a>
+            </div>
+ 
+            <!-- ── FRUITS ── -->
+            <div class="shop-card" data-cat="fruits" data-aos="fade-right" data-aos-delay="0">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/mangofruit3_etFSl40hI.jpg" alt="Fresh organic mangoes" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-apple-alt"></i> Fruits &middot; Seasonal, May&ndash;July</div>
+                    <h3>Mangoes</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>गुलियो, रसिलो र १००% Organic— हाम्रो बगैँचाबाट पूर्ण रूपमा पाकेको अवस्थामा टिपिएको।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Mangoes*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/mangoes/" class="btn-details" aria-label="View Mangoes details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/mangoes/" class="shop-card-link" aria-label="View Mangoes details"></a>
+            </div>
+ 
+            <div class="shop-card" data-cat="fruits" data-aos="fade-right" data-aos-delay="60">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/litchi5_uItrfNQqg.jpg" alt="Fresh aromatic litchi fruits" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-apple-alt"></i> Fruits &middot; Seasonal, June&ndash;July</div>
+                    <h3>Litchi</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>पातलो बोक्रा र सानो बियाँ भएको ताजा र रसिलो लीची (असार–साउनमा उपलब्ध): गर्मी भगाउने एक प्राकृतिक मिठास।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Litchi*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/litchi/" class="btn-details" aria-label="View Litchi details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/litchi/" class="shop-card-link" aria-label="View Litchi details"></a>
+            </div>
+ 
+            <div class="shop-card" data-cat="fruits" data-aos="fade-left" data-aos-delay="120">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/jackfruit1_ASlBDXDfX.jpg" alt="Fresh versatile jackfruit" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-apple-alt"></i> Fruits &middot; Seasonal</div>
+                    <h3>Jackfruit</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>बहुउपयोगी र पौष्टिक ताजा कटहर — तरकारी, बुइँगल (अचार) बनाउन वा पाकेको खानका लागि एकदमै उपयुक्त।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Jackfruit*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/jackfruit/" class="btn-details" aria-label="View Jackfruit details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/jackfruit/" class="shop-card-link" aria-label="View Jackfruit details"></a>
+            </div>
+ 
+            <div class="shop-card" data-cat="fruits" data-aos="fade-left" data-aos-delay="0">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/papaya2_4zfgtxYZ4.jpg" alt="Sweet healthy organic papaya" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-apple-alt"></i> Fruits &middot; Year-round</div>
+                    <h3>Papaya</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>Vitamin ले भरिपूर्ण शत-प्रतिशत प्राकृतिक मेवा — बाह्रै महिना ताजा र उपलब्ध।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Papaya*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/papaya/" class="btn-details" aria-label="View Papaya details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/papaya/" class="shop-card-link" aria-label="View Papaya details"></a>
+            </div>
+ 
+            <div class="shop-card" data-cat="fruits" data-aos="fade-right" data-aos-delay="60">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/banana3_NYdOii4fV.jpg" alt="Organic bananas from our farm" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-apple-alt"></i> Fruits &middot; Year-round</div>
+                    <h3>Bananas</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>जैविक Compost माटोमा फलेको गुलियो र गुणकारी फल: Healthy खाजाका लागि उत्तम रोजाइ।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Bananas*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/banana/" class="btn-details" aria-label="View Banana details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/banana/" class="shop-card-link" aria-label="View Bananas details"></a>
+            </div>
+ 
+            <div class="shop-card" data-cat="fruits" data-aos="fade-right" data-aos-delay="120">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/lemon1_G6XfAx2Ei.jpg" alt="Organic lemons from our farm" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-apple-alt"></i> Fruits &middot; Year-round</div>
+                    <h3>Lemons</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>Vitamin C सीले भरिपूर्ण अर्गानिक उत्पादन: पोषिलो जूस र खाना पकाउनका लागि एकदमै उपयुक्त।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Lemons*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/lemons/" class="btn-details" aria-label="View Lemons details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/lemons/" class="shop-card-link" aria-label="View Lemons details"></a>
+            </div>
+ 
+            <!-- ── VEGETABLES ── -->
+            <div class="shop-card hidden" data-cat="vegetables" data-aos="fade-left" data-aos-delay="0">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/vegetable2_U3a1m_3E3.jpg" alt="Fresh organic vegetables from our farm" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-carrot"></i> Vegetables &middot; Seasonal</div>
+                    <h3>Seasonal Vegetables</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>100% रसायनमुक्त र प्राकृतिक रूपमा फलाइएका, ताजा मौसमी अर्गानिक तरकारीहरू।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Seasonal%20Vegetables*.%20Please%20let%20me%20know%20what%20is%20available%20and%20the%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/vegetables/" class="btn-details" aria-label="View Vegetables details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/vegetables/" class="shop-card-link" aria-label="View Seasonal Vegetables details"></a>
+            </div>
+ 
+            <div class="shop-card hidden" data-cat="vegetables" data-aos="fade-left" data-aos-delay="60">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/mushroom_AMsts_aMT.jpg" alt="Fresh organic mushrooms" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-carrot"></i> Vegetables &middot; Seasonal</div>
+                    <h3>Mushrooms</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>ताजा संकलन गरिएका पोषकतत्वयुक्त च्याउ: १००% रसायनमुक्त र प्राकृतिक उत्पादन।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Mushrooms*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/mushroom/" class="btn-details" aria-label="View Mushroom details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/mushroom/" class="shop-card-link" aria-label="View Mushrooms details"></a>
+            </div>
+
+ 
+            <!-- ── ANIMALS ── -->
+            <div class="shop-card hidden" data-cat="animals" data-aos="fade-right" data-aos-delay="0">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/goat1_eP_rCj1X6Q.jpg" alt="Healthy locally raised organic goat" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-paw"></i> Animals &middot; Free-range</div>
+                    <h3>Goats</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>उत्कृष्ट मासु र प्रजनन्का लागि स्वस्थ लोकल बाख्राहरू: अर्गानिक दाना र विशेष रेखदेखमा पालिएका।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20enquire%20about%20*Goats*.%20Please%20let%20me%20know%20availability%20and%20pricing."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/goats/" class="btn-details" aria-label="View Goats details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/goats/" class="shop-card-link" aria-label="View Goats details"></a>
+            </div>
+ 
+            <div class="shop-card hidden" data-cat="animals" data-aos="fade-left" data-aos-delay="60">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/localbhale1_hnIyaEUfe.jpg" alt="Free-range hens from our farm" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-paw"></i> Animals &middot; Free-range</div>
+                    <h3>Free-range Hens</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>खुला मैदानमा चरेका, पोषिला र स्वस्थ Local कुखुरा: शत-प्रतिशत प्राकृतिक र Healthy रोजाइ।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20enquire%20about%20*Free-range%20Hens*.%20Please%20let%20me%20know%20availability%20and%20pricing."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/local-chickens/" class="btn-details" aria-label="View Local Chickens details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/local-chickens/" class="shop-card-link" aria-label="View Free-range Hens details"></a>
+            </div>
+ 
+            <!-- ── PICKLES ── -->
+            <div class="shop-card hidden" data-cat="pickles" data-aos="fade-left" data-aos-delay="0">
+                <div class="shop-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/mangopickle1_2gaGABtOCV.jpg" alt="Homemade tangy mango pickles" loading="lazy">
+                </div>
+                <div class="shop-body">
+                    <div class="shop-meta"><i class="fas fa-pepper-hot"></i> Pickles &middot; Handmade</div>
+                    <h3>Homemade Mango Pickle</h3>
+                    <div class="shop-title-rule"></div>
+                    <p>Farm को ताजा आँपबाट बनेको स्वादिष्ट र अमिलो-पिरो अचार: हरेक खानाको स्वाद झन् बढाउने उत्कृष्ट तिहुन।</p>
+                    <div class="shop-cta-row">
+                        <a class="btn-whatsapp"
+                           href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Homemade%20Mango%20Pickle*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> <span class="btn-label">WhatsApp</span>
+                        </a>
+                        <a href="{% url 'shop' %}" class="btn-shop-icon" aria-label="Visit our shop">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <a href="/products/mango-pickles/" class="btn-details" aria-label="View Mango Pickles details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="/products/mango-pickles/" class="shop-card-link" aria-label="View Homemade Mango Pickle details"></a>
+            </div>
+ 
+        </div>
+    </section>
+ 
+    <!-- ============================================================
+         ORDERING & DELIVERY
+    ============================================================ -->
+    <section class="section delivery-section" id="delivery">
+
+        <!-- Full-bleed background photo + overlay -->
+        <div class="delivery-bg-photo"></div>
+        <div class="delivery-bg-overlay"></div>
+
+        <div class="delivery-inner">
+
+            <div class="section-header" data-aos="fade-up">
+                <p class="section-eyebrow">How to Order</p>
+                <h2 class="section-heading">Ordering &amp; <em>Delivery</em></h2>
+                <p class="section-sub">हाम्रो ताजा उत्पादन फार्मबाट सिधै तपाईंको घरदैलोसम्म — सरल, छिटो र भरपर्दो।</p>
+            </div>
+
+            <!-- ── Feature Split Layout ── -->
+            <div class="fs-body" data-aos="fade-up" data-aos-delay="60">
+
+                <!-- LEFT — Form Panel + Quote -->
+                <div class="fs-left">
+
+                    <!-- Shop CTA Panel (replaces the old free-text order form) -->
+                    <div class="fs-form-panel fs-shop-cta">
+                        <div class="fs-shop-icon-wrap">
+                            <span class="fs-shop-icon-ring"></span>
+                            <div class="fs-shop-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                        </div>
+                        <h3 class="fs-form-title">Ready to Order?</h3>
+                        <p class="fs-shop-brand-line">आँगन बारी पसल</p>
+
+                        {% if featured_products %}
+                        <!-- Row 1 — rotates one direction -->
+                            <div class="carousel-3d-scene" id="miniShopScene">
+                                <div class="carousel-3d" id="miniShopRing">
+                                    {% for product in featured_products %}
+                                    <a href="{% url 'shop' %}" class="ring-card">
+                                        <div class="ring-card-inner">
+                                            <div class="ring-card-img">
+                                                {% if product.main_image %}
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+                                                {% else %}
+                                                <i class="fas fa-seedling"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="rc-scrim"></div>
+                                            <div class="rc-content">
+                                                <div class="rc-name">{{ product.name }}</div>
+                                                {% if product.price and product.price > 0 %}
+                                                <div class="rc-price">Rs. {{ product.price }}<span>/{{ product.price_unit|default:"unit"|cut:"per " }}</span></div>
+                                                {% else %}
+                                                <div class="rc-price rc-tbd">Ask price</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Row 2 — same products, rotates the opposite direction,
+                                 starting from a different point in the ring so it never
+                                 shows the same front product as row 1 at the same time -->
+                            <div class="carousel-3d-scene carousel-3d-scene-row2" id="miniShopScene2">
+                                <div class="carousel-3d" id="miniShopRing2">
+                                    {% for product in featured_products %}
+                                    <a href="{% url 'shop' %}" class="ring-card">
+                                        <div class="ring-card-inner">
+                                            <div class="ring-card-img">
+                                                {% if product.main_image %}
+                                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+                                                {% else %}
+                                                <i class="fas fa-seedling"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="rc-scrim"></div>
+                                            <div class="rc-content">
+                                                <div class="rc-name">{{ product.name }}</div>
+                                                {% if product.price and product.price > 0 %}
+                                                <div class="rc-price">Rs. {{ product.price }}<span>/{{ product.price_unit|default:"unit"|cut:"per " }}</span></div>
+                                                {% else %}
+                                                <div class="rc-price rc-tbd">Ask price</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <a href="{% url 'shop' %}" class="fs-shop-btn">
+                            <i class="fas fa-store"></i>
+                            <span>View Full Shop</span>
+                            <i class="fas fa-arrow-right fs-shop-btn-arrow"></i>
+                        </a>
+                    </div>
+
+                    <!-- Quote Block -->
+                    <div class="fs-quote-block">
+                        <span class="fs-quote-mark">"</span>
+                        <p class="fs-quote-text">हामीले रोप्ने हरेक बीउमा एउटा वाचा लुकेको हुन्छ — शुद्ध खाना, इमानदार हातहरू, र पृथ्वीबाट जति लियो त्यति नै <em>प्रकृतिलाई फिर्ता दिने</em> एक दिगो कृषि अभ्यास। र, त्यही शुद्धता र वाचालाई हामी सुरक्षित रूपमा तपाईंको घरदैलोसम्म पुर्‍याउँछौँ।</p>
+                        <div class="fs-quote-divider"></div>
+                        <p class="fs-quote-attr"><i class="fas fa-seedling"></i> Angan Baari &middot; Since 2015</p>
+                    </div>
+
+                </div><!-- end fs-left -->
+
+                <!-- RIGHT — Three Info Strips -->
+                <div class="fs-strips">
+
+                    <!-- Home Delivery -->
+                    <div class="fs-strip fs-strip-gold">
+                        <div class="fs-strip-top">
+                            <div class="fs-strip-icon fs-icon-gold">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="fs-strip-header">
+                                <h3 class="fs-strip-title">Home Delivery</h3>
+                                <p class="fs-strip-sub">हामी फार्मलाई नै तपाईंको घरदैलोमा पुर्‍याउँछौँ।</p>
+                            </div>
+                        </div>
+
+                        <!-- Free Delivery Zones Box -->
+                        <div class="fs-zones-box">
+                            <div class="fs-zones-label">
+                                <i class="fas fa-gift"></i>
+                                <span class="fs-zones-label-text">Free Delivery Zones</span>
+                                <span class="fs-zones-label-min">(Min. order NRs. 1,799)</span>
+                            </div>
+                            <div class="fs-zones-chips">
+                                <span class="fs-zone-chip"><i class="fas fa-map-marker-alt"></i> Bhaluwai</span>
+                                <span class="fs-zone-chip"><i class="fas fa-map-marker-alt"></i> Manigram</span>
+                                <span class="fs-zone-chip"><i class="fas fa-map-marker-alt"></i> Lakhan Thapa Chowk (Chauda)</span>
+                                <span class="fs-zone-chip"><i class="fas fa-map-marker-alt"></i> Bhawanipur</span>
+                                <span class="fs-zone-chip"><i class="fas fa-map-marker-alt"></i> Kanchi Bazar</span>
+                            </div>
+                        </div>
+
+                        <ul class="fs-strip-list">
+                            <li><i class="fas fa-rupee-sign"></i><span>Minimum order for delivery: <strong>NRs. 1,399</strong></span></li>
+                            <li><i class="fas fa-map-marker-alt"></i><span>Outside free zones — delivery charge based on location</span></li>
+                            <li><i class="fas fa-clock"></i><span>Delivery time: <strong>2 – 3.5 hours</strong> after confirmation</span></li>
+                        </ul>
+
+                        <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20place%20a%20delivery%20order.%20Please%20let%20me%20know%20the%20delivery%20charge%20to%20my%20location."
+                           class="fs-wa-btn-full" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> Order Delivery via WhatsApp
+                        </a>
+                    </div>
+
+                    <!-- Farm Pickup -->
+                    <div class="fs-strip fs-strip-green">
+                        <div class="fs-strip-top">
+                            <div class="fs-strip-icon fs-icon-green">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="fs-strip-header">
+                                <h3 class="fs-strip-title">Farm Pickup</h3>
+                                <p class="fs-strip-sub">Business hours मा यहाँहरूलाई सधैँ स्वागत छ।</p>
+                            </div>
+                        </div>
+                        <ul class="fs-strip-list">
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Bhulka Danda, Tilottama-11, Rupandehi</span></li>
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Open <strong>7:00 AM – 8:00 PM</strong>, every day</span></li>
+                            <li><i class="fas fa-check-circle fs-green"></i><span>No minimum order — come as you are</span></li>
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Fresh produce ready and waiting for you</span></li>
+                        </ul>
+                        <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20arrange%20a%20farm%20pickup.%20Please%20let%20me%20know%20availability."
+                           class="fs-wa-btn-outline" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> Arrange Pickup via WhatsApp
+                        </a>
+                    </div>
+
+                    <!-- Bulk Orders -->
+                    <div class="fs-strip fs-strip-earth">
+                        <div class="fs-strip-top">
+                            <div class="fs-strip-icon fs-icon-earth">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <div class="fs-strip-header">
+                                <h3 class="fs-strip-title">Bulk Orders</h3>
+                                <p class="fs-strip-sub">Restaurants, hotels, events &amp; families</p>
+                            </div>
+                        </div>
+                        <ul class="fs-strip-list">
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Bulk pricing available on all products</span></li>
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Fruits, vegetables, honey &amp; more</span></li>
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Flexible quantities — contact us for a quote</span></li>
+                            <li><i class="fas fa-check-circle fs-green"></i><span>Special arrangements for large orders</span></li>
+                        </ul>
+                        <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20am%20interested%20in%20placing%20a%20*bulk%20order*.%20Please%20let%20me%20know%20pricing%20and%20availability."
+                           class="fs-wa-btn-outline" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i> Enquire Bulk Order via WhatsApp
+                        </a>
+                    </div>
+
+                </div><!-- end fs-strips -->
+
+            </div><!-- end fs-body -->
+
+            <!-- ── Payment Methods Strip ── -->
+            <div class="payment-strip" data-aos="fade-up" data-aos-delay="60">
+
+                <p class="payment-strip-label">
+                    <i class="fas fa-shield-alt"></i> Accepted Payment Methods
+                </p>
+
+                <div class="payment-methods">
+
+                    <div class="payment-card">
+                        <div class="pm-icon pm-icon-cash">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="pm-body">
+                            <p class="pm-name">Cash</p>
+                            <p class="pm-note">On pickup &amp; delivery</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-divider"></div>
+
+                    <div class="payment-card">
+                        <div class="pm-icon pm-icon-esewa">
+                            <span class="pm-text-icon">e</span>
+                        </div>
+                        <div class="pm-body">
+                            <p class="pm-name">eSewa</p>
+                            <p class="pm-note">Digital wallet</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-divider"></div>
+
+                    <div class="payment-card">
+                        <div class="pm-icon pm-icon-khalti">
+                            <span class="pm-text-icon">K</span>
+                        </div>
+                        <div class="pm-body">
+                            <p class="pm-name">Khalti</p>
+                            <p class="pm-note">Digital wallet</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-divider"></div>
+
+                    <div class="payment-card">
+                        <div class="pm-icon pm-icon-bank">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="pm-body">
+                            <p class="pm-name">Bank Transfer</p>
+                            <p class="pm-note">Direct transfer</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="payment-note">
+                    <i class="fas fa-check-circle"></i>
+                    सामान बुझ्दा (Pickup गर्दा) वा घरमै मगाउँदा (Home Delivery) सबै प्रकारका Payment Methods हरू स्वीकार गरिन्छ — तपाईंलाई जुन सजिलो लाग्छ, त्यसरी नै भुक्तानी गर्नुहोस्!
+                </p>
+
+            </div>
+
+            <!-- ── Eco Packaging Strip ── -->
+            <div class="eco-packaging-strip" data-aos="fade-up" data-aos-delay="60">
+
+                <div class="eco-strip-header">
+                    <div class="eco-strip-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div>
+                        <p class="eco-strip-title">Eco-Friendly Packaging</p>
+                        <p class="eco-strip-sub">हामी पृथ्वीको हेरचाह गर्छौं — सुरुदेखि अन्तसम्म</p>
+                    </div>
+                </div>
+
+                <div class="eco-methods">
+
+                    <div class="eco-method-card">
+                        <div class="eco-method-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="eco-method-body">
+                            <p class="eco-method-name">Cornstarch Eco Plastic</p>
+                            <p class="eco-method-desc">मकैको स्टार्चबाट बनेको bio-degradable plastic — प्रकृतिमा घुल्ने, हानिकारक नहुने।</p>
+                        </div>
+                    </div>
+
+                    <div class="eco-method-card">
+                        <div class="eco-method-icon">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <div class="eco-method-body">
+                            <p class="eco-method-name">Recycled Paper Bags</p>
+                            <p class="eco-method-desc">पुनः प्रयोग भएको कागजबाट बनेका थैलाहरू — हल्का, मजबुत र वातावरण मैत्री।</p>
+                        </div>
+                    </div>
+
+                    <div class="eco-method-card">
+                        <div class="eco-method-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <div class="eco-method-body">
+                            <p class="eco-method-name">Eco-Friendly Bags</p>
+                            <p class="eco-method-desc">टिकाउ र पुनः प्रयोगयोग्य थैलाहरू — वातावरणमा न्यूनतम प्रभाव पार्ने।</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="eco-strip-footer">
+                    <i class="fas fa-external-link-alt"></i>
+                    हाम्रो Eco Packaging Partner:
+                    <a href="https://ecowrapnepal.com" target="_blank" rel="noopener noreferrer">
+                        EcoWrap Nepal
+                    </a>
+                    — Nepal's trusted eco-packaging supplier
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ============================================================
+         TESTIMONIALS
+    ============================================================ -->
+    <section class="section testimonials-section" id="testimonials">
+
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-eyebrow">Happy Customers</p>
+            <h2 class="section-heading">What Our <em>Customers Say</em></h2>
+            <p class="section-sub">हाम्रो फार्मका उत्पादनहरू मन पराउने ग्राहकहरूका वास्तविक अनुभवहरू।</p>
+        </div>
+
+        <div class="testimonials-grid">
+
+            <div class="testimonial-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="testi-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testi-quote">"Angan Baari को मह एकदमै शुद्ध र स्वादिष्ट छ। यसको फरक स्वाद चाख्ने बित्तिकै थाहा पाइन्छ — बजारमा पाइने साधारण मह जस्तो पटक्कै होइन। म निश्चित रूपमा फेरि Order गर्नेछु!"</p>
+                <div class="testi-author">
+                    <div class="testi-avatar">R</div>
+                    <div class="testi-info">
+                        <strong>Ramesh Gautam</strong>
+                        <span>Butwal, Rupandehi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card testi-featured" data-aos="fade-up" data-aos-delay="80">
+                <div class="testi-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testi-quote">"We ordered mangoes and litchi this season — fresh, sweet, and delivered on time. The farm is very genuine and the produce is clearly organic. Our whole family loved it. Highly recommended!"</p>
+                <div class="testi-author">
+                    <div class="testi-avatar">S</div>
+                    <div class="testi-info">
+                        <strong>Sita Adhikari</strong>
+                        <span>Tilottama, Rupandehi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card" data-aos="fade-up" data-aos-delay="160">
+                <div class="testi-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="testi-quote">"Best organic farm in Rupandehi! The vegetables are always fresh and the service is very friendly. I love that you can WhatsApp and they respond quickly. Feels like buying from a trusted neighbour."</p>
+                <div class="testi-author">
+                    <div class="testi-avatar">B</div>
+                    <div class="testi-info">
+                        <strong>Bikash B.K</strong>
+                        <span>Manigram, Rupandehi</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ============================================================
+         GALLERY — FILTERED MASONRY CINEMATIC GRID
+    ============================================================ -->
+    <section class="section gallery-section" id="gallery">
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-eyebrow">From the Land</p>
+            <h2 class="section-heading"><em>Farm Gallery</em></h2>
+            <p class="section-sub" style="color:var(--sage-light)">हाम्रो फार्मको जीवन हेर्नुहोस् — तलको Category अनुसार filter गरी हेर्नुहोस्।</p>
+        </div>
+ 
+        <!-- Filter Buttons -->
+        <div class="gallery-filter-bar" data-aos="fade-up" data-aos-delay="80">
+            <button class="gf-btn active" data-filter="fruits">
+                <i class="fas fa-apple-alt"></i> Fruits
+            </button>
+            <button class="gf-btn" data-filter="honey">
+                <i class="fas fa-jar"></i> Honey
+            </button>
+            <button class="gf-btn" data-filter="animals">
+                <i class="fas fa-paw"></i> Animals
+            </button>
+            <button class="gf-btn" data-filter="farm">
+                <i class="fas fa-sun"></i> Farm Life
+            </button>
+            <button class="gf-btn" data-filter="all">
+                <i class="fas fa-border-all"></i> All Photos
+            </button>
+        </div>
+ 
+        <!-- Masonry Grid -->
+        <div class="gallery-masonry" id="galleryMasonry" data-aos="fade-up" data-aos-delay="140">
+ 
+            <div class="gm-item" data-cat="fruits">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/mangofruit4_ShzIZFQ3T.jpg" alt="Freshly picked organic mangoes from our orchard" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Fruits</span>
+                    <p>Organic Mangoes</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item" data-cat="fruits">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/papaya4_x61WxrzOU.jpg" alt="Ripe papayas hanging from a tree at our farm" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Fruits</span>
+                    <p>Ripe Papayas</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item hidden" data-cat="honey">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey3_7Bofv7Zhjt.jpg" alt="Fresh golden honey from our beehives" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Honey</span>
+                    <p>Golden Honey</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item hidden" data-cat="farm">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/img2_N6Wkv525a.jpg" alt="Happy farm animals grazing in the field" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Farm Life</span>
+                    <p>Farm Animals</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item hidden" data-cat="farm">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/sunflower_zd8519c_Z.jpg" alt="Scenic view of the farm with sunflowers" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Farm Life</span>
+                    <p>Sunflower Fields</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item" data-cat="fruits">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/lemon2_glRuUE8Ar.jpg" alt="Organic lemons harvested from our farm" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Fruits</span>
+                    <p>Farm Lemons</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item" data-cat="fruits">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/banana2_1M2S5gaLi.jpg" alt="Our organic bananas ready for harvest" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Fruits</span>
+                    <p>Organic Bananas</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item" data-cat="fruits">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/jackfruit3_lYaKQw9dV.jpg" alt="Jackfruit for pickle or curry" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Fruits</span>
+                    <p>Jackfruit Harvest</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item" data-cat="fruits">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/litchi1_q48TvTxJG.jpg" alt="Sweet organic litchi from our farm" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Fruits</span>
+                    <p>Sweet Litchi</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item hidden" data-cat="animals">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/goat6_SmAExrrs_.jpg" alt="Newborn kid goat on our farm" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Animals</span>
+                    <p>Newborn Goat</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item hidden" data-cat="animals">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/goat4_l277mEAyG.jpg" alt="Goats grazing freely on the farm" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Animals</span>
+                    <p>Grazing Goats</p>
+                </div>
+            </div>
+ 
+            <div class="gm-item hidden" data-cat="honey">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey6_A1zwAW63V.jpg" alt="Bees working hard on a hive" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Honey</span>
+                    <p>Busy Beehive</p>
+                </div>
+            </div>
+            <div class="gm-item hidden" data-cat="honey">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey4_sFVfqkRlDF.jpg" alt="Bees working hard on a hive" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Honey</span>
+                    <p>Working Bees</p>
+                </div>
+                <div class="gm-item hidden" data-cat="honey">
+                <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey8_ZJzuPq-Cb.jpg" alt="Bees working hard on a hive" loading="lazy">
+                <div class="gm-overlay">
+                    <span class="gm-tag">Honey</span>
+                    <p>Pure Honey</p>
+                </div
+            </div>
+ 
+ 
+        </div>
+ 
+        <!-- Photo Count -->
+        <p class="gallery-count">
+            <span id="visibleCount">12</span> of <span id="totalCount">12</span> photos
+        </p>
+    </section>
+ 
+    <!-- ============================================================
+         NEWS & UPDATES — Stories + Infinite Farm Carousel
+    ============================================================ -->
+    <section class="section news-section" id="news-updates">
+
+        <!-- Section Header -->
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-eyebrow">From the Farm</p>
+            <h2 class="section-heading">News &amp; <em>Updates</em></h2>
+            <p class="section-sub">अहिले हाम्रो फार्मका हालैका गतिविधिहरू</p>
+        </div>
+
+        <!-- ── LATEST STORIES (top) ── -->
+        <p class="news-sub-label" data-aos="fade-up">Latest Stories</p>
+
+        <div class="news-stories" data-aos="fade-up" data-aos-delay="80">
+
+            <!-- Featured story — large left card -->
+            <div class="ns-card ns-featured">
+                <div class="ns-img-wrap">
+                    <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/honey10_rqsVaJjfk.jpg" alt="Pure Tilottama Gold Honey from Angan Baari" loading="lazy">
+                    <span class="ns-img-tag">Harvest Alert</span>
+                </div>
+                <div class="ns-body">
+                    <div class="ns-meta">
+                        <span class="ns-tag ns-tag-harvest">Harvest Alert</span>
+                        <span class="ns-date">Ashadh 12, 2083</span>
+                    </div>
+                    <h3 class="ns-headline">New batch of Angan Baari Gold Honey — order before it runs out</h3>
+                    <p class="ns-text">हामी यही जेठ १२ गतेदेखि विशेष अर्गानिक महको नयाँ ब्याच संकलन (Harvest) गर्दैछौँ। चाकाबाट सिधै निकालिएको यो मह पूर्ण रूपमा प्राकृतिक, कच्चा (Raw) र अप्रशोधित(Unfiltered) छ। यस सिजनका लागि सीमित मात्रा मात्र उपलब्ध!</p>
+                    <a class="ns-cta"
+                       href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20order%20*Pure%20Tilottama%20Gold%20Honey*.%20Please%20let%20me%20know%20the%20availability%20and%20price."
+                       target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Side mini stories -->
+            <div class="ns-side">
+
+                <div class="ns-card ns-mini">
+                    <div class="ns-img-wrap ns-img-wrap-mini">
+                        <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/tomato_h0kAkEtL3.jpg" alt="Organic tomatoes from Angan Baari" loading="lazy">
+                        <span class="ns-img-tag">Season</span>
+                    </div>
+                    <div class="ns-body">
+                        <div class="ns-meta">
+                            <span class="ns-tag ns-tag-season">Season</span>
+                            <span class="ns-date">July 24, 2026</span>
+                        </div>
+                        <h3 class="ns-headline">Organic tomatoes exceptionally sweet this season</h3>
+                        <p class="ns-text">ताजा सलाद र ससहरू बनाउनका लागि एकदमै उपयुक्त। अवसर नगुमाउनुहोस्, आजै किन्नुहोस्!</p>
+                    </div>
+                </div>
+
+                <div class="ns-card ns-mini">
+                    <div class="ns-img-wrap ns-img-wrap-mini">
+                        <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/goat3_z074imN6G.jpg" alt="Farm life at Angan Baari" loading="lazy">
+                        <span class="ns-img-tag">Farm Life</span>
+                    </div>
+                    <div class="ns-body">
+                        <div class="ns-meta">
+                            <span class="ns-tag ns-tag-farm">Farm Life</span>
+                            <span class="ns-date">General</span>
+                        </div>
+                        <h3 class="ns-headline">Stay tuned for seasonal harvests &amp; special offers</h3>
+                        <p class="ns-text">हामी हाम्रो ताजा उत्पादनहरू र फार्मका विभिन्न गतिविधिहरूबारे नियमित रूपमा जानकारी गराउने गर्छौँ।</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── WHAT'S ON THE FARM — Infinite Carousel (bottom) ── -->
+        <div class="farm-board-wrap" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="farm-board-header">
+                <p class="news-sub-label" style="margin-bottom:0;border:none;padding:0">What's on the Farm</p>
+                <button class="fb-pause-btn" id="fbPauseBtn" aria-label="Pause carousel">
+                    <i class="fas fa-pause" id="fbPauseIco"></i>
+                    <span id="fbPauseTxt">Pause</span>
+                </button>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="fb-progress"><div class="fb-progress-fill" id="fbProgFill"></div></div>
+
+            <!-- Carousel viewport -->
+            <div class="fb-viewport" id="fbViewport">
+                <div class="fb-track" id="fbTrack"></div>
+            </div>
+
+            <!-- Dots -->
+            <div class="fb-dots" id="fbDots"></div>
+
+        </div>
+
+    </section>
+ 
+    <!-- ============================================================
+         CONTACT — LUXURY LAYOUT
+    ============================================================ -->
+    <section class="section contact-section" id="contact">
+
+        <!-- Full-bleed background photo + overlay -->
+        <div class="contact-bg-photo"></div>
+        <div class="contact-bg-overlay"></div>
+
+        <div class="contact-inner">
+
+            <!-- Section Header -->
+            <div class="section-header contact-header" data-aos="fade-up">
+                <p class="section-eyebrow" style="color:var(--gold);">Get in Touch</p>
+                <h2 class="section-heading" style="color:var(--white);">Connect <em>with Us</em></h2>
+                <p class="section-sub" style="color:rgba(255,255,255,0.72);">फार्मको ताजा र अर्गानिक स्वाद तपाईंको भान्सासम्म पुर्‍याउने हाम्रो एउटै जोस र लक्ष्य हो।</p>
+            </div>
+
+            <!-- ── Our Details (left) + Quick Contact (right) ── -->
+            <div class="contact-two-col">
+                <!-- Contact Form -->
+                <div class="contact-form-wrap">
+                    <p class="contact-sub-label">Send Us a Message</p>
+                    
+                    <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 36px; backdrop-filter: blur(12px);">
+                        
+                        <form id="contactForm" method="POST" action="{% url 'contact' %}">
+                            
+                            {% csrf_token %}
+                            
+                            <div class="form-row-2" style="margin-bottom:0">
+                                <div class="form-group">
+                                    <label style="color:var(--gold-light); font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:7px;">
+                                        <i class="fas fa-user" style="color:var(--sage)"></i> Your Name
+                                    </label>
+                                    <input type="text" name="name" placeholder="Your Full Name" required
+                                    style="width:100%; padding:12px 16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:var(--white); font-family:var(--font-body); font-size:0.92rem; outline:none;">
+                                </div>
+                                <div class="form-group">
+                                    <label style="color:var(--gold-light); font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:7px;">
+                                        <i class="fas fa-envelope" style="color:var(--sage)"></i> Email
+                                    </label>
+                                    <input type="email" name="email" placeholder="Your Email" required
+                                    style="width:100%; padding:12px 16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:var(--white); font-family:var(--font-body); font-size:0.92rem; outline:none;">
+                                </div>
+                            </div>
+
+                            <div class="form-row-2" style="margin-bottom:0">
+                                <div class="form-group">
+                                    <label style="color:var(--gold-light); font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:7px;">
+                                        <i class="fas fa-phone" style="color:var(--sage)"></i> Phone
+                                    </label>
+                                    <input type="tel" name="phone" placeholder="Your Phone Number"
+                                    style="width:100%; padding:12px 16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:var(--white); font-family:var(--font-body); font-size:0.92rem; outline:none;">
+                                </div>
+                                <div class="form-group">
+                                    <label style="color:var(--gold-light); font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:7px;">
+                                        <i class="fas fa-tag" style="color:var(--sage)"></i> Subject
+                                    </label>
+                                    <input type="text" name="subject" placeholder="Subject"
+                                    style="width:100%; padding:12px 16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:var(--white); font-family:var(--font-body); font-size:0.92rem; outline:none;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label style="color:var(--gold-light); font-family:var(--font-accent); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:7px;">
+                                    <i class="fas fa-comment-dots" style="color:var(--sage)"></i> Message
+                                </label>
+                                <textarea name="message" rows="4" placeholder="Your message..." required
+                                 style="width:100%; padding:12px 16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:var(--white); font-family:var(--font-body); font-size:0.92rem; outline:none; resize:none;"></textarea>
+                            </div>
+
+                            <!-- Success message -->
+                            <div id="contactSuccess" style="display:none; background:rgba(74,124,89,0.2); border:1px solid rgba(74,124,89,0.4); border-radius:12px; padding:18px; margin-bottom:16px; text-align:center;">
+                                <i class="fas fa-check-circle" style="color:var(--sage); font-size:1.5rem; margin-bottom:8px; display:block;"></i>
+                                <p style="color:var(--sage-light); font-size:0.9rem; line-height:1.6;">
+                                    <strong style="color:var(--white)">Message Sent! 🎉</strong><br>
+                                    We will get back to you within 12-36 hours.
+                                </p>
+                            </div>
+                            
+                            <button type="submit"
+                                    style="width:100%; padding:14px; background:var(--gold); border:none; border-radius:50px; color:var(--forest); font-family:var(--font-body); font-size:0.92rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; transition:all 0.3s ease;">
+                                 <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- LEFT — Our Details -->
+                <div class="contact-details-side">
+                    <p class="contact-sub-label" style="margin-bottom:20px">Our Details</p>
+                    <div class="contact-info-card">
+                        <ul class="contact-info-list">
+                            <li>
+                                <span class="ci-icon"><i class="fas fa-clock"></i></span>
+                                <div class="ci-body">
+                                    <strong>Business Hours</strong>
+                                    <span>7:00 AM – 8:00 PM (NPT), every day</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="ci-icon"><i class="fas fa-map-marker-alt"></i></span>
+                                <div class="ci-body">
+                                    <strong>Location</strong>
+                                    <span>Tilottama-11, Bhulka Danda,<br>Rupandehi, Nepal</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="ci-icon"><i class="fas fa-envelope"></i></span>
+                                <div class="ci-body">
+                                    <strong>Email</strong>
+                                    <a href="mailto:anganbaari@gmail.com">anganbaari@gmail.com</a>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="ci-icon"><i class="fas fa-phone-alt"></i></span>
+                                <div class="ci-body">
+                                    <strong>Phone</strong>
+                                    <a href="tel:+9779821025084">+977 9821025084</a>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="ci-icon"><i class="fas fa-info-circle"></i></span>
+                                <div class="ci-body">
+                                    <strong>Response Time</strong>
+                                    <span>We aim to reply within 12–36 hours</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT — Quick Contact -->
+                <div class="contact-quick-side">
+                    <p class="contact-sub-label" style="margin-bottom:20px">Quick Contact</p>
+                    <div class="quick-contacts-vertical">
+
+                        <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20enquire%20about%20your%20products."
+                           class="qc-btn qc-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Contact via WhatsApp">
+                            <div class="qc-icon"><i class="fab fa-whatsapp"></i></div>
+                            <div class="qc-text">
+                                <span class="qc-label">WhatsApp</span>
+                                <span class="qc-sub">Fastest response</span>
+                            </div>
+                        </a>
+
+                        <a href="tel:+9779821025084" class="qc-btn qc-phone" aria-label="Call us">
+                            <div class="qc-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="qc-text">
+                                <span class="qc-label">Call Us</span>
+                                <span class="qc-sub">+977 9821025084</span>
+                            </div>
+                        </a>
+
+                        <a href="mailto:anganbaari@gmail.com" class="qc-btn qc-email" aria-label="Email us">
+                            <div class="qc-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="qc-text">
+                                <span class="qc-label">Email Us</span>
+                                <span class="qc-sub">anganbaari...</span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ── Social Platforms ── -->
+            <p class="contact-sub-label" data-aos="fade-up">Find Us on Social Media</p>
+            <div class="social-platforms" data-aos="fade-up" data-aos-delay="60">
+
+                <a href="https://www.facebook.com/anganbaari/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="sp-card sp-facebook" aria-label="Facebook">
+                    <div class="sp-icon"><i class="fab fa-facebook-f"></i></div>
+                    <span class="sp-name">Facebook</span>
+                    <span class="sp-handle">@anganbaari</span>
+                </a>
+
+                <a href="https://www.instagram.com/anganbaari/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="sp-card sp-instagram" aria-label="Instagram">
+                    <div class="sp-icon"><i class="fab fa-instagram"></i></div>
+                    <span class="sp-name">Instagram</span>
+                    <span class="sp-handle">@anganbaari</span>
+                </a>
+
+                <a href="https://www.youtube.com/@AnganBaari"
+                   target="_blank" rel="noopener noreferrer"
+                   class="sp-card sp-youtube" aria-label="YouTube">
+                    <div class="sp-icon"><i class="fab fa-youtube"></i></div>
+                    <span class="sp-name">YouTube</span>
+                    <span class="sp-handle">@AnganBaari</span>
+                </a>
+
+                <a href="https://www.tiktok.com/@anganbaari"
+                   target="_blank" rel="noopener noreferrer"
+                   class="sp-card sp-tiktok" aria-label="TikTok">
+                    <div class="sp-icon"><i class="fab fa-tiktok"></i></div>
+                    <span class="sp-name">TikTok</span>
+                    <span class="sp-handle">@anganbaari</span>
+                </a>
+
+                <a href="https://x.com/anganbaari"
+                   target="_blank" rel="noopener noreferrer"
+                   class="sp-card sp-x" aria-label="X (Twitter)">
+                    <div class="sp-icon">
+                        <!-- X (Twitter) official logo SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="22" height="22" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </div>
+                    <span class="sp-name">X (Twitter)</span>
+                    <span class="sp-handle">@anganbaari</span>
+                </a>
+
+                <a href="https://www.threads.com/@anganbaari"
+                   target="_blank" rel="noopener noreferrer"
+                   class="sp-card sp-threads" aria-label="Threads">
+                    <div class="sp-icon">
+                        <!-- Threads official logo SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="white" width="22" height="22" aria-hidden="true">
+                            <path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 6.995 4.708 16.008 7.005 25.403 6.493 12.38-.680 22.081-5.407 28.819-14.041 5.129-6.675 8.374-15.311 9.678-25.396 5.808 3.506 10.1 8.12 12.509 13.677 4.956 11.421 5.253 30.18-10.25 45.625-13.616 13.56-29.976 19.425-54.73 19.594-27.456-.19-48.24-9.02-61.777-26.24C9.52 140.88 3.114 121.88 2.857 97.024c.257-24.854 6.663-43.854 19.053-56.494 13.537-17.22 34.321-26.05 61.777-26.24 27.635.19 48.728 9.064 62.722 26.37 6.868 8.561 12.007 19.324 15.368 32.012l16.108-4.278c-4.027-14.927-10.305-27.739-18.745-38.146C141.329 10.804 116.55-.067 83.69.001 50.795.068 25.752 11.01 9.884 32.609 -4.05 51.73-11.04 78.173-11.333 97.024v.192c.293 18.85 7.283 45.295 21.217 64.416C26.752 182.99 51.795 193.932 84.69 194c34.057-.083 57.805-10.67 74.473-27.252 22.02-21.956 21.463-49.435 14.18-66.327-5.177-11.944-14.8-21.437-31.806-27.433Z"/>
+                        </svg>
+                    </div>
+                    <span class="sp-name">Threads</span>
+                    <span class="sp-handle">@anganbaari</span>
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+ 
+    <!-- ============================================================
+         LOCATION — 3 Routes + Map
+    ============================================================ -->
+    <section class="section location-section" id="location">
+
+        <div class="section-header" data-aos="fade-up">
+            <p class="section-eyebrow">Find Us</p>
+            <h2 class="section-heading">Arriving at <em>आँगन बारी/Angan Baari</em></h2>
+            <p class="section-sub">तल आफ्नो अनुकूल मार्ग छनोट गर्नुहोस् — आखिर सबै बाटोहरू ताजा र अर्गानिक शुद्धताकै तर्फ जान्छन्!</p>
+        </div>
+
+        <p class="loc-sub-label" data-aos="fade-up">Choose Your Route</p>
+
+        <!-- ── 3 ROUTE CARDS ── -->
+        <div class="routes-grid" data-aos="fade-up" data-aos-delay="60">
+
+            <!-- ROUTE 1 — RECOMMENDED -->
+            <div class="route-card route-recommended">
+                <div class="route-bar route-bar-gold"></div>
+                <div class="route-header">
+                    <div class="route-top-row">
+                        <div class="route-num-icon">
+                            <div class="route-num">01</div>
+                            <div class="route-icon-circle ri-gold"><i class="fas fa-bolt"></i></div>
+                        </div>
+                        <span class="rec-badge"><i class="fas fa-star"></i> Recommended</span>
+                    </div>
+                    <p class="route-title">Butwal → Manigram → E-Riksha to Farm</p>
+                    <div class="route-transport-tags">
+                        <span class="r-tag r-tag-bus"><i class="fas fa-bus"></i> 🚌 Bus</span>
+                        <span class="r-tag r-tag-riksha"><i class="fas fa-bolt"></i> ⚡🛺 E-Riksha</span>
+                    </div>
+                </div>
+                <div class="route-steps">
+                    <div class="r-step">
+                        <div class="r-dot r-dot-start"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Butwal Bus Park</p>
+                            <p class="r-step-desc">मणीग्रामतर्फ(Manigram) जाने जुनसुकै स्थानीय (Local) बस चढ्नुहोस्।</p>
+                            <span class="r-step-badge"><i class="fas fa-rupee-sign"></i> NRs. 40 · ~20 min</span>
+                        </div>
+                    </div>
+                    <div class="r-step">
+                        <div class="r-dot"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Manigram</p>
+                            <p class="r-step-desc">मणीग्राममा ओर्लने र त्यहाँबाट सिधै Bhulka Danda(AnganBaari) जाने ई-रिक्सा चढ्ने।</p>
+                            <span class="r-step-badge"><i class="fas fa-rupee-sign"></i> NRs. 120 approx.</span>
+                        </div>
+                    </div>
+                    <div class="r-step r-step-last">
+                        <div class="r-dot r-dot-end"><i class="fas fa-home"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">आँगन बारी/Angan Baari</p>
+                            <p class="r-step-desc">तपाईं आइपुग्नुभयो! अब (Bhulka Danda)भुल्का डाँडामा रहेको हाम्रो हरियो गेट हेर्नुहोस्। यदि तपाईंलाई बाटो थाहा भएन वा हराउनुभयो भने, हामीलाई फोन गर्नुहोस्—हामी तपाईंलाई सहयोग गर्नेछौँ।</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="route-footer">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Total approx. <strong>NRs. 160</strong> · Easiest route</span>
+                </div>
+            </div>
+
+            <!-- ROUTE 2 — BUS + WALK -->
+            <div class="route-card">
+                <div class="route-bar route-bar-blue"></div>
+                <div class="route-header">
+                    <div class="route-top-row">
+                        <div class="route-num-icon">
+                            <div class="route-num">02</div>
+                            <div class="route-icon-circle ri-blue"><i class="fas fa-bus"></i></div>
+                        </div>
+                    </div>
+                    <p class="route-title">Butwal → Manigram → Ramnagar Chok → Walk</p>
+                    <div class="route-transport-tags">
+                        <span class="r-tag r-tag-bus"><i class="fas fa-bus"></i> Bus</span>
+                        <span class="r-tag r-tag-bus"><i class="fas fa-bus"></i> Bus</span>
+                        <span class="r-tag r-tag-walk"><i class="fas fa-walking"></i> Walk</span>
+                    </div>
+                </div>
+                <div class="route-steps">
+                    <div class="r-step">
+                        <div class="r-dot r-dot-start"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Butwal Bus Park</p>
+                            <p class="r-step-desc">मणीग्रामतर्फ(Manigram) जाने जुनसुकै Local बस चढ्नुहोस्।</p>
+                            <span class="r-step-badge"><i class="fas fa-rupee-sign"></i> NRs. 40 · ~20 min</span>
+                        </div>
+                    </div>
+                    <div class="r-step">
+                        <div class="r-dot"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Manigram → Ramnagar Chok</p>
+                            <p class="r-step-desc">मणीग्रामबाट रामनगर चोक जाने बस चढ्नुहोस् र रामनगर चोकको बस स्टपमा ओरालिदिन भन्नुहोस्।</p>
+                            <span class="r-step-badge"><i class="fas fa-rupee-sign"></i> NRs. 30 approx.</span>
+                        </div>
+                    </div>
+                    <div class="r-step">
+                        <div class="r-dot"><i class="fas fa-walking"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Walk toward Bhulka Danda</p>
+                            <p class="r-step-desc">त्यहाँबाट (Bhulka Danda) भुल्का डाँडातर्फ करिब ८०० मिटर (लगभग १० मिनेट) हिँड्नुहोस्।</p>
+                            <span class="r-step-badge"><i class="fas fa-clock"></i> ~10 min · 800 m</span>
+                        </div>
+                    </div>
+                    <div class="r-step r-step-last">
+                        <div class="r-dot r-dot-end"><i class="fas fa-home"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">आँगन बारी/Angan Baari</p>
+                            <p class="r-step-desc">तपाईं आइपुग्नुभयो! अब (Bhulka Danda)भुल्का डाँडामा रहेको हाम्रो हरियो गेट हेर्नुहोस्।</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="route-footer">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Total approx. <strong>NRs. 70</strong> · Budget route</span>
+                </div>
+            </div>
+
+            <!-- ROUTE 3 — OWN VEHICLE -->
+            <div class="route-card">
+                <div class="route-bar route-bar-green"></div>
+                <div class="route-header">
+                    <div class="route-top-row">
+                        <div class="route-num-icon">
+                            <div class="route-num">03</div>
+                            <div class="route-icon-circle ri-green"><i class="fas fa-car"></i></div>
+                        </div>
+                    </div>
+                    <p class="route-title">Butwal → Bhaluhi Chok → Bhulka Danda</p>
+                    <div class="route-transport-tags">
+                        <span class="r-tag r-tag-car"><i class="fas fa-car"></i> Own Vehicle/Bike</span>
+                    </div>
+                </div>
+                <div class="route-steps">
+                    <div class="r-step">
+                        <div class="r-dot r-dot-start"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Start from Butwal</p>
+                            <p class="r-step-desc">बुटवलबाट निस्कने र महेन्द्र राजमार्ग हुँदै (Bhaluhi)भलुहीतर्फ लाग्ने।</p>
+                        </div>
+                    </div>
+                    <div class="r-step">
+                        <div class="r-dot"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">Bhaluhi Chok</p>
+                            <p class="r-step-desc">(Bhaluhi)भलुही चोकबाट दायाँ मोडिने र भुल्का डाँडा हुँदै सिधै फार्म पुग्ने।</p>
+                            <span class="r-step-badge"><i class="fas fa-arrow-right"></i> Turn right at Bhaluhi Chok</span>
+                        </div>
+                    </div>
+                    <div class="r-step r-step-last">
+                        <div class="r-dot r-dot-end"><i class="fas fa-home"></i></div>
+                        <div class="r-step-body">
+                            <p class="r-step-title">आँगन बारी/Angan Baari</p>
+                            <p class="r-step-desc">तपाईं भुल्का डाँडामा रहेको हाम्रो फार्ममा आइपुग्नुभयो, हार्दिक स्वागत छ!। यदि तपाईंलाई बाटो थाहा भएन वा हराउनुभयो भने, हामीलाई फोन गर्नुहोस्—हामी तपाईंलाई सहयोग गर्नेछौँ।</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="route-footer">
+                    <i class="fas fa-car"></i>
+                    <span>Via <strong>Mahendra Highway</strong> · Direct drive</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── ACTION BUTTONS ROW ── -->
+        <div class="loc-action-row" data-aos="fade-up" data-aos-delay="80">
+
+            <a href="https://www.google.com/maps/place/AnganBaari/@27.629498,83.5330688,718m/data=!3m2!1e3!4b1!4m6!3m5!1s0x399687a43e3f9935:0x3794ad40ed68eef8!8m2!3d27.629498!4d83.5330688!16s%2Fg%2F11z7dgqgfc"
+               target="_blank" rel="noopener noreferrer" class="btn-loc btn-loc-maps">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Open in Google Maps</span>
+            </a>
+
+            <a href="https://ik.imagekit.io/anganbaari/angan-baari/site-images/DRMAP_rN3nVOSG3.png" download class="btn-loc btn-loc-download">
+                <i class="fas fa-download"></i>
+                <span>Download Farm Map</span>
+            </a>
+
+            <a href="tel:+9779821025084" class="btn-loc btn-loc-help">
+                <i class="fas fa-phone-alt"></i>
+                <span>Having trouble finding us?<strong>Call: +977 9821025084</strong></span>
+            </a>
+
+        </div>
+
+        <!-- ── MAP ── -->
+        <p class="loc-sub-label" data-aos="fade-up" style="margin-top:12px">Our Location</p>
+
+        <div class="loc-map-wrap" data-aos="fade-up" data-aos-delay="60">
+
+            <div class="map-container">
+                <iframe
+                    src="https://maps.google.com/maps?q=27.629498,83.5330688&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Google Map showing Angan Baari location in Bhulka Danda, Nepal">
+                </iframe>
+            </div>
+
+            <!-- Floating info card -->
+            <div class="map-float-card">
+                <p class="mfc-title">आँगन बारी/Angan Baari</p>
+                <ul class="mfc-list">
+                    <li><i class="fas fa-map-marker-alt"></i><span>Bhulka Danda, Tilottama-11, Rupandehi, Nepal</span></li>
+                    <li><i class="fas fa-clock"></i><span>7:00 AM – 8:00 PM, every day</span></li>
+                    <li><i class="fas fa-phone-alt"></i><span>+977 9821025084</span></li>
+                </ul>
+                <div class="mfc-btns">
+                    <a href="https://www.google.com/maps/place/AnganBaari/@27.629498,83.5330688,718m/data=!3m2!1e3!4b1!4m6!3m5!1s0x399687a43e3f9935:0x3794ad40ed68eef8!8m2!3d27.629498!4d83.5330688!16s%2Fg%2F11z7dgqgfc"
+                       target="_blank" rel="noopener noreferrer" class="mfc-btn mfc-btn-maps">
+                        <i class="fas fa-map-marked-alt"></i> Open in Google Maps
+                    </a>
+                    <a href="https://ik.imagekit.io/anganbaari/angan-baari/site-images/DRMAP_rN3nVOSG3.png" download class="mfc-btn mfc-btn-download">
+                        <i class="fas fa-download"></i> Download Farm Map
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+ 
+    <!-- ============================================================
+         LIGHTBOX (Gallery popup)
+    ============================================================ -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+        <!-- Top bar: counter + close -->
+        <div class="lightbox-topbar">
+            <span class="lightbox-counter" id="lightboxCounter"></span>
+            <span class="close-button" role="button" aria-label="Close lightbox" tabindex="0">&times;</span>
+        </div>
+        <!-- Prev / Next -->
+        <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+        <button class="lightbox-next" id="lightboxNext" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+        <!-- Main image -->
+        <img src="" alt="" class="lightbox-content" id="lightboxImg">
+        <!-- Caption -->
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <!-- ============================================================
+     NEWSLETTER SECTION
+    ============================================================ -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="newsletter-inner" data-aos="fade-up">
+
+            <div class="newsletter-icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+
+            <span class="newsletter-eyebrow">Stay Connected</span>
+
+            <h2 class="newsletter-heading">
+                Fresh Updates from<br><em>Angan Baari</em>
+            </h2>
+
+            <p class="newsletter-sub">
+                Subscribe to get updates about fresh harvests, seasonal products,<br>
+                special offers and farm news straight to your inbox! 🌿
+            </p>
+
+            <!-- Form -->
+            <form class="newsletter-form" id="newsletterForm"
+                  method="POST" action="{% url 'newsletter' %}">
+                {% csrf_token %}
+                <input type="text" name="name"
+                       class="newsletter-input--name"
+                       placeholder="Your name (optional)">
+                <div class="newsletter-pill">
+                    <input type="email" name="email"
+                           class="newsletter-pill-input"
+                           placeholder="Your Email Address" required>
+                    <button type="submit" class="newsletter-pill-btn">
+                        <i class="fas fa-paper-plane"></i> <span class="btn-label">Subscribe</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Success message (shown after submit) -->
+            <div class="newsletter-success" id="newsletterSuccess">
+                <i class="fas fa-check-circle"></i>
+                <p>
+                    <strong style="color:var(--white)">You're subscribed! 🎉</strong><br>
+                    Thank you for joining Angan Baari family.<br>
+                    Check your email for a welcome message!
+                </p>
+            </div>
+
+            <p class="newsletter-privacy">
+                <i class="fas fa-lock"></i>
+                No spam. Unsubscribe anytime.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         NEWSLETTER POPUP
+    ============================================================ -->
+    <div class="nl-popup-backdrop" id="nlBackdrop"></div>
+
+    <div class="nl-popup" id="nlPopup">
+        <button class="nl-popup-close" id="nlClose">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="nl-popup-icon">
+            <img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="Angan Baari" width="40" height="40">
+        </div>
+
+        <h3 class="nl-popup-title">
+            Join the <em>Angan Baari</em> Family!
+        </h3>
+
+        <p class="nl-popup-sub">
+            Get notified about fresh harvests, new products and exclusive offers. 🍯🥭🌿
+        </p>
+
+        <form class="nl-popup-form" id="nlPopupForm"
+              method="POST" action="{% url 'newsletter' %}">
+            {% csrf_token %}
+            <input type="text" name="name"
+                   class="newsletter-input--name"
+                   placeholder="Your name (optional)">
+            <div class="newsletter-pill">
+                <input type="email" name="email"
+                       class="newsletter-pill-input"
+                       placeholder="Your Email Address" required>
+                <button type="submit" class="newsletter-pill-btn">
+                    <i class="fas fa-paper-plane"></i> <span class="btn-label">Subscribe</span>
+                </button>
+            </div>
+        </form>
+
+        <p class="nl-popup-no" id="nlNoThanks">
+            No thanks, I'll miss out
+        </p>
+    </div>
+ 
+    <!-- ============================================================
+         FOOTER — ELEGANT DARK
+    ============================================================ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="Angan Baari" width="56" height="56" loading="lazy"></span>
+                <p class="footer-name-np">आँगन बारी</p>
+                <p class="footer-name-en">Angan Baari</p>
+                <p class="footer-tagline">Fresh &middot; Organic &middot; Sustainable</p>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://www.facebook.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="fb"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="ig"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@AnganBaari" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="yt"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/anganbaari" target="_blank" rel="noopener noreferrer" aria-label="X" class="x"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.threads.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="Threads" class="threads" style="display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 6.995 4.708 16.008 7.005 25.403 6.493 12.38-.68 22.081-5.407 28.819-14.041 5.129-6.675 8.374-15.311 9.678-25.396 5.808 3.506 10.1 8.12 12.509 13.677 4.956 11.421 5.253 30.18-10.25 45.625-13.616 13.56-29.976 19.425-54.73 19.594-27.456-.19-48.24-9.02-61.777-26.24C9.52 140.88 3.114 121.88 2.857 97.024c.257-24.854 6.663-43.854 19.053-56.494C35.447 23.27 56.23 14.44 83.687 14.25c27.635.19 48.728 9.064 62.722 26.37 6.868 8.561 12.007 19.324 15.368 32.012l16.108-4.278c-4.027-14.927-10.305-27.739-18.745-38.146C141.329 10.804 116.55-.067 83.69.001 50.795.068 25.752 11.01 9.884 32.609-4.05 51.73-11.04 78.173-11.333 97.024v.192c.293 18.85 7.283 45.295 21.217 64.416C26.752 182.99 51.795 193.932 84.69 194c34.057-.083 57.805-10.67 74.473-27.252 22.02-21.956 21.463-49.435 14.18-66.327-5.177-11.944-14.8-21.437-31.806-27.433Z"/></svg></a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; Since 2015. आँगन बारी/Angan Baari &mdash; Bhulka Danda, Rupandehi, Nepal &mdash; All rights reserved.</p>
+                <p class="footer-nepal"> JAY NEPAL<img class="flag-sticker" src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Nepal National Flag" width="18" height="24"></p>
+            </div>
+        </div>
+    </footer>
+ 
+    <!-- ============================================================
+         FLOATING BUTTONS — WhatsApp + Back to Top
+    ============================================================ -->
+
+    <!-- Floating Shop button -->
+    <a href="{% url 'shop' %}" class="float-shop" aria-label="Visit our online shop" title="Shop Now">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="float-shop-tooltip">Visit Our Shop</span>
+    </a>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/9779821025084?text=Hello%20Angan%20Baari!%20I%20would%20like%20to%20enquire%20about%20your%20products."
+       class="float-wa" target="_blank" rel="noopener noreferrer"
+       aria-label="Chat with us on WhatsApp" title="Order via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="float-wa-tooltip">Order via WhatsApp</span>
+    </a>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="{% static 'script.js' %}?v=3"></script>
+</body>
+</html>

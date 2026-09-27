@@ -1,0 +1,826 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — Angan Baari</title>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body { background: var(--cream); }
+
+        .checkout-page { max-width: 1100px; margin: 100px auto 60px; padding: 0 20px; }
+
+        /* ── Header row / breadcrumb ───────────────────────── */
+        .checkout-header-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--moss); font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+        .back-link:hover { color: var(--forest); }
+        .checkout-title { font-family: var(--font-display); font-size: 2.1rem; color: var(--forest); margin: 0; }
+        .checkout-steps { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
+        .checkout-steps b { color: var(--forest); }
+        .checkout-steps .sep { color: var(--mist); }
+
+        /* ── Layout ─────────────────────────────────────────── */
+        .checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+
+        /* ── Form card ──────────────────────────────────────── */
+        .checkout-form { background: var(--white); border-radius: 20px; border: 1px solid var(--mist); padding: 32px; box-shadow: 0 4px 24px rgba(26,47,30,0.05); }
+        .form-title { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 1.3rem; color: var(--forest); margin-bottom: 22px; }
+        .form-title i { color: var(--moss); font-size: 1.1rem; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.75rem; font-family: var(--font-accent); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 13px 16px; border: 1.5px solid var(--mist); border-radius: 12px;
+            font-size: 0.95rem; font-family: var(--font-body); color: var(--forest); outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; background: var(--cream);
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--moss); box-shadow: 0 0 0 3px rgba(74,124,89,0.12); background: var(--white); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        .payment-badge {
+            display: flex; align-items: center; gap: 10px; background: rgba(74,124,89,0.08);
+            border: 1px solid var(--moss); border-radius: 12px; padding: 14px 16px; margin: 20px 0 4px;
+            font-size: 0.85rem; color: var(--moss); font-weight: 500;
+        }
+        .payment-badge i { font-size: 1.1rem; }
+
+        /* ── Order summary card ────────────────────────────── */
+        .order-summary { background: var(--white); border-radius: 20px; border: 1px solid var(--mist); padding: 26px; position: sticky; top: 100px; box-shadow: 0 4px 24px rgba(26,47,30,0.05); }
+        .summary-title { display: flex; align-items: center; justify-content: space-between; font-family: var(--font-display); font-size: 1.25rem; color: var(--forest); margin-bottom: 18px; }
+        .summary-title .item-count { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600; color: var(--moss); background: rgba(74,124,89,0.1); padding: 3px 10px; border-radius: 50px; }
+
+        .summary-item { display: flex; gap: 10px; justify-content: space-between; margin-bottom: 12px; font-size: 0.85rem; color: var(--text-body); padding-bottom: 12px; border-bottom: 1px dashed var(--mist); }
+        .summary-item-thumb { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: var(--cream); }
+        .summary-item-info { display: flex; gap: 10px; align-items: center; flex: 1; }
+        .summary-item-name { font-weight: 500; color: var(--forest); }
+
+        /* ── Coupon box ─────────────────────────────────────── */
+        .coupon-box { margin: 18px 0; }
+        .coupon-box label { display: block; font-size: 0.75rem; font-family: var(--font-accent); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+        .coupon-input-row { display: flex; gap: 8px; }
+        .coupon-input-row input {
+            flex: 1; padding: 11px 14px; border: 1.5px dashed var(--gold); border-radius: 10px;
+            font-size: 0.88rem; font-family: 'DM Sans', sans-serif; color: var(--forest); outline: none;
+            background: rgba(201,168,76,0.06); text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        .coupon-input-row input:focus { border-style: solid; }
+        .coupon-input-row button {
+            display: flex; align-items: center; gap: 6px; padding: 0 18px; border: none; border-radius: 10px;
+            background: var(--forest); color: white; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: background 0.2s; white-space: nowrap;
+        }
+        .coupon-input-row button:hover { background: var(--moss); }
+        .coupon-msg { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; margin-top: 8px; padding: 8px 12px; border-radius: 8px; }
+        .coupon-msg.success { background: #f0fdf4; color: var(--moss); border: 1px solid #bbf7d0; }
+        .coupon-msg.error { background: #fef2f2; color: #c0392b; border: 1px solid #fecaca; }
+
+        .summary-item.discount-row { color: #c0392b; font-weight: 600; }
+
+        .summary-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.15rem; color: var(--forest); border-top: 2px solid var(--forest); padding-top: 14px; margin-top: 6px; }
+
+        .btn-place-order {
+            width: 100%; padding: 15px; background: var(--forest); color: white; border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.3s, transform 0.15s;
+            margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-place-order:hover { background: var(--moss); transform: translateY(-1px); }
+
+        .trust-row { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.76rem; color: var(--text-muted); margin-top: 14px; }
+        .trust-row i { color: var(--moss); }
+
+        @media (max-width: 700px) {
+            .checkout-layout { grid-template-columns: 1fr; }
+            .order-summary { position: static; }
+            .form-row { grid-template-columns: 1fr; }
+            .checkout-form, .order-summary { padding: 22px; }
+        }
+
+        /* ── Recommendations ───────────────────────────────── */
+        .recommend-section { margin-top: 48px; }
+        .recommend-section h2 { font-family: var(--font-display); font-size: 1.5rem; color: var(--forest); margin-bottom: 6px; }
+        .recommend-section .rec-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 18px; }
+        .recommend-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; }
+        .recommend-scroll::-webkit-scrollbar { height: 6px; }
+        .recommend-scroll::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 10px; }
+        .rec-card {
+            flex: 0 0 170px; scroll-snap-align: start; background: var(--white); border-radius: 16px;
+            border: 1px solid var(--mist); overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .rec-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(26,47,30,0.1); }
+        .rec-card-link { display: block; text-decoration: none; color: inherit; }
+        .rec-card img { width: 100%; height: 130px; object-fit: cover; background: var(--cream); display: block; }
+        .rec-card-body { padding: 12px 12px 0; }
+        .rec-name { font-size: 0.85rem; font-weight: 500; color: var(--forest); margin-bottom: 4px; line-height: 1.3; }
+        .rec-card-footer { padding: 8px 12px 12px; }
+        .rec-price { font-size: 0.85rem; font-weight: 700; color: var(--moss); }
+        .rec-variant-select {
+            width: 100%; font-size: 0.72rem; padding: 4px 6px; border: 1px solid var(--mist);
+            border-radius: 6px; margin-top: 2px; background: var(--white); color: var(--forest);
+        }
+        .rec-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
+        .rec-add-btn {
+            flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; border: none;
+            background: var(--forest); color: var(--gold); font-size: 0.8rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+        }
+        .rec-add-btn:hover { background: var(--moss); }
+        .rec-add-btn.is-added { background: var(--moss); }
+
+        #checkoutToast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: var(--forest); color: var(--gold); padding: 12px 22px; border-radius: 50px;
+            font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; pointer-events: none;
+            transition: opacity 0.25s, transform 0.25s; z-index: 900; display: flex; align-items: center; gap: 8px;
+        }
+        #checkoutToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        @media (max-width: 760px) { #checkoutToast { bottom: 24px; } }
+
+        /* ══════════════════════════════════════════
+           MOBILE / TABLET BOTTOM NAV
+           Same honeycomb chain as desktop exists in the markup below for
+           consistency with shop/cart, but hidden here — checkout's own
+           in-page "Place Order" button is the mobile CTA, same as cart.html.
+        ══════════════════════════════════════════ */
+        .mobile-hc-nav { display: none !important; }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <header class="navbar scrolled navbar-app" id="navbar" data-nav-mode="solid">
+        <div class="navbar-inner">
+            <a href="/" class="brand">
+                <span class="brand-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="" width="84" height="84" loading="eager"></span>
+                <div class="brand-text">
+                    <span class="brand-name">आँगन बारी</span>
+                    <span class="brand-tagline">Angan Baari</span>
+                    <span class="brand-subtag">Organic Farm</span>
+                </div>
+                <span class="brand-flag" aria-hidden="true">
+                    <canvas id="navNepalFlag" class="nav-nepal-flag" width="450" height="600"></canvas>
+                </span>
+            </a>
+            <nav class="desktop-nav" aria-label="Main Navigation">
+                <div class="hc-scale-box hc-scale-box--app5">
+                  <div class="hc-strip hc-strip--cells5">
+                    <div class="hc-strip-bg" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+
+                    <ul class="hc-nav" id="hcNavApp">
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'shop' %}" data-target="shop-cell">
+                        <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                        <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+
+                      <li class="hc-cell"><a class="hc-link active" href="{% url 'cart' %}" data-target="cart-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.4l2.1 11.2a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 7H6.2"/></svg>
+                        <span class="hc-label">Cart</span><span class="hc-ping"></span>
+                        {% with total_qty=request.session.cart.values|length %}
+                        <span id="cartBadgeDesktop" class="hc-cart-badge{% if total_qty == 0 %} badge-hidden{% endif %}">{{ total_qty }}</span>
+                        {% endwith %}
+                      </a></li>
+
+                      <li class="hc-cell hc-cell--offer"><a class="hc-link" href="{% url 'offers' %}" data-target="offers-cell">
+                        <svg class="offer-flame" viewBox="0 0 24 24"><path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z"/></svg>
+                        <span class="hc-label">Offers</span><span class="hc-ping"></span></a></li>
+
+                      {% if user.is_authenticated %}
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'profile' %}" data-target="profile-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                        <span class="hc-label">{{ user.first_name }}</span><span class="hc-ping"></span></a></li>
+                      {% else %}
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'login' %}" data-target="login-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                        <span class="hc-label">Login</span><span class="hc-ping"></span></a></li>
+                      {% endif %}
+
+                      <li class="hc-cell"><a class="hc-link" href="/" data-target="website-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></svg>
+                        <span class="hc-label">Website</span><span class="hc-ping"></span></a></li>
+                    </ul>
+                  </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="checkout-page">
+
+        <div class="checkout-header-row">
+            <h1 class="checkout-title">Checkout</h1>
+            <div class="checkout-steps">Cart <span class="sep">→</span> <b>Checkout</b> <span class="sep">→</span> Confirmation</div>
+        </div>
+
+        <div class="checkout-layout">
+
+            <!-- Delivery form -->
+            <div class="checkout-form">
+                <div class="form-title"><i class="fas fa-truck"></i> Delivery Information</div>
+                <form method="POST" id="checkoutForm">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" name="name" value="{{ initial.name }}" placeholder="Ramesh Thapa" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" name="phone" placeholder="98XXXXXXXX" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" value="{{ initial.email }}" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <textarea name="address" rows="3" placeholder="Ward No, Tole, City, District..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea name="message" rows="2" placeholder="Any special instructions..."></textarea>
+                    </div>
+
+                    <!-- Coupon carried through to order placement -->
+                    <input type="hidden" name="coupon_code" value="{{ coupon_code|default:'' }}">
+
+                    <div class="payment-badge">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Cash on Delivery — Pay when you receive your order
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="summary-title">
+                    Your Order
+                    <span class="item-count" id="orderItemCount">{{ items|length }} item{{ items|length|pluralize }}</span>
+                </div>
+
+                <div id="orderItemsList">
+                {% for item in items %}
+                <div class="summary-item" id="order-item-{{ item.id }}">
+                    <div class="summary-item-info">
+                        {% if item.image %}<img src="{{ item.image }}" alt="{{ item.name }}" class="summary-item-thumb">{% endif %}
+                        <div>
+                            <div class="summary-item-name">{{ item.name }}</div>
+                            <div style="font-size:0.78rem;color:var(--text-muted);">Rs. {{ item.price }} × {{ item.qty }}</div>
+                        </div>
+                    </div>
+                    <div style="font-weight:600;color:var(--forest);white-space:nowrap;" id="order-item-amt-{{ item.id }}">Rs. {{ item.subtotal|floatformat:0 }}</div>
+                </div>
+                {% endfor %}
+                </div>
+
+                <!-- Coupon code -->
+                <div class="coupon-box">
+                    <label><i class="fas fa-tag"></i> Have a coupon?</label>
+                    <div class="coupon-input-row">
+                        <input type="text" id="couponInput" placeholder="Enter code" value="{{ coupon_code|default:'' }}">
+                        <button type="button" onclick="applyCoupon()"><i class="fas fa-check"></i> Apply</button>
+                    </div>
+                    {% if coupon_error %}
+                    <div class="coupon-msg error"><i class="fas fa-exclamation-circle"></i> {{ coupon_error }}</div>
+                    {% elif coupon_applied %}
+                    <div class="coupon-msg success"><i class="fas fa-check-circle"></i> "{{ coupon_code }}" applied — you saved Rs. {{ discount_amount|floatformat:0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="summary-item" style="border-bottom:none;">
+                    <span>Subtotal</span>
+                    <span id="orderSubtotal">Rs. {{ subtotal|default:total|floatformat:2 }}</span>
+                </div>
+                {% if discount_amount %}
+                <div class="summary-item discount-row" style="border-bottom:none;">
+                    <span>Discount</span>
+                    <span>−Rs. {{ discount_amount|floatformat:2 }}</span>
+                </div>
+                {% endif %}
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span id="orderTotal">Rs. {{ total|floatformat:2 }}</span>
+                </div>
+
+                <button type="submit" form="checkoutForm" class="btn-place-order" id="placeOrderBtn" data-coupon-applied="{% if coupon_applied %}1{% else %}0{% endif %}">
+                    <i class="fas fa-check-circle"></i> Place Order — Rs. <span id="placeOrderTotal">{{ total|floatformat:0 }}</span>
+                </button>
+
+                <div class="trust-row">
+                    <i class="fas fa-shield-alt"></i> Secure order · Cash on delivery
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        {% if recommended_products %}
+        <div class="recommend-section">
+            <h2>You might also like</h2>
+            <div class="rec-sub">Fresh picks to go with your order</div>
+            <div class="recommend-scroll">
+                {% for product in recommended_products %}
+                <div class="rec-card">
+                    <a href="{% url 'product_detail' product.slug %}" class="rec-card-link">
+                        {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+                        {% endif %}
+                        <div class="rec-card-body">
+                            <div class="rec-name">{{ product.name }}</div>
+                        </div>
+                    </a>
+                    <div class="rec-card-footer">
+                        {% if product.pricing_mode == 'fixed_weight' and product.available_variant_count > 1 %}
+                        <select class="rec-variant-select" data-product-id="{{ product.id }}">
+                            {% for v in product.available_variants %}
+                            <option value="{{ v.id }}">{{ v.weight|floatformat:2 }} kg — Rs. {{ v.total_price|floatformat:0 }}{% if v.label %} ({{ v.label }}){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                        <div class="rec-card-bottom">
+                            {% if product.pricing_mode == 'fixed_weight' and product.available_variant_count > 1 %}
+                            <div class="rec-price">{{ product.available_variant_count }} sizes</div>
+                            {% elif product.price %}
+                            <div class="rec-price">Rs. {{ product.price }}</div>
+                            {% endif %}
+                            {% if product.is_available %}
+                            <button type="button" class="rec-add-btn"
+                                    data-action="add-to-cart"
+                                    data-url="{% url 'add_to_cart' product.id %}"
+                                    data-name="{{ product.name }}"
+                                    data-image="{% if product.main_image %}{{ product.main_image.url }}{% endif %}"
+                                    aria-label="Add {{ product.name }} to cart">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div id="checkoutToast"><i class="fas fa-check-circle"></i> <span id="checkoutToastText"></span></div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="Angan Baari" width="56" height="56" loading="lazy"></span>
+                <p class="footer-name-np">आँगन बारी</p>
+                <p class="footer-name-en">Angan Baari</p>
+                <p class="footer-tagline">Fresh &middot; Organic &middot; Sustainable</p>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://www.facebook.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="fb"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="ig"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@AnganBaari" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="yt"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/anganbaari" target="_blank" rel="noopener noreferrer" aria-label="X" class="x"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.threads.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="Threads" class="threads" style="display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 6.995 4.708 16.008 7.005 25.403 6.493 12.38-.68 22.081-5.407 28.819-14.041 5.129-6.675 8.374-15.311 9.678-25.396 5.808 3.506 10.1 8.12 12.509 13.677 4.956 11.421 5.253 30.18-10.25 45.625-13.616 13.56-29.976 19.425-54.73 19.594-27.456-.19-48.24-9.02-61.777-26.24C9.52 140.88 3.114 121.88 2.857 97.024c.257-24.854 6.663-43.854 19.053-56.494C35.447 23.27 56.23 14.44 83.687 14.25c27.635.19 48.728 9.064 62.722 26.37 6.868 8.561 12.007 19.324 15.368 32.012l16.108-4.278c-4.027-14.927-10.305-27.739-18.745-38.146C141.329 10.804 116.55-.067 83.69.001 50.795.068 25.752 11.01 9.884 32.609-4.05 51.73-11.04 78.173-11.333 97.024v.192c.293 18.85 7.283 45.295 21.217 64.416C26.752 182.99 51.795 193.932 84.69 194c34.057-.083 57.805-10.67 74.473-27.252 22.02-21.956 21.463-49.435 14.18-66.327-5.177-11.944-14.8-21.437-31.806-27.433Z"/></svg></a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; Since 2015. आँगन बारी/Angan Baari &mdash; Bhulka Danda, Rupandehi, Nepal &mdash; All rights reserved.</p>
+                <p class="footer-nepal"> JAY NEPAL<img class="flag-sticker"src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Nepal National Flag" width="18" height="24"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MOBILE BOTTOM NAV — same honeycomb chain as desktop (hidden via CSS, see .mobile-hc-nav rule above) -->
+    <nav class="mobile-hc-nav" aria-label="Mobile navigation">
+        <div class="hc-scale-box hc-scale-box--app5">
+          <div class="hc-strip hc-strip--cells5">
+            <div class="hc-strip-bg" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+
+            <ul class="hc-nav" id="hcNavAppMobile">
+              <li class="hc-cell"><a class="hc-link" href="{% url 'shop' %}" data-target="shop-cell">
+                <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+
+              <li class="hc-cell"><a class="hc-link active" href="{% url 'cart' %}" data-target="cart-cell">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.4l2.1 11.2a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 7H6.2"/></svg>
+                <span class="hc-label">Cart</span><span class="hc-ping"></span>
+                {% with total_qty=request.session.cart.values|length %}
+                <span id="cartBadgeMobile" class="hc-cart-badge{% if total_qty == 0 %} badge-hidden{% endif %}">{{ total_qty }}</span>
+                {% endwith %}
+              </a></li>
+
+              <li class="hc-cell hc-cell--offer"><a class="hc-link" href="{% url 'offers' %}" data-target="offers-cell">
+                <svg class="offer-flame" viewBox="0 0 24 24"><path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z"/></svg>
+                <span class="hc-label">Offers</span><span class="hc-ping"></span></a></li>
+
+              {% if user.is_authenticated %}
+              <li class="hc-cell"><a class="hc-link" href="{% url 'profile' %}" data-target="profile-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                <span class="hc-label">{{ user.first_name }}</span><span class="hc-ping"></span></a></li>
+              {% else %}
+              <li class="hc-cell"><a class="hc-link" href="{% url 'login' %}" data-target="login-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                <span class="hc-label">Login</span><span class="hc-ping"></span></a></li>
+              {% endif %}
+
+              <li class="hc-cell"><a class="hc-link" href="/" data-target="website-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></svg>
+                <span class="hc-label">Website</span><span class="hc-ping"></span></a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <script>
+        // ─── CSRF + shared fetch helper (for one-click Add from recommendations) ───
+        function getCookie(name) {
+            const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return match ? decodeURIComponent(match[2]) : null;
+        }
+        function postJSON(url, params) {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params ? new URLSearchParams(params) : null,
+            }).then(res => {
+                const isJson = (res.headers.get('content-type') || '').includes('application/json');
+                if (!res.ok || !isJson) {
+                    const err = new Error('Request failed');
+                    err.status = res.status;
+                    err.needsLogin = res.redirected || res.url.includes('/account/login/');
+                    throw err;
+                }
+                return res.json();
+            });
+        }
+
+        function updateBadges(count) {
+            ['cartBadgeDesktop', 'cartBadgeMobile'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = count;
+                el.style.display = count > 0 ? 'flex' : 'none';
+            });
+        }
+
+        function showCheckoutToast(text) {
+            const toast = document.getElementById('checkoutToast');
+            document.getElementById('checkoutToastText').textContent = text;
+            toast.classList.add('show');
+            clearTimeout(showCheckoutToast._t);
+            showCheckoutToast._t = setTimeout(() => toast.classList.remove('show'), 1600);
+        }
+
+        function buildOrderItemNode(item) {
+            const wrap = document.createElement('div');
+            wrap.className = 'summary-item';
+            wrap.id = 'order-item-' + item.id;
+            const imgHtml = item.image ? `<img src="${item.image}" alt="${item.name}" class="summary-item-thumb">` : '';
+            const detail = item.weight ? (item.weight + ' kg') : (item.qty ? ('Qty ' + item.qty) : '');
+            wrap.innerHTML = `
+                <div class="summary-item-info">
+                    ${imgHtml}
+                    <div>
+                        <div class="summary-item-name">${item.name}</div>
+                        <div style="font-size:0.78rem;color:var(--text-muted);">${detail}</div>
+                    </div>
+                </div>
+                <div style="font-weight:600;color:var(--forest);white-space:nowrap;" id="order-item-amt-${item.id}">Rs. ${Number(item.subtotal).toFixed(0)}</div>`;
+            return wrap;
+        }
+
+        // ─── One-click Add from the recommendations strip ───
+        // Fixed-weight multi-variant products (goats/chickens) get a select
+        // right on the card; everything else uses resolve_cart_line's own
+        // sensible default (weight_step for fruit, qty=1 for jars) same as
+        // the shop grid's one-click Add.
+        document.querySelectorAll('[data-action="add-to-cart"]').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (btn.disabled) return;
+                btn.disabled = true;
+                const originalHTML = btn.innerHTML;
+                const card = btn.closest('.rec-card');
+                const variantSelect = card ? card.querySelector('.rec-variant-select') : null;
+                const params = variantSelect ? { variant_id: variantSelect.value } : null;
+
+                postJSON(btn.dataset.url, params)
+                    .then(data => {
+                        updateBadges(data.count);
+
+                        // A coupon's discount depends on server-side rules
+                        // (percentage vs flat, minimums, etc.) — recalculating
+                        // that correctly on the client isn't safe, so defer
+                        // to a fresh server-rendered total instead.
+                        if (document.getElementById('placeOrderBtn')?.dataset.couponApplied === '1') {
+                            window.location.reload();
+                            return;
+                        }
+
+                        const lineKey = data.line_key;
+                        const item = {
+                            id: lineKey, name: btn.dataset.name, image: btn.dataset.image,
+                            qty: data.qty, weight: data.weight, subtotal: data.subtotal,
+                        };
+                        const existingRow = document.getElementById('order-item-' + lineKey);
+                        if (existingRow) {
+                            existingRow.replaceWith(buildOrderItemNode(item));
+                        } else {
+                            document.getElementById('orderItemsList').appendChild(buildOrderItemNode(item));
+                        }
+
+                        let newTotal = 0;
+                        document.querySelectorAll('#orderItemsList > div').forEach(row => {
+                            const amt = row.querySelector('[id^="order-item-amt-"]');
+                            if (amt) newTotal += parseFloat(amt.textContent.replace(/[^0-9.]/g, '')) || 0;
+                        });
+                        document.getElementById('orderSubtotal').textContent = 'Rs. ' + newTotal.toFixed(2);
+                        document.getElementById('orderTotal').textContent = 'Rs. ' + newTotal.toFixed(2);
+                        document.getElementById('placeOrderTotal').textContent = newTotal.toFixed(0);
+                        const itemCount = document.querySelectorAll('#orderItemsList > div').length;
+                        document.getElementById('orderItemCount').textContent = itemCount + ' item' + (itemCount === 1 ? '' : 's');
+
+                        btn.innerHTML = '<i class="fas fa-check"></i>';
+                        btn.classList.add('is-added');
+                        showCheckoutToast(btn.dataset.name + ' added to your order');
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                            btn.classList.remove('is-added');
+                            btn.disabled = false;
+                        }, 1200);
+                    })
+                    .catch(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.disabled = false;
+                        showCheckoutToast('Could not add — please try again');
+                    });
+            });
+        });
+
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value.trim();
+            if (!code) return;
+
+            // Save all form field values before redirect
+            const name = document.querySelector('[name=name]')?.value || '';
+            const phone = document.querySelector('[name=phone]')?.value || '';
+            const email = document.querySelector('[name=email]')?.value || '';
+            const address = document.querySelector('[name=address]')?.value || '';
+            const message = document.querySelector('[name=message]')?.value || '';
+
+            // Store in sessionStorage so we can restore after redirect
+            sessionStorage.setItem('co_name', name);
+            sessionStorage.setItem('co_phone', phone);
+            sessionStorage.setItem('co_email', email);
+            sessionStorage.setItem('co_address', address);
+            sessionStorage.setItem('co_message', message);
+
+            window.location.href = `/checkout/?coupon=${encodeURIComponent(code)}`;
+        }
+
+        // Restore form fields if coming back from coupon apply
+        document.addEventListener('DOMContentLoaded', () => {
+            const fields = ['name','phone','email','address','message'];
+            fields.forEach(f => {
+                const val = sessionStorage.getItem('co_' + f);
+                if (val) {
+                    const el = document.querySelector(`[name=${f}]`);
+                    if (el && !el.value) el.value = val;
+                }
+            });
+            // Clear after restoring
+            if (sessionStorage.getItem('co_name')) {
+                fields.forEach(f => sessionStorage.removeItem('co_' + f));
+            }
+        });
+    </script>
+    <script>
+// ================================================================
+// OPMCM-STYLE WIND-BLOWN NEPAL FLAG — NAVBAR
+// Darker colors · crisp edges · sharp triangular silhouette
+// Smooth cloth folds · stable pole · stronger free-end flutter
+// ================================================================
+(function () {
+    const canvas = document.getElementById('navNepalFlag');
+    if (!canvas) return;
+
+    const WIDTH = 450;
+    const HEIGHT = 600;
+    const FLAG_W = 330;
+    const FLAG_H = 441;
+    const PAD_X = 60;
+    const PAD_Y = 78;
+
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    // Keep the raster edges crisp instead of applying soft interpolation.
+    ctx.imageSmoothingEnabled = false;
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="110" height="147" viewBox="0 0 110 147">
+        <!-- Deep, slightly darker Nepal red and blue for the OPMCM-style look -->
+        <path d="M 0.00,0.00 L 110.00,68.88 L 32.22,68.88 L 110.00,146.67 L 0.00,146.67 Z"
+              fill="#B80F2F" stroke="#001F5B" stroke-width="3.5" stroke-linejoin="round"/>
+
+        <g transform="translate(27.50,43.05)">
+            <path d="M 22.27,-4.58 L 21.52,-4.79 L 20.33,-2.42 L 15.70,3.07 L 12.48,5.11 L 11.18,4.57 L 10.86,2.96 L 12.80,1.99 L 13.23,0.48 L 10.00,-0.05 L 10.21,-1.45 L 11.93,-4.36 L 7.74,-3.72 L 7.95,-7.81 L 6.34,-7.48 L 4.18,-5.87 L 2.89,-10.06 L 0.52,-7.05 L -0.23,-7.16 L -2.17,-9.74 L -3.78,-5.98 L -6.69,-7.81 L -7.98,-7.92 L -7.33,-7.59 L -7.33,-3.72 L -9.38,-3.61 L -11.10,-4.25 L -9.81,-0.05 L -13.04,0.59 L -12.93,1.56 L -10.89,3.18 L -11.64,5.33 L -13.04,5.00 L -15.62,3.07 L -18.43,0.16 L -20.90,-3.61 L -21.55,-3.61 L -20.68,1.77 L -17.99,6.51 L -14.87,9.95 L -10.24,13.30 L -3.46,15.34 L 1.93,15.56 L 9.89,13.73 L 14.74,10.39 L 20.23,3.50 L 22.16,-2.42 Z"
+                  fill="#FFFFFF"/>
+        </g>
+
+        <path d="M 27.50,131.32 L 23.64,122.20 L 15.73,128.16 L 16.94,118.33 L 7.11,119.55 L 13.08,111.64 L 3.96,107.78 L 13.08,103.91 L 7.11,96.01 L 16.94,97.22 L 15.73,87.39 L 23.64,93.35 L 27.50,84.24 L 31.36,93.35 L 39.27,87.39 L 38.06,97.22 L 47.89,96.01 L 41.92,103.91 L 51.04,107.78 L 41.92,111.64 L 47.89,119.55 L 38.06,118.33 L 39.27,128.16 L 31.36,122.20 Z"
+              fill="#FFFFFF"/>
+    </svg>`;
+
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = WIDTH;
+    sourceCanvas.height = HEIGHT;
+    const sourceCtx = sourceCanvas.getContext('2d', { alpha: true });
+    if (!sourceCtx) return;
+    sourceCtx.imageSmoothingEnabled = false;
+
+    const img = new Image();
+    img.decoding = 'async';
+
+    img.onload = function () {
+        sourceCtx.clearRect(0, 0, WIDTH, HEIGHT);
+        sourceCtx.drawImage(img, PAD_X, PAD_Y, FLAG_W, FLAG_H);
+        startAnimation();
+    };
+
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+
+    function drawFlag(time) {
+        const t = time * 0.001;
+
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        // Transparent padding is intentionally preserved around the flag.
+        // This keeps both pointed ends completely visible while waving.
+        ctx.save();
+        ctx.translate(PAD_X, PAD_Y);
+
+        /*
+         * Draw the flag as narrow vertical fabric strips.
+         * Unlike pixel displacement, this preserves the sharp Nepal-flag
+         * silhouette and pointed edges while the strips move independently.
+         */
+        const strip = 3;
+
+        for (let x = 0; x < FLAG_W; x += strip) {
+            const u = x / FLAG_W;
+
+            // Pole remains stable; the free end becomes increasingly active.
+            const strength = Math.pow(u, 1.45);
+
+            // Large travelling cloth folds.
+            const wave1 = Math.sin(u * Math.PI * 1.55 - t * 4.0);
+            const wave2 = Math.sin(u * Math.PI * 3.10 - t * 4.0 + 1.15);
+
+            // Strong but smooth vertical displacement.
+            const yWave = strength * (wave1 * 34 + wave2 * 8);
+
+            // Forward/backward flutter of the free edge.
+            const xWave = strength * Math.sin(
+                u * Math.PI * 1.35 - t * 3.0 + 0.55
+            ) * 15;
+
+            // Local fabric tilt makes the folds look like cloth rather than water.
+            const slope =
+                Math.cos(u * Math.PI * 1.55 - t * 4.0) *
+                strength * 0.16 +
+                Math.cos(u * Math.PI * 3.10 - t * 4.0 + 1.15) *
+                strength * 0.035;
+
+            // Slightly narrower at the pole, fuller at the free edge.
+            const sourceWidth = Math.min(strip + 1, FLAG_W - x);
+
+            ctx.save();
+            ctx.translate(x + xWave, yWave);
+            ctx.transform(1, slope, 0, 1, 0, 0);
+
+            // Overlap neighbouring strips by 1px to avoid hairline gaps.
+            ctx.drawImage(
+                sourceCanvas,
+                PAD_X + x,
+                0,
+                sourceWidth,
+                HEIGHT,
+                -0.5,
+                0,
+                sourceWidth + 1,
+                HEIGHT
+            );
+
+            ctx.restore();
+        }
+
+        ctx.restore();
+
+        /*
+         * Very subtle fold shading. This is intentionally restrained so
+         * the red remains dark and solid rather than becoming glossy.
+         */
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.globalAlpha = 0.075;
+
+        const shadeGradient = ctx.createLinearGradient(
+            PAD_X, 0,
+            PAD_X + FLAG_W, 0
+        );
+        shadeGradient.addColorStop(0, 'rgba(0,0,0,0)');
+        shadeGradient.addColorStop(0.35, 'rgba(0,0,0,0.18)');
+        shadeGradient.addColorStop(0.52, 'rgba(255,255,255,0.10)');
+        shadeGradient.addColorStop(0.72, 'rgba(0,0,0,0.15)');
+        shadeGradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.fillStyle = shadeGradient;
+        ctx.fillRect(PAD_X, PAD_Y, FLAG_W, FLAG_H);
+        ctx.restore();
+    }
+
+    function startAnimation() {
+        // Respect the OS-level "reduce motion" preference: draw one
+        // static frame and never animate, instead of the CSS-only rule
+        // from before (which couldn't actually stop a JS-driven loop).
+        const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        let rafId = null;
+        let inView = true;
+
+        function renderLoop(time) {
+            drawFlag(time);
+            rafId = requestAnimationFrame(renderLoop);
+        }
+
+        function play() {
+            if (rafId !== null || reduceMotionQuery.matches) return;
+            rafId = requestAnimationFrame(renderLoop);
+        }
+
+        function pause() {
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        }
+
+        if (reduceMotionQuery.matches) {
+            drawFlag(0);
+        } else {
+            play();
+        }
+
+        // Pause the render loop whenever the flag scrolls out of view or
+        // the browser tab itself is backgrounded — a small canvas redrawn
+        // 60×/sec is wasted work (and battery) when nobody can see it.
+        const observer = new IntersectionObserver(function (entries) {
+            inView = entries[0].isIntersecting;
+            if (inView && !document.hidden) {
+                play();
+            } else {
+                pause();
+            }
+        }, { threshold: 0 });
+        observer.observe(canvas);
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                pause();
+            } else if (inView) {
+                play();
+            }
+        });
+
+        // Live-respond if the user toggles the OS reduced-motion setting
+        // while the page is already open.
+        reduceMotionQuery.addEventListener('change', function (e) {
+            if (e.matches) {
+                pause();
+                drawFlag(0);
+            } else if (inView) {
+                play();
+            }
+        });
+    }
+})();
+    </script>
+</body>
+</html>

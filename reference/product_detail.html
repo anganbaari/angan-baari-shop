@@ -1,0 +1,1588 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} — Angan Baari</title>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Cinzel:wght@400;600&family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        /* ============================================================
+           EXTENDED TOKENS — bolder accents layered on top of the
+           existing brand palette (--forest / --moss / --gold / --mist
+           / --cream are assumed defined in style.css)
+        ============================================================ */
+        :root {
+            /* Modern palette override — page-scoped. If you like this,
+               copy these same values into style.css to apply site-wide. */
+            --forest: #1C2620;
+            --moss: #3F7D52;
+            --gold: #F2994A;
+            --mist: #E2DDD1;
+            --cream: #FAF7F2;
+            --cream-warm: #F3EDE0;
+            --text-body: #2B332C;
+            --text-muted: #767267;
+            --sage: #8FA88F;
+            --white: #FFFFFF;
+            --shadow-card: 0 8px 24px -12px rgba(28,38,32,0.14);
+            --shadow-hover: 0 16px 36px -12px rgba(28,38,32,0.24);
+
+            --forest-deep: #12180F;
+            --turmeric: #F2994A;
+            --terai-clay: #C05621;
+            --terai-clay-light: rgba(192,86,33,0.12);
+            --rice-cream: #FAF7F2;
+            --font-devanagari: 'Noto Serif Devanagari', serif;
+            --font-devanagari-sans: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        /* Devanagari glyphs automatically fall through to a proper
+           Devanagari face instead of a generic system font, since
+           Cormorant/DM Sans don't cover that script. */
+        .product-page, .product-page * {
+            font-family: var(--font-body, 'DM Sans'), var(--font-devanagari-sans), sans-serif;
+        }
+        .product-name, .features-title, .related-title, .tab-panel h3 {
+            font-family: var(--font-display, 'Cormorant Garamond'), var(--font-devanagari), serif;
+        }
+
+        /* Icons must NOT inherit the body/Devanagari font stack above —
+           this is what was breaking every icon on the page. */
+        .product-page .fas, .product-page .far, .product-page .fab, .product-page .fa {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif !important;
+        }
+        .product-page .fas { font-weight: 900 !important; }
+        .product-page .far { font-weight: 400 !important; }
+        .product-page .fab { font-family: "Font Awesome 6 Brands" !important; font-weight: 400 !important; }
+
+        .product-page {
+            max-width: 1200px;
+            margin: 0 auto 0;
+            padding: 108px 5vw 40px;
+        }
+
+        /* ---------------- Hero grid ---------------- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 56px;
+            align-items: start;
+            margin-bottom: 56px;
+            position: relative;
+        }
+
+        /* Gallery */
+        .product-images { position: sticky; top: 100px; }
+        .main-image {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            height: 460px;
+            margin-bottom: 14px;
+            background: var(--forest);
+            cursor: zoom-in;
+            box-shadow: 0 20px 50px -20px rgba(20,33,24,0.35);
+            z-index: 1;
+        }
+        .main-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .main-image:hover img { transform: scale(1.05); }
+        .zoom-hint {
+            position: absolute;
+            bottom: 14px; right: 14px;
+            background: rgba(20,33,24,0.55);
+            backdrop-filter: blur(6px);
+            color: white;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .main-image:hover .zoom-hint { opacity: 1; }
+
+        /* Thumbnails: grid on desktop, scroll-snap row on mobile */
+        .thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .thumb {
+            border-radius: 14px;
+            overflow: hidden;
+            height: 84px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            scroll-snap-align: start;
+        }
+        .thumb:hover { transform: translateY(-3px); }
+        .thumb.active { border-color: var(--turmeric); box-shadow: 0 4px 14px rgba(201,162,39,0.35); }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-dots {
+            display: none;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .thumb-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--mist);
+            transition: all 0.3s ease;
+        }
+        .thumb-dot.active { background: var(--turmeric); width: 18px; border-radius: 4px; }
+
+        /* ---------------- Info column ---------------- */
+        .product-info { padding-top: 4px; }
+        .info-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .product-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge-discount, .badge-origin-farm, .badge-origin-sourced {
+            font-size: 0.72rem;
+            font-family: var(--font-accent, 'DM Sans');
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+        .badge-discount { background: var(--terai-clay); color: white; }
+        .badge-origin-farm { background: rgba(74,124,89,0.14); color: var(--moss); }
+        .badge-origin-sourced { background: rgba(181,118,46,0.14); color: #b5762e; }
+
+        .wishlist-btn {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            border: 1.5px solid var(--mist);
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+        .wishlist-btn:hover { border-color: var(--terai-clay); color: var(--terai-clay); transform: scale(1.06); }
+        .wishlist-btn.active { background: var(--terai-clay); border-color: var(--terai-clay); color: white; }
+        .wishlist-btn.active i { font-weight: 900; }
+
+        .product-name {
+            font-size: clamp(2rem, 4vw, 3.1rem);
+            font-weight: 600;
+            color: var(--forest);
+            line-height: 1.12;
+            margin-bottom: 6px;
+        }
+
+        /* Rating summary chip under the title */
+        .rating-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+        .rating-chip .stars { color: var(--turmeric); letter-spacing: 1px; }
+        .rating-chip a { color: var(--moss); text-decoration: none; }
+        .rating-chip a:hover { text-decoration: underline; }
+
+        /* Price block */
+        .price-block {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .price-current {
+            font-family: var(--font-body, 'DM Sans'), sans-serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--forest-deep);
+        }
+        .price-unit {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .size-picker { margin-bottom: 20px; }
+        .size-picker-label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 8px; }
+        .size-picker-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+        .size-pill {
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            padding: 8px 16px; border-radius: 14px; border: 1.5px solid var(--mist, #e4e0d6);
+            background: var(--white, #fff); text-decoration: none; color: var(--forest-deep);
+            font-size: 0.82rem; font-weight: 600; transition: border-color 0.2s, background 0.2s;
+        }
+        .size-pill:hover { border-color: var(--sage, #8fa88a); }
+        .size-pill.active { border-color: var(--forest-deep); background: var(--forest-deep); color: var(--gold, #c9a84c); }
+        .size-pill-price { font-size: 0.72rem; font-weight: 500; opacity: 0.85; }
+        .price-original {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .product-desc {
+            font-size: 1rem;
+            color: var(--text-body);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .desc-block { line-height: 1.85; margin: 0; }
+        .desc-en {
+            font-size: 1.02rem;
+            color: var(--text-body);
+        }
+        .desc-en::first-letter {
+            font-family: var(--font-display, 'Cormorant Garamond'), serif;
+            font-size: 3.1rem;
+            font-weight: 700;
+            color: var(--gold);
+            float: left;
+            line-height: 0.8;
+            padding-right: 10px;
+            padding-top: 6px;
+        }
+        .desc-divider {
+            display: flex; align-items: center; gap: 12px;
+            margin: 22px 0;
+            color: var(--moss);
+            font-size: 0.8rem;
+        }
+        .desc-divider span { flex: 1; height: 1px; background: var(--mist); }
+        .desc-ne {
+            font-family: var(--font-devanagari), serif;
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--text-body);
+            background: var(--cream-warm);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 14px 14px 0;
+            padding: 18px 22px;
+        }
+
+        .product-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+        .detail-card {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 14px 16px;
+            border: 1px solid var(--mist);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s ease;
+        }
+        .detail-card:hover { border-color: var(--turmeric); transform: translateY(-2px); }
+        .detail-card i { color: var(--moss); font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+        .detail-label {
+            font-size: 0.68rem;
+            font-family: var(--font-accent, 'DM Sans');
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+        .detail-value { font-size: 0.9rem; font-weight: 600; color: var(--forest); }
+
+        /* Quantity stepper */
+        .qty-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .qty-label {
+            font-size: 0.7rem;
+            font-family: var(--font-accent, 'DM Sans');
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid var(--mist);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        .qty-stepper button {
+            width: 38px; height: 38px;
+            border: none;
+            background: white;
+            color: var(--forest);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .qty-stepper button:hover { background: var(--cream); }
+        .qty-stepper input {
+            width: 44px;
+            text-align: center;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--forest);
+            -moz-appearance: textfield;
+        }
+        .qty-stepper input::-webkit-outer-spin-button,
+        .qty-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .order-buttons { display: flex; align-items: stretch; gap: 10px; }
+        .order-buttons form#cartForm { flex: 1; min-width: 0; }
+        .btn-cart-product {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: var(--forest-deep);
+            color: white; padding: 16px 10px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer;
+            font-family: var(--font-body, 'DM Sans');
+            transition: all 0.3s ease;
+            width: 100%;
+            white-space: nowrap;
+        }
+        .btn-cart-product:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(20,33,24,0.5); }
+        .btn-wa-product {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: #25d366; color: white; padding: 15px 10px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 600; text-decoration: none;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 0;
+            white-space: nowrap;
+        }
+        .btn-wa-product:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,211,102,0.35); color: white; }
+
+        .trust-mini-row {
+            display: flex;
+            gap: 18px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .trust-mini {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.76rem; color: var(--text-muted);
+        }
+        .trust-mini i { color: var(--moss); }
+
+        /* ---------------- Tabs ---------------- */
+        .tabs-wrap { margin-bottom: 48px; }
+        .tabs-nav {
+            display: flex;
+            gap: 4px;
+            border-bottom: 1.5px solid var(--mist);
+            margin-bottom: 28px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tabs-nav::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            background: none; border: none;
+            padding: 12px 20px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            font-family: var(--font-body, 'DM Sans');
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2.5px solid transparent;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+        }
+        .tab-btn:hover { color: var(--forest); }
+        .tab-btn.active { color: var(--forest); border-bottom-color: var(--turmeric); }
+        .tab-panel { display: none; animation: fadeIn 0.35s ease; }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .product-features {
+            background: var(--cream-warm, var(--cream));
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .features-title { font-size: 1.5rem; font-weight: 600; color: var(--forest); margin-bottom: 20px; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .feature-item { display: flex; align-items: flex-start; gap: 12px; }
+        .feature-icon {
+            width: 42px; height: 42px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; color: var(--moss); flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(20,33,24,0.08);
+        }
+        .feature-title { font-size: 0.88rem; font-weight: 600; color: var(--forest); margin-bottom: 3px; }
+        .feature-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* ---------------- Rating summary ---------------- */
+        .rating-summary {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 32px;
+            align-items: center;
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 32px;
+        }
+        .rating-avg { text-align: center; }
+        .rating-avg-num { font-family: var(--font-display, 'Cormorant Garamond'), serif; font-size: 3rem; font-weight: 700; color: var(--forest); line-height: 1; }
+        .rating-avg .stars { color: var(--turmeric); font-size: 0.9rem; margin: 6px 0 4px; }
+        .rating-avg-count { font-size: 0.78rem; color: var(--text-muted); }
+        .rating-bars { display: flex; flex-direction: column; gap: 7px; }
+        .rating-bar-row { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: var(--text-muted); }
+        .rating-bar-row span:first-child { width: 40px; flex-shrink: 0; }
+        .rating-bar-track { flex: 1; height: 7px; background: white; border-radius: 10px; overflow: hidden; }
+        .rating-bar-fill { height: 100%; background: var(--turmeric); border-radius: 10px; }
+        .rating-bar-row span:last-child { width: 30px; text-align: right; flex-shrink: 0; }
+
+        .review-card {
+            background: var(--cream); border: 1px solid var(--mist); border-radius: 16px;
+            padding: 20px 24px; margin-bottom: 14px;
+        }
+        .review-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
+        .review-card-name { color: var(--forest); font-size: 0.95rem; font-weight: 600; }
+        .review-card-stars { color: var(--turmeric); font-size: 0.95rem; }
+        .review-card-text { color: var(--text-body); font-size: 0.92rem; line-height: 1.7; margin: 0; }
+        .review-card-date { font-size: 0.74rem; color: var(--text-muted); margin-top: 8px; }
+
+        .review-form input[type="text"], .review-form textarea {
+            width: 100%; padding: 13px 16px; border: 1px solid var(--mist); border-radius: 12px;
+            font-size: 0.95rem; font-family: var(--font-body, 'DM Sans'); background: white;
+            color: var(--forest); outline: none; box-sizing: border-box; transition: border-color 0.25s;
+        }
+        .review-form input[type="text"]:focus, .review-form textarea:focus { border-color: var(--turmeric); }
+        .review-form label {
+            font-size: 0.78rem; font-family: var(--font-accent, 'DM Sans'); letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 7px;
+        }
+        .star-btn {
+            display: inline-block; padding: 9px 15px; border: 1.5px solid var(--mist);
+            border-radius: 50px; font-size: 0.85rem; transition: all 0.2s; cursor: pointer;
+        }
+        .review-submit-btn {
+            background: var(--forest-deep); color: white; border: none; padding: 15px 30px;
+            border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; align-self: flex-start;
+        }
+        .review-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(20,33,24,0.4); }
+
+        /* ---------------- Related ---------------- */
+        .related-section { margin-bottom: 24px; }
+        .related-title { font-size: 1.7rem; font-weight: 600; color: var(--forest); margin-bottom: 22px; }
+        .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .related-card {
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: var(--shadow-card, 0 8px 24px -12px rgba(20,33,24,0.15));
+            text-decoration: none; transition: all 0.3s ease; display: block;
+        }
+        .related-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover, 0 16px 36px -12px rgba(20,33,24,0.25)); }
+        .related-img { height: 160px; overflow: hidden; }
+        .related-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .related-card:hover .related-img img { transform: scale(1.06); }
+        .related-body { padding: 16px; }
+        .related-name { font-family: var(--font-display, 'Cormorant Garamond'), var(--font-devanagari), serif; font-size: 1.1rem; font-weight: 600; color: var(--forest); margin-bottom: 6px; }
+        .related-link { font-size: 0.82rem; color: var(--moss); display: flex; align-items: center; gap: 5px; }
+
+        /* ---------------- Lightbox ---------------- */
+        .lightbox-overlay {
+            position: fixed; inset: 0; background: rgba(20,33,24,0.94);
+            z-index: 999; display: none; align-items: center; justify-content: center;
+            padding: 40px;
+        }
+        .lightbox-overlay.open { display: flex; }
+        .lightbox-overlay img { max-width: 100%; max-height: 85vh; border-radius: 12px; object-fit: contain; }
+        .lightbox-close {
+            position: absolute; top: 24px; right: 24px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); color: white; border: none;
+            font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); color: white; border: none;
+            font-size: 1.1rem; cursor: pointer;
+        }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+
+        /* ---------------- Sticky mobile CTA ---------------- */
+        .sticky-mobile-bar {
+            display: none;
+            position: fixed; bottom: 90px; left: 0; right: 0;
+            background: white; border-top: 1px solid var(--mist);
+            padding: 12px 16px; z-index: 900;
+            box-shadow: 0 -8px 24px -12px rgba(20,33,24,0.2);
+            align-items: center; gap: 12px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .sticky-mobile-bar.visible { transform: translateY(0); }
+        .sticky-bar-price { flex-shrink: 0; }
+        .sticky-bar-price .cur { font-weight: 700; color: var(--forest-deep); font-size: 1.05rem; }
+        .sticky-bar-price .unit { font-size: 0.68rem; color: var(--text-muted); display: block; }
+        .sticky-bar-btn {
+            flex: 1; background: var(--forest-deep); color: white; border: none;
+            padding: 13px; border-radius: 50px; font-size: 0.88rem; font-weight: 600;
+            font-family: var(--font-body, 'DM Sans');
+        }
+
+        /* Floating Shop / WhatsApp / Back-to-top come from style.css —
+           just shifting them up on this page so they clear the honeycomb
+           mobile nav bar (and the sticky add-to-cart bar when visible). */
+        @media (max-width: 760px) {
+            .float-shop { bottom: 248px !important; }
+            .float-wa { bottom: 172px !important; }
+            .back-to-top { bottom: 108px !important; }
+        }
+
+        /* ---------------- Responsive ---------------- */
+        @media (max-width: 900px) {
+            .product-grid { grid-template-columns: 1fr; gap: 32px; }
+            .product-page { padding-top: 96px; padding-bottom: 130px; }
+            .product-images { position: static; }
+            .main-image { height: 360px; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .related-grid { grid-template-columns: 1fr 1fr; }
+            .rating-summary { grid-template-columns: 1fr; text-align: center; }
+            .rating-avg { display: flex; flex-direction: column; align-items: center; }
+        }
+        @media (max-width: 600px) {
+            .thumb-grid {
+                display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+                gap: 10px; padding-bottom: 4px;
+            }
+            .thumb { min-width: 76px; height: 76px; flex-shrink: 0; }
+            .thumb-dots { display: flex; }
+            .features-grid { grid-template-columns: 1fr; }
+            .related-grid { grid-template-columns: 1fr; }
+            .product-details-grid { grid-template-columns: 1fr 1fr; }
+            .sticky-mobile-bar { display: flex; }
+            .order-buttons { gap: 8px; }
+            .btn-cart-product, .btn-wa-product { padding: 14px 6px; font-size: 0.78rem; gap: 5px; }
+            .btn-cart-product i, .btn-wa-product i { font-size: 0.85rem; }
+            .rating-summary { padding: 22px; }
+            .tabs-nav { gap: 0; }
+            .tab-btn { padding: 10px 14px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar scrolled navbar-app" id="navbar" data-nav-mode="solid">
+        <div class="navbar-inner">
+            <a href="/" class="brand" aria-label="Angan Baari Home">
+                <span class="brand-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="" width="84" height="84" loading="eager"></span>
+                <div class="brand-text">
+                    <span class="brand-name">आँगन बारी</span>
+                    <span class="brand-tagline">Angan Baari</span>
+                    <span class="brand-subtag">Organic Farm</span>
+                </div>
+                <span class="brand-flag" aria-hidden="true">
+                    <canvas id="navNepalFlag" class="nav-nepal-flag" width="450" height="600"></canvas>
+                </span>
+            </a>
+            <nav class="desktop-nav" aria-label="Main Navigation">
+                <div class="hc-scale-box hc-scale-box--app5">
+                  <div class="hc-strip hc-strip--cells5">
+                    <div class="hc-strip-bg" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+                    <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+
+                    <ul class="hc-nav" id="hcNavApp">
+                      <li class="hc-cell"><a class="hc-link active" href="{% url 'shop' %}" data-target="shop-cell">
+                        <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                        <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'cart' %}" data-target="cart-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.4l2.1 11.2a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 7H6.2"/></svg>
+                        <span class="hc-label">Cart</span><span class="hc-ping"></span>
+                        {% with total_qty=request.session.cart.values|length %}
+                        <span id="cartBadgeDesktop" class="hc-cart-badge{% if total_qty == 0 %} badge-hidden{% endif %}">{{ total_qty }}</span>
+                        {% endwith %}
+                      </a></li>
+
+                      <li class="hc-cell hc-cell--offer"><a class="hc-link" href="{% url 'offers' %}" data-target="offers-cell">
+                        <svg class="offer-flame" viewBox="0 0 24 24"><path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z"/></svg>
+                        <span class="hc-label">Offers</span><span class="hc-ping"></span></a></li>
+
+                      {% if user.is_authenticated %}
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'profile' %}" data-target="profile-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                        <span class="hc-label">{{ user.first_name }}</span><span class="hc-ping"></span></a></li>
+                      {% else %}
+                      <li class="hc-cell"><a class="hc-link" href="{% url 'login' %}" data-target="login-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                        <span class="hc-label">Login</span><span class="hc-ping"></span></a></li>
+                      {% endif %}
+
+                      <li class="hc-cell"><a class="hc-link" href="/" data-target="website-cell">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></svg>
+                        <span class="hc-label">Website</span><span class="hc-ping"></span></a></li>
+                    </ul>
+                  </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="product-page">
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+
+            <!-- Images -->
+            <div class="product-images">
+                <div class="main-image" id="mainImage" onclick="openLightbox()">
+                    {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" id="mainImg">
+                    {% else %}
+                        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-seedling" style="font-size:4rem;color:var(--sage);"></i>
+                        </div>
+                    {% endif %}
+                    <div class="zoom-hint"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="thumb-grid" id="thumbRow">
+                    {% if product.main_image %}
+                    <div class="thumb active" onclick="changeImage(event, '{{ product.main_image.url }}', this)">
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                    {% if product.image2 %}
+                    <div class="thumb" onclick="changeImage(event, '{{ product.image2.url }}', this)">
+                        <img src="{{ product.image2.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                    {% if product.image3 %}
+                    <div class="thumb" onclick="changeImage(event, '{{ product.image3.url }}', this)">
+                        <img src="{{ product.image3.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                    {% if product.image4 %}
+                    <div class="thumb" onclick="changeImage(event, '{{ product.image4.url }}', this)">
+                        <img src="{{ product.image4.url }}" alt="{{ product.name }}">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="thumb-dots" id="thumbDots"></div>
+            </div>
+
+            <!-- Info -->
+            <div class="product-info">
+                <div class="info-top-row">
+                    <div class="product-badges">
+                        {% if product.origin == 'farm' %}
+                        <span class="badge-origin-farm"><i class="fas fa-tractor"></i> Grown on Our Farm</span>
+                        {% else %}
+                        <span class="badge-origin-sourced"><i class="fas fa-map-marker-alt"></i> Sourced in Nepal</span>
+                        {% endif %}
+                        {% if active_offer %}
+                        <span class="badge-discount"><i class="fas fa-tag"></i>
+                            {% if active_offer.discount_type == 'percent' %}{{ active_offer.discount_value|floatformat:0 }}% OFF
+                            {% elif active_offer.discount_type == 'fixed' %}Rs.{{ active_offer.discount_value|floatformat:0 }} OFF
+                            {% else %}Combo Deal{% endif %}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="wishlist-btn {% if is_wishlisted %}active{% endif %}" id="wishlistBtn" data-product-id="{{ product.id }}" data-logged-in="{% if user.is_authenticated %}1{% else %}0{% endif %}" onclick="toggleWishlist(this)" aria-label="Add to wishlist">
+                        <i class="{% if is_wishlisted %}fas{% else %}far{% endif %} fa-heart"></i>
+                    </button>
+                </div>
+
+                <h1 class="product-name">{{ product.name }}</h1>
+
+                {% if review_count %}
+                <div class="rating-chip">
+                    <span class="stars">{% for i in "12345" %}{% if forloop.counter <= avg_rating|floatformat:0|add:0 %}★{% else %}☆{% endif %}{% endfor %}</span>
+                    <span>{{ avg_rating }}/5</span>
+                    <a href="#tab-reviews" onclick="switchTab('reviews')">({{ review_count }} review{{ review_count|pluralize }})</a>
+                </div>
+                {% endif %}
+
+                <div class="price-block">
+                    {% if active_offer %}
+                        <span class="price-current">Rs. {{ active_offer.discounted_price|default:product.price|floatformat:0 }}</span>
+                        <span class="price-original">Rs. {{ product.price|floatformat:0 }}</span>
+                        {% if product.price_unit %}<span class="price-unit">{{ product.price_unit }}</span>{% endif %}
+                    {% elif product.pricing_mode == "variable_weight" %}
+                        <span class="price-current">From Rs. {{ product.starting_price|floatformat:0 }}</span>
+                        <span class="price-unit">per {{ product.starting_weight_label }} (Rs. {{ product.price|floatformat:0 }}/{{ product.weight_unit_label }})</span>
+                    {% elif product.pricing_mode == "fixed_weight" %}
+                        <span class="price-current" id="fixedPriceDisplay">Rs. {% if variants %}{{ variants.0.total_price|floatformat:0 }}{% else %}{{ product.locked_total_price|floatformat:0 }}{% endif %}</span>
+                        <span class="price-unit" id="fixedWeightDisplay">{% if variants %}{{ variants.0.weight|floatformat:2 }}{% else %}{{ product.fixed_weight|floatformat:2 }}{% endif %} kg, fixed price</span>
+                    {% else %}
+                        <span class="price-current">Rs. {{ product.price|floatformat:0 }}</span>
+                        {% if product.price_unit %}<span class="price-unit">{{ product.price_unit }}</span>{% endif %}
+                    {% endif %}
+                </div>
+
+                {% if variants %}
+                <div class="size-picker" id="sizePicker">
+                    <span class="size-picker-label">Choose this animal's weight</span>
+                    <div class="size-picker-pills">
+                        {% for variant in variants %}
+                        <button type="button" class="size-pill {% if forloop.first %}active{% endif %}"
+                                data-variant-id="{{ variant.id }}"
+                                data-weight="{{ variant.weight|floatformat:2 }}"
+                                data-price="{{ variant.total_price|floatformat:0 }}"
+                                onclick="selectVariant(this)">
+                            {{ variant.weight|floatformat:2 }} kg{% if variant.label %} <small>({{ variant.label }})</small>{% endif %}
+                            <span class="size-pill-price">Rs. {{ variant.total_price|floatformat:0 }}</span>
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="product-details-grid">
+                    {% if product.season %}
+                    <div class="detail-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div><div class="detail-label">Season</div><div class="detail-value">{{ product.season }}</div></div>
+                    </div>
+                    {% endif %}
+                    {% if product.farming_method %}
+                    <div class="detail-card">
+                        <i class="fas fa-tractor"></i>
+                        <div><div class="detail-label">Farming</div><div class="detail-value">{{ product.farming_method }}</div></div>
+                    </div>
+                    {% endif %}
+                    <div class="detail-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div><div class="detail-label">Location</div><div class="detail-value">Bhulka Danda, Rupandehi</div></div>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-truck"></i>
+                        <div><div class="detail-label">Delivery</div><div class="detail-value">2–3.5 hours</div></div>
+                    </div>
+                </div>
+
+                {% if product.is_available %}
+                    {% if product.pricing_mode == "variable_weight" %}
+                    <div class="qty-row">
+                        <span class="qty-label">Weight</span>
+                        <div class="qty-stepper">
+                            <button type="button" onclick="stepWeight(-1)" aria-label="Decrease weight">−</button>
+                            <input type="text" id="weightInput" value="{{ product.weight_step|floatformat:2 }}" readonly>
+                            <button type="button" onclick="stepWeight(1)" aria-label="Increase weight">+</button>
+                        </div>
+                        <span style="font-size:0.8rem; color:var(--text-muted); margin-left:6px;">{{ product.weight_unit_label }}</span>
+                    </div>
+                    {% elif product.pricing_mode == "fixed_weight" %}
+                    <div class="qty-row">
+                        <span class="qty-label"><i class="fas fa-lock"></i> Weight & price are fixed per animal{% if variants %} — pick a size above{% endif %}</span>
+                    </div>
+                    {% else %}
+                    <div class="qty-row">
+                        <span class="qty-label">Quantity</span>
+                        <div class="qty-stepper">
+                            <button type="button" onclick="stepQty(-1)" aria-label="Decrease quantity">−</button>
+                            <input type="number" id="qtyInput" value="1" min="1" readonly>
+                            <button type="button" onclick="stepQty(1)" aria-label="Increase quantity">+</button>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endif %}
+
+                <div class="order-buttons" id="orderButtons">
+                    {% if product.is_available %}
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}" id="cartForm">
+                        {% csrf_token %}
+                        {% if product.pricing_mode == "variable_weight" %}
+                        <input type="hidden" name="weight" id="cartWeightField" value="{{ product.weight_step|floatformat:2 }}">
+                        {% elif product.pricing_mode == "fixed_weight" %}
+                        <input type="hidden" name="variant_id" id="cartVariantField" value="{{ variants.0.id|default:'' }}">
+                        {% else %}
+                        <input type="hidden" name="quantity" id="cartQtyField" value="1">
+                        {% endif %}
+                        <button type="submit" class="btn-cart-product">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </form>
+                    <a href="https://wa.me/9779821025084?text={{ product.whatsapp_message|urlencode }}"
+                       class="btn-wa-product" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                    </a>
+                    {% endif %}
+                </div>
+
+                <p class="product-desc auto-split-desc">{{ product.description }}</p>
+
+                <div class="trust-mini-row">
+                    <span class="trust-mini"><i class="fas fa-flask"></i> No chemicals</span>
+                    <span class="trust-mini"><i class="fas fa-leaf"></i> Eco packaging</span>
+                    <span class="trust-mini"><i class="fas fa-shield-alt"></i> Quality assured</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             TABBED CONTENT
+        ============================================================ -->
+        <div class="tabs-wrap">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="description" onclick="switchTab('description')">Description</button>
+                <button class="tab-btn" data-tab="why-us" onclick="switchTab('why-us')">Why Choose Us</button>
+                <button class="tab-btn" data-tab="reviews" onclick="switchTab('reviews')">Reviews {% if review_count %}({{ review_count }}){% endif %}</button>
+            </div>
+
+            <!-- Description panel -->
+            <div class="tab-panel active" data-panel="description">
+                {% if product.detail_description %}
+                <div class="product-features">
+                    <h3 class="features-title">About this Product</h3>
+                    <p class="auto-split-desc" style="font-size:1rem; color:var(--text-body); line-height:1.85;">{{ product.detail_description }}</p>
+                </div>
+                {% else %}
+                <div class="product-features">
+                    <p class="auto-split-desc" style="font-size:1rem; color:var(--text-body); line-height:1.85;">{{ product.description }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Why choose us panel -->
+            <div class="tab-panel" data-panel="why-us">
+                <div class="product-features">
+                    <h3 class="features-title">Why Choose Angan Baari?</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-flask"></i></div>
+                            <div><div class="feature-title">No Chemicals</div><div class="feature-desc">100% natural farming, zero synthetic pesticides or fertilizers.</div></div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-sun"></i></div>
+                            <div><div class="feature-title">Naturally Ripened</div><div class="feature-desc">Harvested only when fully ripe — no artificial ripening.</div></div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-truck"></i></div>
+                            <div><div class="feature-title">Farm Fresh</div><div class="feature-desc">Picked fresh and delivered to your door within hours.</div></div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                            <div><div class="feature-title">Eco Packaging</div><div class="feature-desc">Packed in biodegradable, eco-friendly packaging.</div></div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                            <div><div class="feature-title">Grown with Love</div><div class="feature-desc">Every product is grown with care and dedication since 2015.</div></div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div><div class="feature-title">Quality Assured</div><div class="feature-desc">Carefully selected and inspected before delivery.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews panel -->
+            <div class="tab-panel" data-panel="reviews" id="tab-reviews">
+
+                {% if request.GET.reviewed %}
+                <div style="background:rgba(74,124,89,0.1);border:1px solid var(--moss);border-radius:14px;padding:16px 24px;margin-bottom:28px;color:var(--forest);font-size:0.95rem;">
+                    <i class="fas fa-check-circle" style="color:var(--moss);margin-right:8px;"></i>
+                    <strong>Thank you for your review!</strong> It will appear after approval.
+                </div>
+                {% endif %}
+
+                {% if review_count %}
+                <div class="rating-summary">
+                    <div class="rating-avg">
+                        <div class="rating-avg-num">{{ avg_rating }}</div>
+                        <div class="stars">{% for i in "12345" %}{% if forloop.counter <= avg_rating|floatformat:0|add:0 %}★{% else %}☆{% endif %}{% endfor %}</div>
+                        <div class="rating-avg-count">{{ review_count }} review{{ review_count|pluralize }}</div>
+                    </div>
+                    <div class="rating-bars">
+                        {% regroup reviews by rating as rating_groups %}
+                        {% for star in "54321" %}
+                        <div class="rating-bar-row">
+                            <span>{{ star }} ★</span>
+                            <div class="rating-bar-track">
+                                <div class="rating-bar-fill" style="width:
+                                    {% for group in rating_groups %}{% if group.grouper|stringformat:'s' == star %}{% widthratio group.list|length review_count 100 %}{% endif %}{% endfor %}%;"></div>
+                            </div>
+                            <span>{% for group in rating_groups %}{% if group.grouper|stringformat:'s' == star %}{{ group.list|length }}{% endif %}{% endfor %}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div style="margin-bottom:40px;">
+                    {% if reviews %}
+                    <div>
+                        {% for review in reviews %}
+                        <div class="review-card">
+                            <div class="review-card-head">
+                                <strong class="review-card-name">{{ review.name }}</strong>
+                                <span class="review-card-stars">{% for i in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+                            </div>
+                            <p class="review-card-text">{{ review.comment }}</p>
+                            <div class="review-card-date">{{ review.created_at|date:"F j, Y" }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p style="color:var(--text-muted);font-size:0.92rem;">No reviews yet. Be the first to share your experience!</p>
+                    {% endif %}
+                </div>
+
+                <div class="product-features">
+                    <h3 class="features-title">Leave a Review</h3>
+                    <form method="POST" action="{% url 'submit_review' product.slug %}" class="review-form" style="display:flex;flex-direction:column;gap:18px;">
+                        {% csrf_token %}
+                        <div>
+                            <label>Your Name</label>
+                            <input type="text" name="name" required placeholder="e.g. Ramesh Thapa">
+                        </div>
+                        <div>
+                            <label>Rating</label>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                {% for val, label in ratings %}
+                                <label style="cursor:pointer;text-align:center;">
+                                    <input type="radio" name="rating" value="{{ val }}" required style="display:none;">
+                                    <span class="star-btn">{{ val }} ⭐</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div>
+                            <label>Your Review</label>
+                            <textarea name="comment" required rows="4" placeholder="Tell us about your experience with this product..."></textarea>
+                        </div>
+                        <button type="submit" class="review-submit-btn"><i class="fas fa-paper-plane"></i> Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        {% if related_products %}
+        <div class="related-section">
+            <h2 class="related-title">You May Also Like</h2>
+            <div class="related-grid">
+                {% for related in related_products %}
+                <a href="{{ related.get_absolute_url }}" class="related-card">
+                    <div class="related-img">
+                        {% if related.main_image %}
+                        <img src="{{ related.main_image.url }}" alt="{{ related.name }}">
+                        {% else %}
+                        <div style="width:100%;height:100%;background:var(--mist);display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-seedling" style="font-size:2rem;color:var(--sage);"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="related-body">
+                        <div class="related-name">{{ related.name }}</div>
+                        <div class="related-link"><i class="fas fa-arrow-right"></i> Learn more</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox-overlay" id="lightbox" onclick="if(event.target===this) closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close"><i class="fas fa-times"></i></button>
+        <button class="lightbox-nav lightbox-prev" onclick="lightboxStep(-1)" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+        <img id="lightboxImg" src="" alt="{{ product.name }}">
+        <button class="lightbox-nav lightbox-next" onclick="lightboxStep(1)" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Sticky mobile add-to-cart bar -->
+    {% if product.is_available %}
+    <div class="sticky-mobile-bar" id="stickyBar">
+        <div class="sticky-bar-price">
+            {% if active_offer %}
+            <span class="cur">Rs. {{ active_offer.discounted_price|default:product.price|floatformat:0 }}</span>
+            <span class="unit">{{ product.price_unit }}</span>
+            {% elif product.pricing_mode == "variable_weight" %}
+            <span class="cur">From Rs. {{ product.starting_price|floatformat:0 }}</span>
+            <span class="unit">per {{ product.starting_weight_label }}</span>
+            {% elif product.pricing_mode == "fixed_weight" %}
+            <span class="cur" id="stickyFixedPrice">Rs. {% if variants %}{{ variants.0.total_price|floatformat:0 }}{% else %}{{ product.locked_total_price|floatformat:0 }}{% endif %}</span>
+            <span class="unit" id="stickyFixedWeight">{% if variants %}{{ variants.0.weight|floatformat:2 }}{% else %}{{ product.fixed_weight|floatformat:2 }}{% endif %} kg, fixed</span>
+            {% else %}
+            <span class="cur">Rs. {{ product.price|floatformat:0 }}</span>
+            <span class="unit">{{ product.price_unit }}</span>
+            {% endif %}
+        </div>
+        <button type="button" class="sticky-bar-btn" onclick="document.getElementById('cartForm').requestSubmit()">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-icon"><img src="https://ik.imagekit.io/anganbaari/angan-baari/site-images/logo-icon_0PorSdbpKy.png" alt="Angan Baari" width="56" height="56" loading="lazy"></span>
+                <p class="footer-name-np">आँगन बारी</p>
+                <p class="footer-name-en">Angan Baari</p>
+                <p class="footer-tagline">Fresh &middot; Organic &middot; Sustainable</p>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://www.facebook.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="fb"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/anganbaari/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="ig"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@AnganBaari" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="yt"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/anganbaari" target="_blank" rel="noopener noreferrer" aria-label="X" class="x"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.threads.com/@anganbaari" target="_blank" rel="noopener noreferrer" aria-label="Threads" class="threads" style="display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 6.995 4.708 16.008 7.005 25.403 6.493 12.38-.68 22.081-5.407 28.819-14.041 5.129-6.675 8.374-15.311 9.678-25.396 5.808 3.506 10.1 8.12 12.509 13.677 4.956 11.421 5.253 30.18-10.25 45.625-13.616 13.56-29.976 19.425-54.73 19.594-27.456-.19-48.24-9.02-61.777-26.24C9.52 140.88 3.114 121.88 2.857 97.024c.257-24.854 6.663-43.854 19.053-56.494C35.447 23.27 56.23 14.44 83.687 14.25c27.635.19 48.728 9.064 62.722 26.37 6.868 8.561 12.007 19.324 15.368 32.012l16.108-4.278c-4.027-14.927-10.305-27.739-18.745-38.146C141.329 10.804 116.55-.067 83.69.001 50.795.068 25.752 11.01 9.884 32.609-4.05 51.73-11.04 78.173-11.333 97.024v.192c.293 18.85 7.283 45.295 21.217 64.416C26.752 182.99 51.795 193.932 84.69 194c34.057-.083 57.805-10.67 74.473-27.252 22.02-21.956 21.463-49.435 14.18-66.327-5.177-11.944-14.8-21.437-31.806-27.433Z"/></svg></a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; Since 2015. आँगन बारी/Angan Baari &mdash; Bhulka Danda, Rupandehi, Nepal &mdash; All rights reserved.</p>
+                <p class="footer-nepal"> JAY NEPAL<img class="flag-sticker"src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Nepal National Flag" width="18" height="24"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MOBILE BOTTOM NAV — same honeycomb chain as desktop (hidden on desktop) -->
+    <nav class="mobile-hc-nav" aria-label="Mobile navigation">
+        <div class="hc-scale-box hc-scale-box--app5">
+          <div class="hc-strip hc-strip--cells5">
+            <div class="hc-strip-bg" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:108px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:240px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:372px" aria-hidden="true"></div>
+            <div class="hc-connector" style="left:504px" aria-hidden="true"></div>
+
+            <ul class="hc-nav" id="hcNavAppMobile">
+              <li class="hc-cell"><a class="hc-link active" href="{% url 'shop' %}" data-target="shop-cell">
+                <svg viewBox="0 0 24 24"><path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z"/><path d="M8.5 9V7a3.5 3.5 0 017 0v2"/></svg>
+                <span class="hc-label">Shop</span><span class="hc-ping"></span></a></li>
+
+              <li class="hc-cell"><a class="hc-link" href="{% url 'cart' %}" data-target="cart-cell">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2.4l2.1 11.2a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 7H6.2"/></svg>
+                <span class="hc-label">Cart</span><span class="hc-ping"></span>
+                {% with total_qty=request.session.cart.values|length %}
+                <span class="hc-cart-badge{% if total_qty == 0 %} badge-hidden{% endif %}">{{ total_qty }}</span>
+                {% endwith %}
+              </a></li>
+
+              <li class="hc-cell hc-cell--offer"><a class="hc-link" href="{% url 'offers' %}" data-target="offers-cell">
+                <svg class="offer-flame" viewBox="0 0 24 24"><path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z"/></svg>
+                <span class="hc-label">Offers</span><span class="hc-ping"></span></a></li>
+
+              {% if user.is_authenticated %}
+              <li class="hc-cell"><a class="hc-link" href="{% url 'profile' %}" data-target="profile-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                <span class="hc-label">{{ user.first_name }}</span><span class="hc-ping"></span></a></li>
+              {% else %}
+              <li class="hc-cell"><a class="hc-link" href="{% url 'login' %}" data-target="login-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>
+                <span class="hc-label">Login</span><span class="hc-ping"></span></a></li>
+              {% endif %}
+
+              <li class="hc-cell"><a class="hc-link" href="/" data-target="website-cell">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 6 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-6-3.8-9S9.5 5.7 12 3z"/></svg>
+                <span class="hc-label">Website</span><span class="hc-ping"></span></a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <!-- Floating Shop button -->
+    <a href="{% url 'shop' %}" class="float-shop" aria-label="Visit our online shop" title="Shop Now">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="float-shop-tooltip">Visit Our Shop</span>
+    </a>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/9779821025084?text={{ product.whatsapp_message|urlencode }}"
+       class="float-wa" target="_blank" rel="noopener noreferrer"
+       aria-label="Chat with us on WhatsApp" title="Order via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="float-wa-tooltip">Order via WhatsApp</span>
+    </a>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        /* ---------------- Back to top ---------------- */
+        (function initBackToTop() {
+            const btn = document.getElementById('backToTop');
+            if (!btn) return;
+            window.addEventListener('scroll', () => {
+                btn.classList.toggle('visible', window.scrollY > 400);
+            });
+            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        })();
+
+        /* ---------------- Bilingual description auto-split ----------------
+           Your description fields store English + Nepali as one continuous
+           string. This detects where Devanagari script begins and splits
+           it into two properly styled paragraphs, breaking at the nearest
+           word boundary so no word gets cut in half.
+           Long-term, cleaner fix: add separate description_en /
+           description_ne fields on Product so this isn't needed at all. */
+        function escapeHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+        function renderSplit(el, enPart, nePart) {
+            el.innerHTML =
+                `<p class="desc-block desc-en">${escapeHtml(enPart)}</p>` +
+                `<div class="desc-divider"><span></span><i class="fas fa-leaf"></i><span></span></div>` +
+                `<p class="desc-block desc-ne">${escapeHtml(nePart)}</p>`;
+        }
+        function splitBilingualText(el) {
+            const raw = el.textContent;
+            if (!/[\u0900-\u097F]/.test(raw)) return; // no Nepali present, leave untouched
+
+            // Preferred path: your fields are written as separate English and
+            // Nepali paragraphs with a line break between them. Split on any
+            // line break run first — this is the reliable, intended boundary.
+            const paragraphs = raw.split(/\n+/).map(p => p.trim()).filter(Boolean);
+            if (paragraphs.length > 1) {
+                let enParas = [], neParas = [], seenNepali = false;
+                paragraphs.forEach(p => {
+                    if (/[\u0900-\u097F]/.test(p)) seenNepali = true;
+                    (seenNepali ? neParas : enParas).push(p);
+                });
+                if (enParas.length && neParas.length) {
+                    renderSplit(el, enParas.join(' '), neParas.join(' '));
+                    return;
+                }
+            }
+
+            // Fallback for a single continuous blob with no line breaks at
+            // all: find the last sentence-ending punctuation (any kind of
+            // whitespace after it, not just a literal space) before the
+            // first Devanagari character.
+            const text = raw.replace(/\s+/g, ' ').trim();
+            const match = text.match(/[\u0900-\u097F]/);
+            if (!match) return;
+            const idx = match.index;
+            const boundaryRegex = /[.!?।]\s+/g;
+            let m, boundary = -1;
+            while ((m = boundaryRegex.exec(text)) !== null) {
+                const endPos = m.index + m[0].length;
+                if (endPos <= idx) boundary = endPos; else break;
+            }
+            if (boundary === -1) boundary = idx;
+            const enPart = text.slice(0, boundary).trim();
+            const nePart = text.slice(boundary).trim();
+            if (!enPart || !nePart) return;
+            renderSplit(el, enPart, nePart);
+        }
+        document.querySelectorAll('.auto-split-desc').forEach(splitBilingualText);
+
+        /* ---------------- Gallery + lightbox ---------------- */
+        const images = [
+            {% if product.main_image %}"{{ product.main_image.url }}",{% endif %}
+            {% if product.image2 %}"{{ product.image2.url }}",{% endif %}
+            {% if product.image3 %}"{{ product.image3.url }}",{% endif %}
+            {% if product.image4 %}"{{ product.image4.url }}",{% endif %}
+        ];
+        let currentIndex = 0;
+
+        function buildDots() {
+            const dotsWrap = document.getElementById('thumbDots');
+            if (!dotsWrap || images.length < 2) return;
+            dotsWrap.innerHTML = images.map((_, i) =>
+                `<span class="thumb-dot${i === 0 ? ' active' : ''}" data-i="${i}"></span>`
+            ).join('');
+        }
+        buildDots();
+
+        function syncDots() {
+            document.querySelectorAll('.thumb-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function changeImage(evt, src, thumbEl) {
+            evt.stopPropagation();
+            document.getElementById('mainImg').src = src;
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            thumbEl.classList.add('active');
+            currentIndex = images.indexOf(src);
+            syncDots();
+        }
+
+        function openLightbox() {
+            if (!images.length) return;
+            document.getElementById('lightboxImg').src = images[currentIndex];
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        function lightboxStep(dir) {
+            currentIndex = (currentIndex + dir + images.length) % images.length;
+            document.getElementById('lightboxImg').src = images[currentIndex];
+            document.getElementById('mainImg').src = images[currentIndex];
+            document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+            syncDots();
+        }
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('lightbox').classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') lightboxStep(-1);
+            if (e.key === 'ArrowRight') lightboxStep(1);
+        });
+
+        /* ---------------- Tabs ---------------- */
+        function switchTab(name) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+        }
+
+        /* ---------------- Quantity stepper ---------------- */
+        function stepQty(delta) {
+            const input = document.getElementById('qtyInput');
+            const cartField = document.getElementById('cartQtyField');
+            let val = Math.max(1, parseInt(input.value || '1', 10) + delta);
+            input.value = val;
+            if (cartField) cartField.value = val;
+        }
+
+        /* ---------------- Weight stepper (variable_weight products) ---------------- */
+        const PRODUCT_WEIGHT_STEP = {{ product.weight_step|default:"0.50" }};
+        function stepWeight(delta) {
+            const input = document.getElementById('weightInput');
+            const cartField = document.getElementById('cartWeightField');
+            if (!input) return;
+            let val = parseFloat(input.value || PRODUCT_WEIGHT_STEP) + (delta * PRODUCT_WEIGHT_STEP);
+            if (val < PRODUCT_WEIGHT_STEP) val = PRODUCT_WEIGHT_STEP;
+            val = Math.round(val / PRODUCT_WEIGHT_STEP) * PRODUCT_WEIGHT_STEP;
+            input.value = val.toFixed(2);
+            if (cartField) cartField.value = val.toFixed(2);
+        }
+
+        /* ---------------- Size picker (fixed_weight products, e.g. goat/chicken) ---------------- */
+        function selectVariant(btn) {
+            document.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+
+            const variantField = document.getElementById('cartVariantField');
+            if (variantField) variantField.value = btn.dataset.variantId;
+
+            const priceEl = document.getElementById('fixedPriceDisplay');
+            const weightEl = document.getElementById('fixedWeightDisplay');
+            if (priceEl) priceEl.textContent = 'Rs. ' + btn.dataset.price;
+            if (weightEl) weightEl.textContent = btn.dataset.weight + ' kg, fixed price';
+
+            const stickyPrice = document.getElementById('stickyFixedPrice');
+            const stickyWeight = document.getElementById('stickyFixedWeight');
+            if (stickyPrice) stickyPrice.textContent = 'Rs. ' + btn.dataset.price;
+            if (stickyWeight) stickyWeight.textContent = btn.dataset.weight + ' kg, fixed';
+        }
+
+        /* ---------------- Wishlist ---------------- */
+        function getCookie(name) {
+            const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return match ? decodeURIComponent(match[2]) : null;
+        }
+        function toggleWishlist(btn) {
+            if (btn.dataset.loggedIn !== '1') {
+                window.location.href = '/account/login/?next=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+            const id = btn.dataset.productId;
+            btn.disabled = true;
+            const variantField = document.getElementById('cartVariantField');
+            const body = variantField ? new URLSearchParams({ variant_id: variantField.value }) : null;
+            fetch(`/wishlist/toggle/${id}/`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: body,
+            })
+            .then(res => res.json())
+            .then(function (data) {
+                if (data.status === 'ok') {
+                    btn.classList.toggle('active', data.is_saved);
+                    btn.querySelector('i').className = data.is_saved ? 'fas fa-heart' : 'far fa-heart';
+                }
+            })
+            .catch(function () {
+                alert('Could not update your wishlist right now — please try again.');
+            })
+            .finally(function () { btn.disabled = false; });
+        }
+
+        /* ---------------- Sticky mobile bar ---------------- */
+        (function initStickyBar() {
+            const target = document.getElementById('orderButtons');
+            const bar = document.getElementById('stickyBar');
+            if (!target || !bar) return;
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    bar.classList.toggle('visible', !entry.isIntersecting);
+                });
+            }, { threshold: 0 });
+            observer.observe(target);
+        })();
+
+        /* ---------------- Review star highlight ---------------- */
+        document.querySelectorAll('input[name="rating"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.querySelectorAll('.star-btn').forEach(btn => {
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.borderColor = 'var(--mist)';
+                });
+                this.nextElementSibling.style.background = 'var(--turmeric)';
+                this.nextElementSibling.style.color = 'white';
+                this.nextElementSibling.style.borderColor = 'var(--turmeric)';
+            });
+        });
+    </script>
+
+    <script>
+// ================================================================
+// OPMCM-STYLE WIND-BLOWN NEPAL FLAG — NAVBAR
+// Darker colors · crisp edges · sharp triangular silhouette
+// Smooth cloth folds · stable pole · stronger free-end flutter
+// ================================================================
+(function () {
+    const canvas = document.getElementById('navNepalFlag');
+    if (!canvas) return;
+
+    const WIDTH = 450;
+    const HEIGHT = 600;
+    const FLAG_W = 330;
+    const FLAG_H = 441;
+    const PAD_X = 60;
+    const PAD_Y = 78;
+
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    // Keep the raster edges crisp instead of applying soft interpolation.
+    ctx.imageSmoothingEnabled = false;
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="110" height="147" viewBox="0 0 110 147">
+        <!-- Deep, slightly darker Nepal red and blue for the OPMCM-style look -->
+        <path d="M 0.00,0.00 L 110.00,68.88 L 32.22,68.88 L 110.00,146.67 L 0.00,146.67 Z"
+              fill="#B80F2F" stroke="#001F5B" stroke-width="3.5" stroke-linejoin="round"/>
+
+        <g transform="translate(27.50,43.05)">
+            <path d="M 22.27,-4.58 L 21.52,-4.79 L 20.33,-2.42 L 15.70,3.07 L 12.48,5.11 L 11.18,4.57 L 10.86,2.96 L 12.80,1.99 L 13.23,0.48 L 10.00,-0.05 L 10.21,-1.45 L 11.93,-4.36 L 7.74,-3.72 L 7.95,-7.81 L 6.34,-7.48 L 4.18,-5.87 L 2.89,-10.06 L 0.52,-7.05 L -0.23,-7.16 L -2.17,-9.74 L -3.78,-5.98 L -6.69,-7.81 L -7.98,-7.92 L -7.33,-7.59 L -7.33,-3.72 L -9.38,-3.61 L -11.10,-4.25 L -9.81,-0.05 L -13.04,0.59 L -12.93,1.56 L -10.89,3.18 L -11.64,5.33 L -13.04,5.00 L -15.62,3.07 L -18.43,0.16 L -20.90,-3.61 L -21.55,-3.61 L -20.68,1.77 L -17.99,6.51 L -14.87,9.95 L -10.24,13.30 L -3.46,15.34 L 1.93,15.56 L 9.89,13.73 L 14.74,10.39 L 20.23,3.50 L 22.16,-2.42 Z"
+                  fill="#FFFFFF"/>
+        </g>
+
+        <path d="M 27.50,131.32 L 23.64,122.20 L 15.73,128.16 L 16.94,118.33 L 7.11,119.55 L 13.08,111.64 L 3.96,107.78 L 13.08,103.91 L 7.11,96.01 L 16.94,97.22 L 15.73,87.39 L 23.64,93.35 L 27.50,84.24 L 31.36,93.35 L 39.27,87.39 L 38.06,97.22 L 47.89,96.01 L 41.92,103.91 L 51.04,107.78 L 41.92,111.64 L 47.89,119.55 L 38.06,118.33 L 39.27,128.16 L 31.36,122.20 Z"
+              fill="#FFFFFF"/>
+    </svg>`;
+
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = WIDTH;
+    sourceCanvas.height = HEIGHT;
+    const sourceCtx = sourceCanvas.getContext('2d', { alpha: true });
+    if (!sourceCtx) return;
+    sourceCtx.imageSmoothingEnabled = false;
+
+    const img = new Image();
+    img.decoding = 'async';
+
+    img.onload = function () {
+        sourceCtx.clearRect(0, 0, WIDTH, HEIGHT);
+        sourceCtx.drawImage(img, PAD_X, PAD_Y, FLAG_W, FLAG_H);
+        startAnimation();
+    };
+
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+
+    function drawFlag(time) {
+        const t = time * 0.001;
+
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        // Transparent padding is intentionally preserved around the flag.
+        // This keeps both pointed ends completely visible while waving.
+        ctx.save();
+        ctx.translate(PAD_X, PAD_Y);
+
+        /*
+         * Draw the flag as narrow vertical fabric strips.
+         * Unlike pixel displacement, this preserves the sharp Nepal-flag
+         * silhouette and pointed edges while the strips move independently.
+         */
+        const strip = 3;
+
+        for (let x = 0; x < FLAG_W; x += strip) {
+            const u = x / FLAG_W;
+
+            // Pole remains stable; the free end becomes increasingly active.
+            const strength = Math.pow(u, 1.45);
+
+            // Large travelling cloth folds.
+            const wave1 = Math.sin(u * Math.PI * 1.55 - t * 4.0);
+            const wave2 = Math.sin(u * Math.PI * 3.10 - t * 4.0 + 1.15);
+
+            // Strong but smooth vertical displacement.
+            const yWave = strength * (wave1 * 34 + wave2 * 8);
+
+            // Forward/backward flutter of the free edge.
+            const xWave = strength * Math.sin(
+                u * Math.PI * 1.35 - t * 3.0 + 0.55
+            ) * 15;
+
+            // Local fabric tilt makes the folds look like cloth rather than water.
+            const slope =
+                Math.cos(u * Math.PI * 1.55 - t * 4.0) *
+                strength * 0.16 +
+                Math.cos(u * Math.PI * 3.10 - t * 4.0 + 1.15) *
+                strength * 0.035;
+
+            // Slightly narrower at the pole, fuller at the free edge.
+            const sourceWidth = Math.min(strip + 1, FLAG_W - x);
+
+            ctx.save();
+            ctx.translate(x + xWave, yWave);
+            ctx.transform(1, slope, 0, 1, 0, 0);
+
+            // Overlap neighbouring strips by 1px to avoid hairline gaps.
+            ctx.drawImage(
+                sourceCanvas,
+                PAD_X + x,
+                0,
+                sourceWidth,
+                HEIGHT,
+                -0.5,
+                0,
+                sourceWidth + 1,
+                HEIGHT
+            );
+
+            ctx.restore();
+        }
+
+        ctx.restore();
+
+        /*
+         * Very subtle fold shading. This is intentionally restrained so
+         * the red remains dark and solid rather than becoming glossy.
+         */
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.globalAlpha = 0.075;
+
+        const shadeGradient = ctx.createLinearGradient(
+            PAD_X, 0,
+            PAD_X + FLAG_W, 0
+        );
+        shadeGradient.addColorStop(0, 'rgba(0,0,0,0)');
+        shadeGradient.addColorStop(0.35, 'rgba(0,0,0,0.18)');
+        shadeGradient.addColorStop(0.52, 'rgba(255,255,255,0.10)');
+        shadeGradient.addColorStop(0.72, 'rgba(0,0,0,0.15)');
+        shadeGradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.fillStyle = shadeGradient;
+        ctx.fillRect(PAD_X, PAD_Y, FLAG_W, FLAG_H);
+        ctx.restore();
+    }
+
+    function startAnimation() {
+        // Respect the OS-level "reduce motion" preference: draw one
+        // static frame and never animate, instead of the CSS-only rule
+        // from before (which couldn't actually stop a JS-driven loop).
+        const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        let rafId = null;
+        let inView = true;
+
+        function renderLoop(time) {
+            drawFlag(time);
+            rafId = requestAnimationFrame(renderLoop);
+        }
+
+        function play() {
+            if (rafId !== null || reduceMotionQuery.matches) return;
+            rafId = requestAnimationFrame(renderLoop);
+        }
+
+        function pause() {
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        }
+
+        if (reduceMotionQuery.matches) {
+            drawFlag(0);
+        } else {
+            play();
+        }
+
+        // Pause the render loop whenever the flag scrolls out of view or
+        // the browser tab itself is backgrounded — a small canvas redrawn
+        // 60×/sec is wasted work (and battery) when nobody can see it.
+        const observer = new IntersectionObserver(function (entries) {
+            inView = entries[0].isIntersecting;
+            if (inView && !document.hidden) {
+                play();
+            } else {
+                pause();
+            }
+        }, { threshold: 0 });
+        observer.observe(canvas);
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                pause();
+            } else if (inView) {
+                play();
+            }
+        });
+
+        // Live-respond if the user toggles the OS reduced-motion setting
+        // while the page is already open.
+        reduceMotionQuery.addEventListener('change', function (e) {
+            if (e.matches) {
+                pause();
+                drawFlag(0);
+            } else if (inView) {
+                play();
+            }
+        });
+    }
+})();
+    </script>
+</body>
+</html>
