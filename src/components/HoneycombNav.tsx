@@ -1,3 +1,9 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCart } from "@/lib/cart";
+
 const MAIN_SITE_URL = "https://anganbaari.pythonanywhere.com";
 
 type NavCell = {
@@ -5,20 +11,20 @@ type NavCell = {
   href: string;
   label: string;
   offer?: boolean;
+  internal?: boolean;
   icon: React.ReactNode;
 };
 
 // Same 5 cells as every app page (shop/cart/offers/profile/product_detail)
-// in reference/*.html: Shop, Cart, Offers, Login-or-Profile, Website. This
-// Next.js app has no cart/offers/login of its own yet, so those three link
-// out to the existing Django site — matching the "continue on Angan Baari"
-// pattern already used on the product detail page. No cart badge yet either,
-// since there's no session cart here to read a count from.
+// in reference/*.html: Shop, Cart, Offers, Login-or-Profile, Website. Shop
+// and Cart are real routes here now; Offers and Login still link out to the
+// existing Django site (no Offers endpoint, no auth in this app yet).
 const CELLS: NavCell[] = [
   {
     key: "shop",
     href: "/",
     label: "Shop",
+    internal: true,
     icon: (
       <svg viewBox="0 0 24 24">
         <path d="M4.5 9h15l-1.4 10.2a2 2 0 01-2 1.8H7.9a2 2 0 01-2-1.8L4.5 9z" />
@@ -28,8 +34,9 @@ const CELLS: NavCell[] = [
   },
   {
     key: "cart",
-    href: `${MAIN_SITE_URL}/cart/`,
+    href: "/cart",
     label: "Cart",
+    internal: true,
     icon: (
       <svg viewBox="0 0 24 24">
         <circle cx="9" cy="20" r="1.4" />
@@ -75,15 +82,21 @@ const CELLS: NavCell[] = [
 
 const CONNECTOR_POSITIONS = [108, 240, 372, 504];
 
-/** activeKey defaults to "shop" since this app is entirely the Shop section
- * today — matches how product_detail.html also keeps its Shop cell active. */
-export default function HoneycombNav({
-  variant,
-  activeKey = "shop",
-}: {
-  variant: "desktop" | "mobile";
-  activeKey?: string;
-}) {
+/** Which cell is active, from the current route — matching what each
+ * reference template hardcodes: product_detail.html keeps Shop active, and
+ * both cart.html and checkout.html mark the Cart cell active. */
+function activeKeyForPath(pathname: string): string {
+  if (pathname.startsWith("/cart") || pathname.startsWith("/checkout") || pathname.startsWith("/order-confirmation")) {
+    return "cart";
+  }
+  return "shop";
+}
+
+export default function HoneycombNav({ variant }: { variant: "desktop" | "mobile" }) {
+  const pathname = usePathname();
+  const { count } = useCart();
+  const activeKey = activeKeyForPath(pathname ?? "/");
+
   const cells = (
     <div className="hc-scale-box hc-scale-box--app5">
       <div className="hc-strip hc-strip--cells5">
@@ -93,19 +106,31 @@ export default function HoneycombNav({
         ))}
 
         <ul className="hc-nav">
-          {CELLS.map((cell) => (
-            <li key={cell.key} className={`hc-cell${cell.offer ? " hc-cell--offer" : ""}`}>
-              <a
-                className={`hc-link${cell.key === activeKey ? " active" : ""}`}
-                href={cell.href}
-                data-target={`${cell.key}-cell`}
-              >
+          {CELLS.map((cell) => {
+            const className = `hc-link${cell.key === activeKey ? " active" : ""}`;
+            const inner = (
+              <>
                 {cell.icon}
                 <span className="hc-label">{cell.label}</span>
                 <span className="hc-ping" />
-              </a>
-            </li>
-          ))}
+                {cell.key === "cart" && count > 0 && <span className="hc-cart-badge">{count}</span>}
+              </>
+            );
+
+            return (
+              <li key={cell.key} className={`hc-cell${cell.offer ? " hc-cell--offer" : ""}`}>
+                {cell.internal ? (
+                  <Link className={className} href={cell.href} data-target={`${cell.key}-cell`}>
+                    {inner}
+                  </Link>
+                ) : (
+                  <a className={className} href={cell.href} data-target={`${cell.key}-cell`}>
+                    {inner}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

@@ -6,8 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/lib/types";
 import { getCardPriceLines } from "@/lib/pricing";
-
-const MAIN_SITE_URL = "https://anganbaari.pythonanywhere.com";
+import { useCart } from "@/lib/cart";
 
 /**
  * Ported from shop.html's .p-card: the whole card navigates to the product
@@ -15,11 +14,31 @@ const MAIN_SITE_URL = "https://anganbaari.pythonanywhere.com";
  * the View/Add buttons and wishlist heart stop that click from bubbling, so
  * they act independently — not a single card-wide link.
  */
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({
+  product,
+  onAdded,
+}: {
+  product: Product;
+  onAdded?: (message: string) => void;
+}) {
   const router = useRouter();
+  const { addItem } = useCart();
   const [wished, setWished] = useState(false);
+  const [added, setAdded] = useState(false);
+  const availableVariants = product.variants.filter((v) => v.is_available);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | undefined>(
+    availableVariants[0]?.id,
+  );
   const priceLines = getCardPriceLines(product);
   const unavailableLabel = product.season ? "Out of Season" : "Out of Stock";
+
+  function handleAdd() {
+    const variant = availableVariants.find((v) => v.id === selectedVariantId);
+    addItem(product, { variant: variant ?? null });
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1400);
+    onAdded?.(`${product.name} added to cart`);
+  }
 
   return (
     <div
@@ -89,9 +108,14 @@ export default function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        {product.pricing_mode === "fixed_weight" && product.variants.length > 1 && (
-          <select className="card-variant-select" onClick={(e) => e.stopPropagation()}>
-            {product.variants.map((v) => (
+        {product.pricing_mode === "fixed_weight" && availableVariants.length > 1 && (
+          <select
+            className="card-variant-select"
+            value={selectedVariantId}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => setSelectedVariantId(Number(e.target.value))}
+          >
+            {availableVariants.map((v) => (
               <option key={v.id} value={v.id}>
                 {Number(v.weight).toFixed(2)} kg — Rs. {Math.round(Number(v.total_price))}
                 {v.label ? ` (${v.label})` : ""}
@@ -105,15 +129,14 @@ export default function ProductCard({ product }: { product: Product }) {
             <i className="fas fa-eye" /> View
           </Link>
           {product.is_available ? (
-            <a
-              href={`${MAIN_SITE_URL}/product/${product.slug}/`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-order"
+            <button
+              type="button"
+              className={`btn-order${added ? " is-added" : ""}`}
               style={{ flex: 1 }}
+              onClick={handleAdd}
             >
-              <i className="fas fa-cart-plus" /> Add
-            </a>
+              <i className={added ? "fas fa-check" : "fas fa-cart-plus"} /> {added ? "Added" : "Add"}
+            </button>
           ) : (
             <button type="button" className="btn-order disabled" disabled>
               {product.season ? (

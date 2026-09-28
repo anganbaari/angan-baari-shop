@@ -5,17 +5,15 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Product, ProductVariant } from "@/lib/types";
 import { getDetailPriceLines } from "@/lib/pricing";
+import { useCart } from "@/lib/cart";
 import BilingualText from "./BilingualText";
 import WhatsAppFloat from "./WhatsAppFloat";
 
-const MAIN_SITE_URL = "https://anganbaari.pythonanywhere.com";
 type TabKey = "description" | "why-us" | "reviews";
 
 /**
  * Ported from product_detail.html. Gaps vs. the real page, all because the
  * data simply isn't in the API yet (not a design choice):
- * - Gallery: only main_image is exposed by /api/v1/products/by-slug/ (no
- *   image2/3/4), so there's ever at most one thumbnail/lightbox image.
  * - Reviews/ratings: no reviews endpoint exists at all — shows the same
  *   "No reviews yet" empty state the real page already has for zero
  *   reviews, and the review-submission form is left out entirely rather
@@ -24,8 +22,9 @@ type TabKey = "description" | "why-us" | "reviews";
  *   page when there's no active_offer).
  * - WhatsApp message: Product.whatsapp_message isn't in the serializer —
  *   falls back to a generic "I'm interested in {name}" message.
- * "Add to Cart" links out to the real product page on the Django site
- * (no cart exists here yet); "Order via WhatsApp" is fully real.
+ * "Add to Cart" (both the main button and the sticky mobile bar) adds to
+ * this app's own cart, carrying the chosen size pill / weight / quantity;
+ * "Order via WhatsApp" is fully real.
  */
 export default function ProductDetailView({
   product,
@@ -34,7 +33,9 @@ export default function ProductDetailView({
   product: Product;
   relatedProducts: Product[];
 }) {
-  const images = useMemo(() => (product.main_image ? [product.main_image] : []), [product.main_image]);
+  // API already includes main_image as images[0] — render this wholesale,
+  // never main_image separately, or the first photo duplicates.
+  const images = product.images;
 
   const [imageIndex, setImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -54,6 +55,21 @@ export default function ProductDetailView({
 
   const priceLines = getDetailPriceLines(product, selectedVariant);
   const whatsappMessage = `Hello Angan Baari! I'm interested in ${product.name}.`;
+
+  // Add to cart, carrying whichever size pill / weight / quantity the
+  // visitor actually chose above.
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  function handleAddToCart() {
+    addItem(product, {
+      variant: selectedVariant ?? null,
+      weight: product.pricing_mode === "variable_weight" ? weight.toFixed(2) : null,
+      qty: product.pricing_mode === "fixed_quantity" ? qty : 1,
+    });
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1600);
+  }
 
   // Sticky mobile add-to-cart bar: visible once the real order-buttons row
   // scrolls out of view, same as the original's IntersectionObserver.
@@ -273,15 +289,17 @@ export default function ProductDetailView({
           <div className="order-buttons" ref={orderButtonsRef}>
             {product.is_available && (
               <>
-                <a
-                  href={`${MAIN_SITE_URL}/product/${product.slug}/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {/* flex:1/min-width:0 replaces the reference's wrapping
+                    <form id="cartForm">, which carried those same rules. */}
+                <button
+                  type="button"
                   className="btn-cart-product"
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, minWidth: 0 }}
+                  onClick={handleAddToCart}
                 >
-                  <i className="fas fa-cart-plus" /> Add to Cart
-                </a>
+                  <i className={added ? "fas fa-check" : "fas fa-cart-plus"} />{" "}
+                  {added ? "Added to Cart" : "Add to Cart"}
+                </button>
                 <a
                   href={`https://wa.me/9779821025084?text=${encodeURIComponent(whatsappMessage)}`}
                   className="btn-wa-product"
@@ -438,15 +456,15 @@ export default function ProductDetailView({
             <span className="cur">{priceLines.tbd ? "Price on request" : priceLines.primary}</span>
             {!priceLines.tbd && <span className="unit">{priceLines.secondary}</span>}
           </div>
-          <a
-            href={`${MAIN_SITE_URL}/product/${product.slug}/`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             className="sticky-bar-btn"
-            style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+            onClick={handleAddToCart}
+            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8 }}
           >
-            <i className="fas fa-cart-plus" /> Add to Cart
-          </a>
+            <i className={added ? "fas fa-check" : "fas fa-cart-plus"} />{" "}
+            {added ? "Added to Cart" : "Add to Cart"}
+          </button>
         </div>
       )}
 

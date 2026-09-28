@@ -33,6 +33,10 @@ export interface Product {
   farming_method: string;
   is_available: boolean;
   main_image: string | null;
+  /** Every photo, in gallery order, with main_image already included as
+   * images[0] — render this wholesale, not alongside main_image, or the
+   * first photo duplicates. See ProductSerializer.get_images(). */
+  images: string[];
   price: string;
   price_unit: string;
   origin: "farm" | "sourced";

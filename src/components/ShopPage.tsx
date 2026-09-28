@@ -45,6 +45,12 @@ export default function ShopPage({
 
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortValue>("default");
+  const [toast, setToast] = useState<string | null>(null);
+
+  function showToast(text: string) {
+    setToast(text);
+    window.setTimeout(() => setToast(null), 1800);
+  }
 
   const categoryTree = useMemo(() => buildCategoryTree(categories, allProducts), [categories, allProducts]);
 
@@ -123,7 +129,7 @@ export default function ShopPage({
           ) : (
             <div className="product-grid">
               {visibleProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} onAdded={showToast} />
               ))}
             </div>
           )}
@@ -131,6 +137,10 @@ export default function ShopPage({
       </div>
 
       <WhatsAppFloat message="Hello Angan Baari! I would like to order." />
+
+      <div id="shopToast" className={toast ? "show" : undefined}>
+        <i className="fas fa-check-circle" /> <span>{toast}</span>
+      </div>
     </>
   );
 }
