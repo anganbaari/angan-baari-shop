@@ -75,6 +75,125 @@ function extractApiError(data: unknown, status: number): string {
   return `Could not place your order (error ${status}). Please try again.`;
 }
 
+/** Same DRF-error-shape parsing as extractApiError above, but returns every
+ * message as its own entry rather than one joined string — the auth pages'
+ * reference markup (login/signup/forgot-password/reset-password.html) shows
+ * errors as a `{% for message in messages %}` list of separate `.msg`
+ * banners, not per-field inline slots (none of these four forms have any),
+ * so a list of messages maps onto that shape directly. */
+function extractApiErrorMessages(data: unknown, status: number): string[] {
+  if (data && typeof data === "object") {
+    const obj = data as Record<string, unknown>;
+
+    if (typeof obj.message === "string") return [obj.message];
+    if (typeof obj.detail === "string") return [obj.detail];
+
+    const messages: string[] = [];
+    for (const [field, value] of Object.entries(obj)) {
+      if (Array.isArray(value)) {
+        for (const entry of value) {
+          if (typeof entry === "string") {
+            messages.push(field === "non_field_errors" ? entry : `${field}: ${entry}`);
+          }
+        }
+      }
+    }
+    if (messages.length) return messages;
+  }
+  return [`Something went wrong (error ${status}). Please try again.`];
+}
+
+/** Thrown by the auth functions below so callers can render every message
+ * as its own banner (`error.messages`) instead of just `error.message`. */
+export class ApiValidationError extends Error {
+  messages: string[];
+  constructor(messages: string[]) {
+    super(messages.join(" "));
+    this.messages = messages;
+  }
+}
+
+async function postAuthJson<T>(path: string, body: unknown): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}/auth/${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  let data: unknown = null;
+  try {
+    data = await response.json();
+  } catch {
+    /* non-JSON error body */
+  }
+
+  if (!response.ok) {
+    throw new ApiValidationError(extractApiErrorMessages(data, response.status));
+  }
+  return data as T;
+}
+
+export interface AuthUserResponse {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: AuthUserResponse;
+}
+
+// Named *Request, not signup()/login(), because lib/auth.ts's store
+// mutators are named exactly that (auth.login(token, user) persists a
+// session) — a login page needs to call both this HTTP request AND that
+// store mutator, so they can't share a name.
+export function signupRequest(payload: {
+  name: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+}): Promise<AuthResponse> {
+  return postAuthJson<AuthResponse>("signup/", payload);
+}
+
+export function loginRequest(payload: { email: string; password: string }): Promise<AuthResponse> {
+  return postAuthJson<AuthResponse>("login/", payload);
+}
+
+export function requestPasswordReset(payload: { email: string }): Promise<{ status: string; message: string }> {
+  return postAuthJson("password-reset/", payload);
+}
+
+export function confirmPasswordReset(payload: {
+  token: string;
+  password: string;
+  confirm_password: string;
+}): Promise<{ status: string; message: string }> {
+  return postAuthJson("password-reset-confirm/", payload);
+}
+
+/** Attaches `Authorization: Token <token>` when one is present — for
+ * authenticated /api/v1/ calls (profile, order history in a later phase).
+ * Public calls (products, categories, guest checkout, the auth endpoints
+ * above) don't need this at all, and nothing calls it yet.
+ *
+ * lib/auth.ts is imported dynamically (not at module top level) so this
+ * file — imported by both server components (fetchProducts etc. in
+ * page.tsx) and client components — never pulls a browser-only module
+ * (localStorage, useSyncExternalStore) into server-rendered code paths;
+ * it's only ever loaded at the moment a client component actually calls
+ * this function. */
+export async function authFetch(path: string, options: RequestInit = {}): Promise<Response> {
+  const { getToken } = await import("./auth");
+  const token = getToken();
+  const headers = new Headers(options.headers);
+  if (token) {
+    headers.set("Authorization", `Token ${token}`);
+  }
+  return fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+}
+
 async function fetchAllPages<T>(url: string): Promise<T[]> {
   const results: T[] = [];
   let next: string | null = url;
