@@ -1,19 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { formatWeight, lineSubtotal, useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { fetchWishlist, wishlistMoveToCart, wishlistToggle, type WishlistItem } from "@/lib/profile";
 
 const money = (n: number) => `Rs. ${Math.round(n)}`;
 
 /**
  * Ported from reference/cart.html. Real: line items, weight/qty steppers,
  * remove, save-for-later, subtotals, order summary, empty state,
- * recommendations. Skipped (no backend): the logged-in Wishlist section
- * (DB-backed, needs auth) and offer chips / struck-through original prices
- * (no Offers endpoint in the API).
+ * recommendations, and (Phase 4) the logged-in "My Wishlist" section. Skipped
+ * (no backend): offer chips / struck-through original prices (no Offers
+ * endpoint in the API).
  */
 export default function CartView({ recommendPool }: { recommendPool: Product[] }) {
   const {
@@ -30,12 +32,67 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
     addItem,
   } = useCart();
 
+  const { isLoggedIn } = useAuth();
+
   const [toast, setToast] = useState<string | null>(null);
   const [variantChoice, setVariantChoice] = useState<Record<number, number>>({});
 
   function showToast(text: string) {
     setToast(text);
     window.setTimeout(() => setToast(null), 1800);
+  }
+
+  // "My Wishlist" (reference/cart.html) — the account-backed wishlist, kept
+  // entirely separate from the localStorage "Saved for Later" list above.
+  // Reference wraps the whole section in {% if user.is_authenticated %} with
+  // nothing shown in its place for guests (no "log in to see your wishlist"
+  // prompt) — matched here by fetching only when logged in and rendering
+  // nothing at all otherwise.
+  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
+  const [wishlistBusyIds, setWishlistBusyIds] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    // Nothing to reset on logout: the render guard below already checks
+    // isLoggedIn directly, so stale items just stop being shown.
+    if (!isLoggedIn) return;
+    fetchWishlist()
+      .then(setWishlistItems)
+      .catch(() => setWishlistItems([]));
+  }, [isLoggedIn]);
+
+  function setWishlistBusy(productId: number, busy: boolean) {
+    setWishlistBusyIds((prev) => {
+      const next = new Set(prev);
+      if (busy) next.add(productId);
+      else next.delete(productId);
+      return next;
+    });
+  }
+
+  async function handleWishlistRemove(item: WishlistItem) {
+    setWishlistBusy(item.product.id, true);
+    try {
+      await wishlistToggle(item.product.id);
+      setWishlistItems((prev) => prev.filter((i) => i.id !== item.id));
+    } catch {
+      showToast("Could not remove this item right now — please try again.");
+    } finally {
+      setWishlistBusy(item.product.id, false);
+    }
+  }
+
+  async function handleWishlistMoveToCart(item: WishlistItem) {
+    setWishlistBusy(item.product.id, true);
+    try {
+      const result = await wishlistMoveToCart(item.product.id, item.variant?.id);
+      addItem(result.product, { variant: result.variant });
+      setWishlistItems((prev) => prev.filter((i) => i.id !== item.id));
+      showToast(`${result.product.name} added to cart`);
+    } catch {
+      showToast("Could not add this item to your cart right now — please try again.");
+    } finally {
+      setWishlistBusy(item.product.id, false);
+    }
   }
 
   const inCartIds = useMemo(() => new Set(items.map((l) => l.productId)), [items]);
@@ -283,6 +340,57 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {isLoggedIn && wishlistItems.length > 0 && (
+          <div className="saved-section">
+            <h2 className="saved-title">
+              <i className="fas fa-heart" /> My Wishlist (<span>{wishlistItems.length}</span>)
+            </h2>
+            <div className="saved-grid">
+              {wishlistItems.map((item) => {
+                const busy = wishlistBusyIds.has(item.product.id);
+                return (
+                  <div className="saved-card" key={item.id}>
+                    <div className="saved-card-img">
+                      {item.product.main_image && (
+                        <Image
+                          src={item.product.main_image}
+                          alt={item.product.name}
+                          width={200}
+                          height={120}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      )}
+                      <button
+                        type="button"
+                        className="btn-remove-saved"
+                        title="Remove"
+                        disabled={busy}
+                        onClick={() => handleWishlistRemove(item)}
+                      >
+                        <i className="fas fa-times" />
+                      </button>
+                    </div>
+                    <div className="saved-card-body">
+                      <div className="saved-card-name">{item.product.name}</div>
+                      <div className="saved-card-price">Rs. {item.product.price}</div>
+                      <div className="saved-card-actions">
+                        <button
+                          type="button"
+                          className="btn-move-cart"
+                          disabled={busy}
+                          onClick={() => handleWishlistMoveToCart(item)}
+                        >
+                          <i className="fas fa-cart-plus" /> Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

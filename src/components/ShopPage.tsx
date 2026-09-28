@@ -129,7 +129,7 @@ export default function ShopPage({
           ) : (
             <div className="product-grid">
               {visibleProducts.map((product) => (
-                <ProductCard key={product.id} product={product} onAdded={showToast} />
+                <ProductCard key={product.id} product={product} onToast={showToast} />
               ))}
             </div>
           )}

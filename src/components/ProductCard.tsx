@@ -7,6 +7,8 @@ import Link from "next/link";
 import type { Product } from "@/lib/types";
 import { getCardPriceLines } from "@/lib/pricing";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { wishlistToggle } from "@/lib/profile";
 
 /**
  * Ported from shop.html's .p-card: the whole card navigates to the product
@@ -16,14 +18,16 @@ import { useCart } from "@/lib/cart";
  */
 export default function ProductCard({
   product,
-  onAdded,
+  onToast,
 }: {
   product: Product;
-  onAdded?: (message: string) => void;
+  onToast?: (message: string) => void;
 }) {
   const router = useRouter();
   const { addItem } = useCart();
+  const { isLoggedIn } = useAuth();
   const [wished, setWished] = useState(false);
+  const [wishBusy, setWishBusy] = useState(false);
   const [added, setAdded] = useState(false);
   const availableVariants = product.variants.filter((v) => v.is_available);
   const [selectedVariantId, setSelectedVariantId] = useState<number | undefined>(
@@ -37,7 +41,31 @@ export default function ProductCard({
     addItem(product, { variant: variant ?? null });
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1400);
-    onAdded?.(`${product.name} added to cart`);
+    onToast?.(`${product.name} added to cart`);
+  }
+
+  /** Wishlist rows belong to a real user account (no session-based wishlist
+   * for guests, unlike the cart) — so an anonymous visitor gets sent to log
+   * in first, same as shop.html's own toggleWishlist() does on its
+   * needsLogin branch. */
+  async function handleWishClick() {
+    if (!isLoggedIn) {
+      onToast?.("Please log in to save items to your wishlist");
+      window.setTimeout(() => router.push("/login?next=/"), 1200);
+      return;
+    }
+    if (wishBusy) return;
+    setWishBusy(true);
+    try {
+      const variantId = product.pricing_mode === "fixed_weight" ? selectedVariantId : undefined;
+      const result = await wishlistToggle(product.id, variantId);
+      setWished(result.is_saved);
+      onToast?.(result.is_saved ? "Saved to wishlist" : "Removed from wishlist");
+    } catch {
+      onToast?.("Something went wrong — please try again");
+    } finally {
+      setWishBusy(false);
+    }
   }
 
   return (
@@ -73,7 +101,7 @@ export default function ProductCard({
           className={`p-wish${wished ? " wished" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
-            setWished((w) => !w);
+            void handleWishClick();
           }}
           title="Save for later"
         >

@@ -1,3 +1,4 @@
+import "@/styles/profile.css";
 import type { Metadata } from "next";
 import ProfileView from "@/components/ProfileView";
 

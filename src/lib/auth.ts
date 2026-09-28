@@ -112,6 +112,18 @@ export function login(token: string, user: AuthUser) {
   emit();
 }
 
+/** Updates the stored user object without touching the token — for the
+ * account-settings name/email form (PATCH /api/v1/profile/ doesn't rotate
+ * the token, so there's nothing to re-login with, just a display refresh
+ * so HoneycombNav's greeting reflects the new name immediately). A no-op if
+ * called while logged out. */
+export function updateUser(user: AuthUser) {
+  if (!state.token) return;
+  state = { token: state.token, user };
+  persist();
+  emit();
+}
+
 /** Clears local state immediately (so the UI updates right away) and tells
  * the API to invalidate the token best-effort — logout must not hang on a
  * slow/failed network call, since there's nothing useful to show the user
@@ -143,5 +155,6 @@ export function useAuth() {
     isLoggedIn: snapshot.token !== null,
     login,
     logout,
+    updateUser,
   };
 }

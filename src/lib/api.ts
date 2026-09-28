@@ -81,7 +81,7 @@ function extractApiError(data: unknown, status: number): string {
  * errors as a `{% for message in messages %}` list of separate `.msg`
  * banners, not per-field inline slots (none of these four forms have any),
  * so a list of messages maps onto that shape directly. */
-function extractApiErrorMessages(data: unknown, status: number): string[] {
+export function extractApiErrorMessages(data: unknown, status: number): string[] {
   if (data && typeof data === "object") {
     const obj = data as Record<string, unknown>;
 

@@ -3,9 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import type { Product, ProductVariant } from "@/lib/types";
 import { getDetailPriceLines } from "@/lib/pricing";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { wishlistToggle } from "@/lib/profile";
 import BilingualText from "./BilingualText";
 import WhatsAppFloat from "./WhatsAppFloat";
 
@@ -41,6 +44,9 @@ export default function ProductDetailView({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabKey>("description");
   const [wished, setWished] = useState(false);
+  const [wishBusy, setWishBusy] = useState(false);
+  const router = useRouter();
+  const { isLoggedIn } = useAuth();
 
   const availableVariants = useMemo(
     () => product.variants.filter((v) => v.is_available),
@@ -166,7 +172,27 @@ export default function ProductDetailView({
             <button
               type="button"
               className={`wishlist-btn${wished ? " active" : ""}`}
-              onClick={() => setWished((w) => !w)}
+              disabled={wishBusy}
+              onClick={async () => {
+                // Wishlist rows belong to a real account — guests get sent to
+                // log in first, same as the shop grid's heart.
+                if (!isLoggedIn) {
+                  router.push(`/login?next=/product/${product.slug}`);
+                  return;
+                }
+                if (wishBusy) return;
+                setWishBusy(true);
+                try {
+                  const variantId =
+                    product.pricing_mode === "fixed_weight" ? selectedVariant?.id : undefined;
+                  const result = await wishlistToggle(product.id, variantId);
+                  setWished(result.is_saved);
+                } catch {
+                  /* leave the heart as-is — no toast surface on this page */
+                } finally {
+                  setWishBusy(false);
+                }
+              }}
               aria-label="Add to wishlist"
             >
               <i className={`${wished ? "fas" : "far"} fa-heart`} />
