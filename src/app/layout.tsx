@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/styles/site.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import HoneycombNav from "@/components/HoneycombNav";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "आँगन बारी | Angan Baari",
@@ -33,10 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <HoneycombNav variant="mobile" />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
