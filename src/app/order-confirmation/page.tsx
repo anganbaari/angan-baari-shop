@@ -137,9 +137,9 @@ export default function OrderConfirmationPage() {
           <Link href="/" className="btn-shop">
             <i className="fas fa-store" /> Continue Shopping
           </Link>
-          <a href="https://anganbaari.pythonanywhere.com/" className="btn-home">
+          <Link href="/" className="btn-home">
             <i className="fas fa-home" /> Website
-          </a>
+          </Link>
         </div>
       </div>
     </div>
