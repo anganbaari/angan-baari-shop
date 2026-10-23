@@ -58,3 +58,73 @@ export interface PaginatedResponse<T> {
   previous: string | null;
   results: T[];
 }
+
+// ─── Offers & cart quote (GET /offers/, POST /cart/quote/) ─────
+// Money fields are DRF decimal strings, same as everywhere above.
+
+export interface DiscountOffer {
+  id: number;
+  slug: string;
+  name: string;
+  image: string | null;
+  original_price: string;
+  offer_price: string;
+  discount_percent: number;
+  price_unit: string;
+  is_available: boolean;
+  offer_id: number;
+  offer_title: string;
+  end_date: string | null;
+}
+
+export interface ComboBundleItem {
+  name: string;
+  quantity: string;
+}
+
+export interface ComboBundle {
+  id: number;
+  title: string;
+  description: string;
+  banner_image: string | null;
+  items: ComboBundleItem[];
+  combo_price: string;
+  original_price: string;
+  savings_percent: number;
+  end_date: string | null;
+  whatsapp_message: string;
+}
+
+export interface OffersResponse {
+  discount_offers: DiscountOffer[];
+  combo_bundles: ComboBundle[];
+}
+
+export interface QuoteLineOk {
+  product_id: number;
+  weight: string | null;
+  quantity: number;
+  variant_id: number | null;
+  /** LINE totals (price × qty × weight), not unit prices. */
+  normal_price: string;
+  final_price: string;
+  discount: string;
+  offer_id: number | null;
+  offer_title: string | null;
+}
+
+export interface QuoteLineError {
+  product_id: number;
+  error: string;
+}
+
+export type QuoteLine = QuoteLineOk | QuoteLineError;
+
+export interface CartQuote {
+  lines: QuoteLine[];
+  subtotal: string;
+  total_discount: string;
+  total: string;
+  offers_applied: boolean;
+  login_required_for_offers: boolean;
+}

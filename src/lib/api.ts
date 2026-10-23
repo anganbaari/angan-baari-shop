@@ -1,4 +1,4 @@
-import type { Category, PaginatedResponse, Product } from "./types";
+import type { CartQuote, Category, OffersResponse, PaginatedResponse, Product } from "./types";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://anganbaari.pythonanywhere.com/api/v1";
@@ -30,7 +30,7 @@ export interface OrderCreatedResponse {
  * - anything else (500/network) → generic message
  */
 export async function createOrder(payload: OrderPayload): Promise<OrderCreatedResponse> {
-  const response = await fetch(`${API_BASE_URL}/orders/`, {
+  const response = await fetchOptionalAuth("/orders/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -47,6 +47,16 @@ export async function createOrder(payload: OrderPayload): Promise<OrderCreatedRe
     throw new Error(extractApiError(data, response.status));
   }
   return data as OrderCreatedResponse;
+}
+
+/** Sends the Authorization header when a customer is logged in (so the
+ * server can apply offer prices) and falls back to a plain guest request if
+ * the server rejects a stale token — DRF answers an invalid token with 401
+ * even on public endpoints, and a guest-priced order beats a blocked one. */
+async function fetchOptionalAuth(path: string, options: RequestInit): Promise<Response> {
+  const response = await authFetch(path, options);
+  if (response.status !== 401) return response;
+  return fetch(`${API_BASE_URL}${path}`, options);
 }
 
 /** Pulls the most human-readable message out of whichever error shape the
@@ -230,6 +240,40 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
   }
   if (!response.ok) {
     throw new Error(`Request for product "${slug}" failed with status ${response.status}`);
+  }
+  return response.json();
+}
+
+/** GET /offers/ — public. Revalidated every 60 s when called from a server
+ * component; the offer prices shown here are display-only, the cart quote
+ * is the authority on what a customer is actually charged. */
+export async function fetchOffers(): Promise<OffersResponse> {
+  const response = await fetch(`${API_BASE_URL}/offers/`, { next: { revalidate: 60 } });
+  if (!response.ok) {
+    throw new Error(`Request for offers failed with status ${response.status}`);
+  }
+  return response.json();
+}
+
+export interface QuoteLineRequest {
+  product_id: number;
+  weight: string | null;
+  quantity: number;
+  variant_id: number | null;
+}
+
+/** POST /cart/quote/ — public, token optional. The server prices every line
+ * (and applies offers only for logged-in customers); the body key is
+ * `lines`. Throws on any non-2xx so callers can fall back to local pricing. */
+export async function fetchCartQuote(lines: QuoteLineRequest[], signal?: AbortSignal): Promise<CartQuote> {
+  const response = await fetchOptionalAuth("/cart/quote/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ lines }),
+    signal,
+  });
+  if (!response.ok) {
+    throw new Error(`Cart quote failed with status ${response.status}`);
   }
   return response.json();
 }

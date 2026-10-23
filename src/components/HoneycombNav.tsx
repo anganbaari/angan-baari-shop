@@ -25,8 +25,8 @@ const PERSON_ICON = (
 
 // Same 5 cells as every app page (shop/cart/offers/profile/product_detail)
 // in reference/*.html: Shop, Cart, Offers, Login-or-Profile, Website. Shop,
-// Cart, Login and Profile are real routes here now; Offers still links out
-// to the existing Django site (no Offers endpoint in this app yet).
+// Cart, Login, Profile and Offers are real routes here now; only Website
+// links out to the existing Django site.
 const SHOP_CELL: NavCell = {
   key: "shop",
   href: "/",
@@ -56,9 +56,10 @@ const CART_CELL: NavCell = {
 
 const OFFERS_CELL: NavCell = {
   key: "offers",
-  href: `${MAIN_SITE_URL}/offers/`,
+  href: "/offers",
   label: "Offers",
   offer: true,
+  internal: true,
   icon: (
     <svg className="offer-flame" viewBox="0 0 24 24">
       <path d="M12 2c2 3 5 6 5 10a5 5 0 01-10 0c0-1.8.8-3 1.6-4-.1 1.6 1 2.3 1.7 1.2C9.6 7 10 4 12 2z" />
@@ -88,6 +89,7 @@ function activeKeyForPath(pathname: string): string {
     return "cart";
   }
   if (pathname.startsWith("/profile")) return "login";
+  if (pathname.startsWith("/offers")) return "offers";
   return "shop";
 }
 

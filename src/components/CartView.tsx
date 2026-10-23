@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { formatWeight, lineSubtotal, useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
+import { hasDiscount, useCartQuote } from "@/lib/quote";
 import { fetchWishlist, wishlistMoveToCart, wishlistToggle, type WishlistItem } from "@/lib/profile";
 
 const money = (n: number) => `Rs. ${Math.round(n)}`;
@@ -13,9 +14,10 @@ const money = (n: number) => `Rs. ${Math.round(n)}`;
 /**
  * Ported from reference/cart.html. Real: line items, weight/qty steppers,
  * remove, save-for-later, subtotals, order summary, empty state,
- * recommendations, and (Phase 4) the logged-in "My Wishlist" section. Skipped
- * (no backend): offer chips / struck-through original prices (no Offers
- * endpoint in the API).
+ * recommendations, and (Phase 4) the logged-in "My Wishlist" section. Lines
+ * are priced by POST /cart/quote/ (offer chips, struck-through normal
+ * prices, server totals); if the quote is missing or failed, the local
+ * cart.ts numbers are shown instead.
  */
 export default function CartView({ recommendPool }: { recommendPool: Product[] }) {
   const {
@@ -33,6 +35,7 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
   } = useCart();
 
   const { isLoggedIn } = useAuth();
+  const { quote, lineAt, errorAt } = useCartQuote(items);
 
   const [toast, setToast] = useState<string | null>(null);
   const [variantChoice, setVariantChoice] = useState<Record<number, number>>({});
@@ -124,7 +127,9 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
 
             <div className="cart-layout">
               <div className="cart-items">
-                {items.map((line) => {
+                {items.map((line, index) => {
+                  const quoted = lineAt(index);
+                  const quoteError = errorAt(index);
                   const step = Number(line.weightStep) || 0.5;
                   return (
                     <div className="cart-item" key={line.lineKey}>
@@ -145,7 +150,17 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
                             Rs. {line.price}
                             <span className="unit"> {line.priceUnit}</span>
                           </span>
+                          {quoted && hasDiscount(quoted) && quoted.offer_title && (
+                            <span className="quote-offer-chip">
+                              <i className="fas fa-tag" /> {quoted.offer_title}
+                            </span>
+                          )}
                         </div>
+                        {quoteError && (
+                          <div className="quote-line-error">
+                            <i className="fas fa-circle-exclamation" /> {quoteError}
+                          </div>
+                        )}
 
                         {line.pricingMode === "fixed_weight" ? (
                           <div className="weight-row">
@@ -242,7 +257,10 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
 
                       <div className="cart-item-subtotal">
                         <span className="label">Subtotal</span>
-                        <span>{money(lineSubtotal(line))}</span>
+                        {quoted && hasDiscount(quoted) && (
+                          <span className="quote-old-price">Rs. {quoted.normal_price}</span>
+                        )}
+                        <span>{quoted ? `Rs. ${quoted.final_price}` : money(lineSubtotal(line))}</span>
                       </div>
                     </div>
                   );
@@ -252,18 +270,33 @@ export default function CartView({ recommendPool }: { recommendPool: Product[] }
               <div className="cart-summary">
                 <div className="summary-title">Order Summary</div>
                 <div>
-                  {items.map((line) => (
-                    <div className="summary-row" key={line.lineKey}>
-                      <span>
-                        {line.name} × {line.qty}
-                      </span>
-                      <span>{money(lineSubtotal(line))}</span>
+                  {items.map((line, index) => {
+                    const quoted = lineAt(index);
+                    return (
+                      <div className="summary-row" key={line.lineKey}>
+                        <span>
+                          {line.name} × {line.qty}
+                        </span>
+                        <span>{quoted ? `Rs. ${quoted.final_price}` : money(lineSubtotal(line))}</span>
+                      </div>
+                    );
+                  })}
+                  {quote && Number(quote.total_discount) > 0 && (
+                    <div className="summary-row quote-savings-row">
+                      <span>Offer savings</span>
+                      <span>− Rs. {quote.total_discount}</span>
                     </div>
-                  ))}
+                  )}
                 </div>
+                {quote?.login_required_for_offers && (
+                  <div className="quote-login-notice">
+                    <i className="fas fa-tag" />{" "}
+                    <Link href="/login?next=/cart">Log in to get offer prices on your items</Link>
+                  </div>
+                )}
                 <div className="summary-total">
                   <span>Total</span>
-                  <span className="amount">Rs. {total.toFixed(2)}</span>
+                  <span className="amount">Rs. {quote ? quote.total : total.toFixed(2)}</span>
                 </div>
                 <Link href="/checkout" className="btn-checkout">
                   <i className="fas fa-lock" /> Proceed to Checkout

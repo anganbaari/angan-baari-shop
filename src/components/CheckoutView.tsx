@@ -7,6 +7,7 @@ import Image from "next/image";
 import type { Product } from "@/lib/types";
 import { lineSubtotal, useCart } from "@/lib/cart";
 import { createOrder } from "@/lib/api";
+import { hasDiscount, useCartQuote } from "@/lib/quote";
 
 const money = (n: number) => `Rs. ${Math.round(n)}`;
 export const CONFIRMATION_KEY = "anganbaari.lastOrder.v1";
@@ -15,13 +16,16 @@ export const CONFIRMATION_KEY = "anganbaari.lastOrder.v1";
  * Ported from reference/checkout.html. Real: delivery form, order summary
  * from the live cart, cash-on-delivery badge, place-order → POST
  * /api/v1/orders/, API error surfacing, recommendations.
+ * Lines are priced by POST /cart/quote/ (local numbers if it fails).
  * Skipped (no backend support): coupon box (no Coupon endpoint in the API),
  * prefilled name/email from a logged-in user, and saved addresses — see the
  * summary in the PR/commit notes.
  */
 export default function CheckoutView({ recommendPool }: { recommendPool: Product[] }) {
   const router = useRouter();
-  const { items, hydrated, total, addItem, clearCart } = useCart();
+  const { items, hydrated, total: localTotal, addItem, clearCart } = useCart();
+  const { quote, lineAt, errorAt } = useCartQuote(items);
+  const total = quote ? Number(quote.total) : localTotal;
 
   const [form, setForm] = useState({ name: "", phone: "", email: "", address: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -208,7 +212,10 @@ export default function CheckoutView({ recommendPool }: { recommendPool: Product
             </div>
 
             <div>
-              {items.map((line) => (
+              {items.map((line, index) => {
+                const quoted = lineAt(index);
+                const quoteError = errorAt(index);
+                return (
                 <div className="summary-item" key={line.lineKey}>
                   <div className="summary-item-info">
                     {line.image && (
@@ -226,23 +233,49 @@ export default function CheckoutView({ recommendPool }: { recommendPool: Product
                         Rs. {line.price} × {line.qty}
                         {line.weight ? ` · ${line.weight} ${line.weightUnitLabel || "kg"}` : ""}
                       </div>
+                      {quoted && hasDiscount(quoted) && quoted.offer_title && (
+                        <span className="quote-offer-chip">
+                          <i className="fas fa-tag" /> {quoted.offer_title}
+                        </span>
+                      )}
+                      {quoteError && (
+                        <div className="quote-line-error">
+                          <i className="fas fa-circle-exclamation" /> {quoteError}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div style={{ fontWeight: 600, color: "var(--forest)", whiteSpace: "nowrap" }}>
-                    {money(lineSubtotal(line))}
+                  <div style={{ fontWeight: 600, color: "var(--forest)", whiteSpace: "nowrap", textAlign: "right" }}>
+                    {quoted && hasDiscount(quoted) && (
+                      <span className="quote-old-price">Rs. {quoted.normal_price}</span>
+                    )}
+                    {quoted ? `Rs. ${quoted.final_price}` : money(lineSubtotal(line))}
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="summary-item" style={{ borderBottom: "none" }}>
               <span>Subtotal</span>
-              <span>Rs. {total.toFixed(2)}</span>
+              <span>{quote ? `Rs. ${quote.subtotal}` : `Rs. ${localTotal.toFixed(2)}`}</span>
             </div>
+            {quote && Number(quote.total_discount) > 0 && (
+              <div className="summary-item quote-savings-row" style={{ borderBottom: "none" }}>
+                <span>Offer savings</span>
+                <span>− Rs. {quote.total_discount}</span>
+              </div>
+            )}
+            {quote?.login_required_for_offers && (
+              <div className="quote-login-notice">
+                <i className="fas fa-tag" />{" "}
+                <Link href="/login?next=/checkout">Log in to get offer prices on your items</Link>
+              </div>
+            )}
 
             <div className="summary-total">
               <span>Total</span>
-              <span>Rs. {total.toFixed(2)}</span>
+              <span>{quote ? `Rs. ${quote.total}` : `Rs. ${localTotal.toFixed(2)}`}</span>
             </div>
 
             {error && (
@@ -253,7 +286,7 @@ export default function CheckoutView({ recommendPool }: { recommendPool: Product
 
             <button type="submit" form="checkoutForm" className="btn-place-order" disabled={submitting}>
               <i className={submitting ? "fas fa-spinner fa-spin" : "fas fa-check-circle"} />{" "}
-              {submitting ? "Placing Order…" : <>Place Order — Rs. {Math.round(total)}</>}
+              {submitting ? "Placing Order…" : <>Place Order — Rs. {quote ? quote.total : Math.round(localTotal)}</>}
             </button>
 
             <div className="trust-row">
