@@ -25,11 +25,8 @@ function scorePassword(pw: string): number {
 /**
  * Ported from reference/signup.html. Same two omissions as LoginView (the
  * .side-top brand/flag block and the .side-nav-float links — the shared
- * Header already covers both), for the same reason. The "Continue with
- * Google/Facebook" buttons are ported as-is, including being inert: the
- * reference's own href="#" has no click handler behind it either — there's
- * no OAuth backend, here or there, so this isn't a gap introduced by the
- * port.
+ * Header already covers both), for the same reason. The reference's inert
+ * "Continue with Google/Facebook" buttons are intentionally not ported.
  */
 export default function SignupView() {
   const router = useRouter();
@@ -83,16 +80,6 @@ export default function SignupView() {
               straight from Bhulka Danda to your door.
             </p>
           </div>
-        </div>
-
-        <div className="side-social-label">Quick sign up</div>
-        <div className="social-buttons">
-          <a href="#" className="social-btn social-google" onClick={(e) => e.preventDefault()}>
-            <i className="fab fa-google" /> Continue with Google
-          </a>
-          <a href="#" className="social-btn social-facebook" onClick={(e) => e.preventDefault()}>
-            <i className="fab fa-facebook-f" /> Continue with Facebook
-          </a>
         </div>
 
         <div className="glass-strip">

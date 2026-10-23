@@ -142,21 +142,6 @@
 
         .messages { margin-bottom: 12px; }
 
-        /* Quick sign-up buttons — live in the green panel now */
-        .side-social-label { position: relative; z-index: 1; font-family: var(--font-accent, 'Cinzel'), serif; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin: 18px 0 10px; }
-        .social-buttons { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
-        .social-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 11px 16px; border-radius: 13px; font-size: 0.84rem; font-weight: 600;
-            text-decoration: none; border: 1.5px solid transparent; transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
-        }
-        .social-btn:active { transform: scale(0.98); }
-        .social-google { background: #fff; color: #3c4043; }
-        .social-google:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.25); }
-        .social-google i { color: #4285F4; }
-        .social-facebook { background: #1877F2; color: #fff; }
-        .social-facebook:hover { background: #1564d1; }
-
         .msg { padding: 11px 14px; border-radius: 12px; font-size: 0.84rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
         .msg-error { background: #fef2f2; color: #c0392b; border: 1px solid #fecaca; }
         .msg-success { background: #f0fdf4; color: var(--moss); border: 1px solid #bbf7d0; }
@@ -222,8 +207,6 @@
             .glass-strip { margin-top: 12px; gap: 8px; }
             .glass-card { padding: 12px 10px 11px; }
             .glass-card p { display: none; }
-            .side-social-label { margin: 14px 0 8px; }
-            .social-buttons { gap: 8px; margin-bottom: 14px; }
             .side-foot { margin-top: 18px; }
             .auth-form-wrap { padding: 24px 16px 40px; }
             .auth-card { padding: 28px 24px; border-radius: 22px; margin-top: 60px; }
@@ -246,7 +229,6 @@
             .auth-card { max-width: 100%; padding: 22px 18px; border-radius: 20px; margin-top: 52px; }
             .strength-row { flex-wrap: wrap; }
             .input-wrap input { padding: 12px 14px 12px 40px; font-size: 0.9rem; }
-            .social-btn { font-size: 0.82rem; padding: 11px 14px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
